@@ -1,0 +1,1343 @@
+﻿@{
+    ViewBag.Title = "HD Delay Website";
+}
+@model IEnumerable<PlayVideoInMVC.Models.VideoList>
+
+<head>
+    <link href="~/Content/video-js.css" rel="stylesheet">
+    <link href="~/Content/video-js.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css">
+    <link href="~/Content/timeslider.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="~/Content/treeView.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/style.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery.contextmenu.css">
+    <script type="text/javascript" src="~/Scripts/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script type="text/javascript" src="~/Scripts/timeslider.js"></script>
+    <script type="text/javascript" src="~/Scripts/video.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.contextmenu.js"></script>  
+    <script type="text/javascript" src="~/Scripts/jquery.maskedinput.js"></script>
+</head>
+<body>
+    <h2>HD Delay Website</h2>
+    @*<h3><a href="@Url.Action("Index", "VideoData")">Download Video</a></h3>*@
+    <div class="root">
+        <div id="video">
+            <video id="video_1" width="900" height="600" class="video-js vjs-default-skin vjs-big-play-centered"
+                   preload="auto" poster="~/Images/joy.jpg" data-setup='{}'>
+                <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+            </video>
+            <video id="video_2" width="900" height="600" class="video-js vjs-default-skin vjs-big-play-centered"
+                   preload="auto" poster="~/Images/joy.jpg" data-setup='{}'>
+                <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+            </video>
+
+            <div id="currentSub"></div>
+        </div>
+
+        <div id="tabs">
+            <ul>
+                <li id="tabBtn1"><a href="#tabs-1">File phụ đề</a></li>
+                <li id="tabBtn2"><a href="#tabs-2">Lịch phụ đề</a></li>
+                <li id="tabBtn3"><a href="#tabs-3">Lịch ghi Lowres</a></li>
+            </ul>
+            <div id="tabs-1" class="content">
+                <button class="btnGeneral" id="btnAddFolder">Thêm thư mục...</button>
+                <div class="css-treeview">
+                    <ul id="folderUl" class="folders"></ul>
+                </div>
+                <input type="file" id="FileUpload1" />
+            </div>
+            <div id="tabs-2">
+                <ul id="ulSubSchedule"></ul>
+            </div>
+            <div id="tabs-3">
+                <button class="btnGeneral" id="btnAddRecord">Thêm lịch...</button>
+                <table class="MyTable" id="recordScheduleTable"></table>
+            </div>
+        </div>
+    </div>
+    <script>$('#tabs').tabs();</script>
+    <div class="buttonDiv">
+        <div class="play" id="btnBack">back</div>
+        <div class="play" id="btnPlay">play</div>
+        <div class="play" id="btnPause">pause</div>
+        <div class="play" id="btnStop">stop</div>
+        <div class="play" id="btnNext">next</div>
+    </div>
+    <div id="delay">
+        <div id="KiVong">Trễ kỳ vọng:</div>
+        <div id="ThucTe">Trễ thực tế:</div>
+        <div id="PreviewCaret">Playback:</div>
+        <div id="MouseClickCaret">Trỏ chuột:</div>
+    </div>
+    <div id="formChooseTime">
+        <p>Chọn chế độ phát:</p>
+        <select id="selectFormChooseTime" name="garden" multiple="multiple">
+            <option>Phát từ đầu file</option>
+            <option selected="selected">Phát từ dòng phụ đề đầu tiên</option>
+        </select>
+        <div>
+            <p>Đặt lịch phát:</p>
+            <p>Date: <input type="text" id="datepicker" placeholder="dd-MM-yyyy"/></p>
+            <p>Time: <input type="text" id="timeStartPicker" placeholder="HH:mm:ss"/></p>
+        </div>
+
+        <div style="display:inline-block">
+            <button id="btnXacNhanLichSub">Xác nhận</button>
+            <button id="btnHuyLichSub">Hủy</button>
+        </div>
+    </div>
+    <div id="formUpdateTimeLine">
+        <div>
+            <p>Đặt lịch phát:</p>
+            <p>Date: <input type="text" id="datepicker2" placeholder="dd-MM-yyyy"/></p>
+            <p>Time: <input type="text" id="timeStartPicker2" placeholder="HH:mm:ss"/></p>
+        </div>
+
+        <div style="display:inline-block">
+            <button id="btnXacNhanLichSub2">Xác nhận</button>
+            <button id="btnHuyLichSub2">Hủy</button>
+        </div>
+    </div>
+    <div id="formDatLichRecord">
+        <p>Điền tên chương trình:</p>
+        <input type="text" id="txtTenChuongTrinh" />
+
+        <div>
+            <p>Đặt lịch bắt đầu:</p>
+            <p>Ngày/Tháng/Năm: <input type="text" id="datepickerRecordStart" placeholder="dd-MM-yyyy"/></p>
+            <p>Giờ: </p>
+            <input type="text" id="timeStartPickerRecordStart" placeholder="HH:mm:ss"/>
+        </div>
+        <div>
+            <p>Đặt lịch kết thúc:</p>
+            <p>Ngày/Tháng/Năm: <input type="text" id="datepickerRecordEnd" placeholder="dd-MM-yyyy"/></p>
+            <p>Giờ: </p>
+            <input type="text" id="timeStartPickerRecordEnd" placeholder="HH:mm:ss"/>
+        </div>
+
+        <div style="display:inline-block">
+            <button id="btnXacNhanLichRecord">Xác nhận</button>
+            <button id="btnHuyLichRecord">Hủy</button>
+        </div>
+    </div>
+    <div id="formUpdateLichRecord">
+        <p>Điền tên chương trình:</p>
+        <input type="text" id="txtTenChuongTrinh2" />
+
+        <div>
+            <p>Đặt lịch bắt đầu:</p>
+            <p>Ngày/Tháng/Năm: <input type="text" id="datepickerRecordStart2" placeholder="dd-MM-yyyy"/></p>
+            <p>Giờ: </p>
+            <input type="text" id="timeStartPickerRecordStart2" placeholder="HH:mm:ss"/>
+        </div>
+        <div>
+            <p>Đặt lịch kết thúc:</p>
+            <p>Ngày/Tháng/Năm: <input type="text" id="datepickerRecordEnd2" placeholder="dd-MM-yyyy"/></p>
+            <p>Giờ: </p>
+            <input type="text" id="timeStartPickerRecordEnd2" placeholder="HH:mm:ss"/>
+        </div>
+
+        <div style="display:inline-block">
+            <button id="btnXacNhanLichRecord2">Xác nhận</button>
+            <button id="btnHuyLichRecord2">Hủy</button>
+        </div>
+    </div>
+    @*Time Slider*@
+    <div style="margin: 10px 10px;">
+        <h3>Zoom:</h3>
+        <div id="zoomBar">
+            <div id="zoomIn">IN</div>
+            <div id="zoomOut">OUT</div>
+        </div>
+        <div id="zoom-slider123"></div>
+    </div>
+    <div id="slider123" class="time-slider"></div>
+    <p id="messages"></p>
+</body>
+@section Scripts{
+    <script>
+        var current_time = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1);
+        //add part
+        var click_timestamp = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1) - 1.5 * 60 * 1000;
+        var begin_timesamp;
+        var ms_per_pixel;
+        var record_timespan = current_time;
+        var playback_timespan = current_time - 120000;
+        var TimeOfVideo;
+        var start_time;
+        var start_time_timespan;
+        var duration;
+        var current_time_video = current_time;
+        var Subtitle_Start;
+        var Subtitle_Duration;
+        var _isDelayChange = false;
+        var _isSubChange = false;
+        var _tempDelay;
+        var _tempSub;
+        var _lstCurrentSubItems = null;
+        var _RealisticDelayNumber = 180000;
+        $(document).ready(function () {
+            window.setInterval(function () {
+                $.ajax({
+                    url: '@Url.Action("GetSubtitleTime", "VideoData")',
+                    type: 'GET'
+                }).done(function (data) {
+                    Subtitle_Start = parseInt(data[0]);
+                    Subtitle_Duration = parseInt(data[1]);
+                });;
+            }, 5000);
+            function set_click_timestamp() {
+                current_time_video = start_time_timespan; //+ getPlayingTime() * 1000;
+                click_timestamp = current_time_video;
+            }
+            var isAutoPlay = true;
+            function formatDate(date) {
+                var hours = date.getHours();
+                var minutes = date.getMinutes();
+                var secs = date.getSeconds();
+                //var ampm = hours >= 12 ? 'pm' : 'am';
+                //hours = hours % 12;
+                //hours = hours ? hours : 12; // the hour '0' should be '12'
+                hours = hours < 10 ? '0' + hours : hours;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                secs = secs < 10 ? '0' + secs : secs;
+                var strTime = hours + ':' + minutes + ':'+ secs;
+                return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + "  " + strTime;
+            }
+            function toDateTime(secs) {
+                var t = new Date(1970, 0, 1); // Epoch
+                t.setSeconds(secs / 1000);                
+                return formatDate(t);
+            }
+            window.setInterval(function () {
+                $("#MouseClickCaret").empty();
+                $("#MouseClickCaret").append("Trỏ chuột: " + toDateTime(click_timestamp));
+                $("#PreviewCaret").empty();
+                $("#PreviewCaret").append("Playback: " + toDateTime(playback_timespan));
+            }, 1000); // 1s update
+            function GetVideoCurrentTimeStamp() {
+                var tempDateStr = getPlayingVideoSrc().substring(getPlayingVideoSrc().length - 19);
+                var tempDate = new Date(tempDateStr.substring(0, 4) + "-" + tempDateStr.substring(4, 6) + "-" + tempDateStr.substring(6, 8) + " " + tempDateStr.substring(9, 11) + ":" + tempDateStr.substring(11, 13) + ":" + tempDateStr.substring(13, 15));
+                click_timestamp = tempDate.getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1) + getPlayingTime() * 1000;
+                //alert(click_timestamp);
+                //debugger
+                tempClickTimeStamp = click_timestamp;
+
+            }
+            function SetVideoToPlay(time) {
+                $.ajax({
+                    url: "@Url.Action("SetVideoToPlay", "ViewVideo")",
+                    data: { timespan: time },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        //alert(time);
+                        PlayVideo(data);
+                    },
+                    error: function () {
+                        alert("Failed! Try again!");
+                    }
+                });
+            }
+            var startTimeOfVideo = start_time_timespan;
+            function PlayVideo(data) {
+                $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data.FileName });
+                $myPlayer2.hide();
+                $myPlayer1.show();
+                $myPlayer1.play();
+                SetNextVideo($myPlayer1.currentSrc());
+                startTimeOfVideo = data.currentTime;
+            }
+            //Play next video of player1
+            function SetNextVideo(currentVideoSrc) {
+                $.ajax({
+                    url: "@Url.Action("GetNextVideoFromCurrentSrc", "ViewVideo")",
+                    data: { currentSrc: currentVideoSrc },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        LoadNextVideo(data);
+                    },
+                    error: function () {
+                        alert("Failed! Try again!");
+                    }
+                });
+            }
+            function LoadNextVideo(data) {
+                $myPlayer2.src({ type: 'video/mp4', src: '../VideoFiles/' + data });
+                $myPlayer2.load();
+            }
+            //Play next video of player2
+            function SetNextVideo2(currentVideoSrc) {
+                $.ajax({
+                    url: "@Url.Action("GetNextVideoFromCurrentSrc", "ViewVideo")",
+                    data: { currentSrc: currentVideoSrc },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        LoadNextVideo2(data);
+                    },
+                    error: function () {
+                        alert("Failed! Try again!");
+                    }
+                });
+            }
+            function LoadNextVideo2(data) {
+                $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data });
+                $myPlayer1.load();
+            }
+            //Play back video
+            function SetBackVideo(currentVideoSrc) {
+                $.ajax({
+                    url: "@Url.Action("GetBackVideoFromCurrentSrc", "ViewVideo")",
+                    data: { currentSrc: currentVideoSrc },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        PlayBackVideo(data);
+                    },
+                    error: function () {
+                        alert("Failed! Try again!");
+                    }
+                });
+            }
+            function PlayBackVideo(data) {
+                $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data });
+                $myPlayer1.play();
+                SetNextVideo($myPlayer1.currentSrc());
+            }
+            //Play next video
+            function SetNextVideoPlay(currentVideoSrc) {
+                $.ajax({
+                    url: "@Url.Action("GetNextVideoFromCurrentSrc", "ViewVideo")",
+                    data: { currentSrc: currentVideoSrc },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        PlayNextVideo(data);
+                    },
+                    error: function () {
+                        alert("Failed! Try again!");
+                    }
+                });
+            }
+            function PlayNextVideo(data) {
+                $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data });
+                $myPlayer1.play();
+                SetNextVideo($myPlayer1.currentSrc());
+            }
+            (function () {
+                $('#zoom-slider123').slider({
+                    min: 0.2,
+                    max: 24,
+                    value: 3,
+                    step: 0.2,
+                    slide: function (event, ui) {
+                        $('#slider123').TimeSlider({ hours_per_ruler: ui.value });
+                    }
+                });
+
+                $('#slider123').TimeSlider({
+                    start_timestamp: current_time - 1800 * 1000,
+                    //	ruler_enable_move: false,
+                });
+
+            })();
+            var PreviousOffsetX = 0;
+            $(".ruler").on("mousedown", function (event) {
+                //debugger;
+                PreviousOffsetX = event.offsetX;
+            });
+
+            $(".ruler").on("mouseup", function (event) {
+                //debugger;
+                var pixel = event.offsetX;
+                click_timestamp = begin_timestamp + pixel / ms_per_pixel;
+                TimeOfVideo = click_timestamp;
+                var IsClick = false;
+                if (PreviousOffsetX == event.offsetX) {
+                    IsClick = true;
+                }
+                if (IsClick) {
+                    SetVideoToPlay(TimeOfVideo);
+                }
+            });
+            SetVideoToPlay(click_timestamp);
+            var $myPlayer1 = videojs("video_1");
+            var $myPlayer2 = videojs("video_2");
+            $myPlayer2.hide();
+
+            setInterval(function () {
+                if ($myPlayer1.ended()) {
+                    $myPlayer2.show();
+                    $myPlayer2.play();
+                    SetNextVideo2($myPlayer2.currentSrc());
+                    $myPlayer1.hide();
+
+                }
+                if ($myPlayer2.ended()) {
+                    $myPlayer1.show();
+                    $myPlayer1.play();
+                    SetNextVideo($myPlayer1.currentSrc());
+                    $myPlayer2.hide();
+                }
+            }, 500);
+            loadFolder();
+            setInterval(function () {
+                getDelayNumber();
+                loadRecordItemList();
+            }, 7000);
+            setInterval(function () {
+                if ($myPlayer1.currentTime() > 0 || $myPlayer2.currentTime() > 0) {
+                    getSubtitleRealtime();
+                }
+            }, 2000);
+            setInterval(function () {
+                if ($myPlayer1.currentTime() > 0 || $myPlayer2.currentTime() > 0) {
+                    GetVideoCurrentTimeStamp();
+                }
+            }, 1000);
+            /////////////////////////////////
+            /////////Region mask input///////
+            /////////////////////////////////
+            $("#datepicker").mask("99-99-9999");
+            $("#datepicker2").mask("99-99-9999");
+            $("#datepickerRecordStart").mask("99-99-9999");
+            $("#datepickerRecordEnd").mask("99-99-9999");
+            $("#datepickerRecordEnd2").mask("99-99-9999");
+            $("#datepickerRecordStart2").mask("99-99-9999");
+            $("#timeStartPicker").mask("99:99:99");
+            $("#timeStartPicker2").mask("99:99:99");
+            $("#timeStartPickerRecordStart").mask("99:99:99");
+            $("#timeStartPickerRecordStart2").mask("99:99:99");
+            $("#timeStartPickerRecordEnd").mask("99:99:99");
+            $("#timeStartPickerRecordEnd2").mask("99:99:99");
+            /////////////////////////////////
+            $('#btnBack').click(function () {
+                if ($myPlayer1.currentTime() >= 0) {
+                    SetBackVideo($myPlayer1.currentSrc());
+                } else if ($myPlayer2.currentTime() >= 0) SetBackVideo($myPlayer2.currentSrc());
+                $myPlayer1.show();
+                $myPlayer2.hide();
+
+                isAutoPlay = true;
+            });
+            $('#btnPlay').click(function () {
+                if ($myPlayer1.currentTime() >= 0) {
+                    $myPlayer1.play();
+                } else if ($myPlayer2.currentTime() >= 0) {
+                    $myPlayer2.play();
+                }
+                isAutoPlay = true;
+            });
+            $('#btnPause').click(function () {
+                if ($myPlayer1.currentTime() >= 0) {
+                    $myPlayer1.pause();
+                } else if ($myPlayer2.currentTime() >= 0) {
+                    $myPlayer2.pause();
+                }
+                isAutoPlay = false;
+            });
+            $('#btnStop').click(function () {
+                if ($myPlayer1.currentTime() >= 0) {
+                    $myPlayer1.pause();
+                    $myPlayer1.currentTime(0);
+                } else if ($myPlayer2.currentTime() >= 0) {
+                    $myPlayer2.pause();
+                    $myPlayer2.currentTime(0);
+                }
+                isAutoPlay = false;
+            });
+            $('#btnNext').click(function () {
+                if ($myPlayer1.currentTime() >= 0) {
+                    SetNextVideoPlay($myPlayer1.currentSrc());
+                } else if ($myPlayer2.currentTime() >= 0) SetNextVideoPlay($myPlayer2.currentSrc());
+                $myPlayer1.show();
+                $myPlayer2.hide();
+
+                isAutoPlay = true;
+            });
+
+            //Them folder cha
+
+            $("#btnAddFolder").click(function () {
+                var tempName = prompt("Điền tên thư mục", "Điền tên thư mục tại đây...");
+                $.ajax({
+                    url: "@Url.Action("CreateDir","ViewVideo")",
+                    data: { dirName: tempName },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#folderUl").empty();
+                        //loadData(data);
+                        loadFolder();
+                    },
+                    error: function () {
+                        alert("Failed! Try again!");
+                    }
+                });
+            });
+            //Load folder cha
+            function loadFolder() {
+                $.ajax({
+                    url: "@Url.Action("GetParentFolder", "ViewVideo")",
+                    data: "",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        showFolder(data);
+                        $("#folderUl .folder").on("contextmenu", function () {
+                            eId = (this.id);
+                            labelId = eId;
+                        });
+                        $("#folderUl .folder").contextPopup({
+                            items: [
+                                { label: "Thêm thư mục", action: function () { AddChildFolder() } },
+                                { label: "Thêm file", action: function () { $("#FileUpload1").click() } },
+                                { label: "Xóa", action: function () { DeleteFolder() } }
+                            ]
+                        });
+                    },
+                    error: function () {
+                        console.log("Failed! Try again!");
+                    }
+                });
+            }
+
+            //show folder cha
+            function showFolder(data) {
+                $("#folderUl").empty();
+                $.each(data, function (i, val) {
+                    var folder = $('<li id=\"folder-label-' + val.CategoryId + '\"></li>');
+                    folder.append('<input type=\"checkbox\" id=\"item-' + val.CategoryId + '\"/>');
+                    folder.append('<label class=\"folder\" for=\"item-' + val.CategoryId + '\"' + 'id=\"label-' + val.CategoryId + '\">' + val.CategoryName + '</label');
+                    folder.append('<ul id=\"childFolderUl-label-' + val.CategoryId + '\"></ul>');
+                    $("#folderUl").append(folder);
+
+                });
+            }
+
+
+            //show folder con khi them moi
+            function showChildFolder(data) {
+                $.each(data, function (i, val) {
+                    var childFolder = $("<li></li>");
+                    childFolder.append('<input type=\"checkbox\" id=\"item-' + val.CategoryId + '\"/>');
+                    childFolder.append('<label class=\"childFolder\" for=\"item-' + val.CategoryId + '\"' + 'id=\"label-' + val.CategoryId + '\">' + val.CategoryName + '</label');
+                    childFolder.append('<ul id=\"childFileUl-label-' + val.CategoryId + '\"></ul>')
+                    $("#childFolderUl-label-" + val.CategoryParrentId).append(childFolder);
+                });
+            }
+            var eId = "";
+            $(function () {
+                $("#folderUl").on('contextmenu', 'li', function (e) {
+                    e.preventDefault();
+                    eId = (this.id);
+                });
+            });
+            //Them moi folder con
+            function AddChildFolder() {
+                var tempName = prompt("Điền tên thư mục con", "Điền tên thư mục tại đây...");
+                if (tempName != null) {
+                    $.ajax({
+                        url: "@Url.Action("CreateChildDir", "ViewVideo")",
+                        data: { dirName: tempName, parentDirIdStr: labelId },
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            //loadData(data);
+                            loadChildFolder(labelId);
+                        },
+                        error: function () {
+                            alert("Failed! Try again!");
+                        }
+                    });
+                } else {
+                    alert("Tên thư mục không hợp lệ! Hãy thử lại!");
+                }
+            }
+            //Load folder con
+            function loadChildFolder(tempId) {
+                $.ajax({
+                    url: "@Url.Action("GetChildFolder", "ViewVideo")",
+                    data: { parentIdStr: tempId },
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#childFolderUl-" + tempId).empty();
+                        showChildFolder(data);
+                        $(".folders .childFolder").on("contextmenu", function () {
+                            eId = (this.id);
+                            labelId = eId;
+                        });
+                        $(".folders .childFolder").contextPopup({
+                            items: [
+                                { label: "Thêm file", action: function () { $("#FileUpload1").click() } },
+                                { label: "Xóa", action: function () { DeleteFolder() } }
+                            ]
+                        });
+                        loadSubFile(tempId);
+                    },
+                    error: function () {
+                        console.log("Failed! Try again!");
+                    }
+                });
+            }
+            //Load subFile của folder con
+            function loadChildFolderSubFile(tempId) {
+                $.ajax({
+                    url: "@Url.Action("GetSubFiles", "ViewVideo")",
+                    data: { parentIdStr: tempId },
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        $("#childFileUl-" + tempId).empty();
+                        showChildFolderSubFile(data);
+                        $("#childFileUl-" + tempId + " .subFile").on("contextmenu", function () {
+                            eId = (this.id);
+                            labelId = eId;
+                        });
+                        $("#childFileUl-" + tempId + " .subFile").contextPopup({
+                            items: [
+                                { label: "Nhập file sang lập lịch", action: function () { ImportFile() } },
+                                { label: "Xóa", action: function () { DeleteFile() } }
+                            ]
+                        });
+                    },
+                    error: function () {
+                        console.log("Failed! Try again!");
+                    }
+                });
+            }
+            //Show folder con khi click vao folder cha
+            $(function () {
+                $("#folderUl").on('click', '.folder', function (e) {
+                    var tempId = this.id;
+                    loadChildFolder(tempId);
+                });
+            });
+            $(function () {
+                $(".folders").on('click', '.childFolder', function (e) {
+                    var tempId = this.id;
+                    loadChildFolderSubFile(tempId);
+                });
+            });
+
+            //load subfile của folder cha
+            function loadSubFile(tempId) {
+                $.ajax({
+                    url: "@Url.Action("GetSubFiles", "ViewVideo")",
+                    data: { parentIdStr: tempId },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        //loadData(data);
+                        showSubFile(data);
+                        $(".folders .subFile").on("contextmenu", function () {
+                            eId = (this.id);
+                            labelId = eId;
+                        });
+                        $(".folders .subFile").contextPopup({
+                            items: [
+                                { label: "Nhập file sang lập lịch", action: function () { ImportFile() } },
+                                { label: "Xóa", action: function () { DeleteFile() } }
+                            ]
+                        });
+                    },
+                    error: function () {
+                        alert("Failed! Try again!");
+                    }
+                });
+            }
+            //show subfile của folder cha
+            function showSubFile(data) {
+                $.each(data, function (i, val) {
+                    var childFile = $('<li class=\"subFile\" id=\"' + val.FileId + '\">' + "File: " + val.ProgramName + "</li>");
+
+                    $("#childFolderUl-label-" + val.CategoryId).append(childFile);
+                    childFile.hover(function () {
+                        $(this).css('background-color', '#0000ff');
+                        $(this).css('color', '#ffffff');
+                    }, function () {
+                        $(this).css('background-color', 'azure');
+                        $(this).css('color', '#2c0ab9');
+                    });
+                });
+            }
+            function showChildFolderSubFile(data) {
+                $.each(data, function (i, val) {
+                    var childFile = $('<li class=\"subFile\" id=\"' + val.FileId + '\">' + "File: " + val.ProgramName + "</li>");
+
+                    $("#childFileUl-label-" + val.CategoryId).append(childFile);
+
+                    childFile.hover(function () {
+                        $(this).css('background-color', '#0000ff');
+                        $(this).css('color', '#ffffff');
+                    }, function () {
+                        $(this).css('background-color', 'azure');
+                        $(this).css('color', '#2c0ab9');
+                    });
+                });
+            }
+            //Khu vực thêm và hiển thị file
+            $('#FileUpload1').change(function () {
+                AddFile();
+            });
+            function AddFile() {
+                var isZero = confirm("Bạn có đặt lại timecode file về 0?\n(Chọn OK nếu đồng ý, Cancel nếu để mặc định)");
+                // Checking whether FormData is available in browser
+                if (window.FormData !== undefined) {
+
+                    var fileUpload = $("#FileUpload1").get(0);
+                    var files = fileUpload.files;
+
+                    // Create FormData object
+                    var fileData = new FormData();
+
+                    // Looping over all files and add it to FormData object
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append(files[i].name, files[i]);
+                    }
+
+                    // Adding one more key to FormData object
+                    fileData.append('username', 'Chien Dang');
+
+                    $.ajax({
+                        url: "@Url.Action("UploadFiles", "ViewVideo")",
+                        type: "POST",
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        data: fileData,//{ currentCategoryIdStr: labelId, isSetTimeCodeTo0: isZero},
+                        success: function (result) {
+                            //console.log(result);
+                            AddFileToDb(result, labelId, isZero);
+                        },
+                        error: function (err) {
+                            alert(err.statusText);
+                        }
+                    });
+                }
+                else {
+                    alert("FormData is not supported.");
+                }
+            }
+            //Add Subfile to DB after click Import
+            function AddFileToDb(data1, data2, data3) {
+                $.ajax({
+                    url: "@Url.Action("AddFile", "ViewVideo")",
+                    data: { filePath: data1, currentCategoryIdStr: data2, isSetTimeCodeTo0: data3 },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        //loadData(data);
+                        loadChildFolder(data2);
+                        loadChildFolderSubFile(data2);
+
+                    },
+                    error: function () {
+                        alert("Failed! Try again!");
+                    }
+                });
+            }
+            //Delete Region
+            function DeleteFolder() {
+                var isSure = confirm("Bạn chắc chắn xóa folder?");
+
+                if (isSure) {
+                    $.ajax({
+                        url: "@Url.Action("DeleteFolder", "ViewVideo")",
+                        data: { categoryIdStr: labelId },
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            //loadData(data);
+                            if (data) {
+                                alert("Xoá thành công!");
+                            } else {
+                                alert("Bạn phải xóa hết thư mục con mới có thể xóa thư mục này!");
+                            }
+                            loadFolder();
+                            loadChildFolder(labelId);
+                        },
+                        error: function () {
+                            alert("Failed! Try again!");
+                        }
+                    });
+                }
+            }
+            function DeleteFile() {
+                var isSure = confirm("Bạn chắc chắn xóa file?");
+
+                if (isSure) {
+                    $.ajax({
+                        url: "@Url.Action("DeleteFile", "ViewVideo")",
+                        data: { fileIdStr: labelId },
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            //loadData(data);
+                            if (data) {
+                                alert("Xoá thành công!");
+                            }
+                            loadFolder();
+                            loadSubFile(labelId);
+                        },
+                        error: function () {
+                            alert("Failed! Try again!");
+                        }
+                    });
+                }
+            }
+            function DeleteSubSchedule() {
+                var isSure = confirm("Bạn chắc chắn xóa lịch phụ đề?");
+
+                if (isSure) {
+                    $.ajax({
+                        url: "@Url.Action("DeleteSubScheduleItem", "ViewVideo")",
+                        data: { TimelineIdStr: eId },
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            //loadData(data);
+                            if (data) {
+                                alert("Xoá thành công!");
+                            }
+                            loadFolder();
+                            loadSubTimelineList();
+                        },
+                        error: function () {
+                            alert("Failed! Try again!");
+                        }
+                    });
+                }
+            }
+            function DeleteRecordSchedule() {
+                var isSure = confirm("Bạn chắc chắn xóa lịch ghi này?");
+
+                if (isSure) {
+                    $.ajax({
+                        url: "@Url.Action("DeleteCaptureItem", "ViewVideo")",
+                        data: { CaptureIdStr: subId },
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            //loadData(data);
+                            if (data) {
+                                alert("Xoá thành công!");
+                            }
+                            loadFolder();
+                            loadRecordItemList();
+                        },
+                        error: function () {
+                            alert("Failed! Try again!");
+                        }
+                    });
+                }
+            }
+            jQuery.fn.center = function () {
+                this.css("display", "inline-block");
+                this.css("position", "absolute");
+                this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) +
+                                                            $(window).scrollTop()) - 100 + "px");
+                this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
+                                                            $(window).scrollLeft()) + "px");
+                this.css("z-index", 100);
+                this.css("background-color", "#ABCDEF");
+                this.css("width", 230 + "px");
+                this.css("height", 430 + "px");
+                this.css("padding", "10px 20px");
+                this.css("border-radius", "5px");
+                return this;
+            }
+
+            var labelId = "";
+            function loadData(data) {
+                console.log(data);
+            };
+
+            function loadRecordItemList() {
+                $.ajax({
+                    url: "@Url.Action("GetCaptureLowresItems", "ViewVideo")",
+                    data: "",
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        //loadData(data);
+                        showRecordItemList(data);
+                        //Show Delete menu of a capture schedule item when right click
+                        $(function () {
+                            $("#recordScheduleTable tr").on('contextmenu', function (event) {
+                                subId = (this.id);
+                                //event.preventDefault();
+                            });
+                        });
+                        $("#recordScheduleTable > tr").contextPopup({
+                            items: [
+                                { label: "Sửa thông tin lịch ghi", action: function () { EditRecordSchedule() } },
+                                { label: "Xóa lịch ghi này", action: function () { DeleteRecordSchedule() } }
+                            ]
+                        });
+                    },
+                    error: function () {
+                        console.log("Failed! Try again!");
+                    }
+                });
+            }
+            function showRecordItemList(data) {
+                var tab = $('#recordScheduleTable');
+                tab.empty();
+                var thead = $('<thead></thead>');
+                thead.append('<th style=\"width:30%\">Chương trình</th>');
+                thead.append('<th style=\"width:20%\">Bắt đầu</th>');
+                thead.append('<th style=\"width:20%\">Kết thúc</th>');
+                thead.append('<th style=\"width:20%\">File ghi</th>');
+                thead.append('<th style=\"width:10%\">Trạng thái</th>');
+                $(tab).append(thead);
+
+                $.each(data, function (i, val) {
+                    //Append database data here
+                    var trow = $('<tr id=\"item-' + val.CaptureId + '\"></tr>');
+                    trow.append('<td style=\"width:30%\">' + val.ProgramName + '</td>');
+                    trow.append('<td style=\"width:20%\">' + val.StartTimeStr + '</td>');
+                    trow.append('<td style=\"width:20%\">' + val.EndTimeStr + '</td>');
+                    trow.append('<td style=\"width:20%\"><a href="../CaptureLowres/' + val.FileName + '">' + val.FileName + '</a></td>');
+                    trow.append('<td style=\"width:10%\">' + val.StatusMessage + '</td>');
+                    tab.append(trow);
+                });
+                $("tr:odd", tab).css('background-color', '#CCEECC');
+                $("tr:even", tab).hover(function () {
+                    $(this).css('background-color', '#0000ff');
+                    $(this).css('color', '#ffffff');
+                }, function () {
+                    $(this).css('background-color', '#ffffff');
+                    $(this).css('color', '#000000');
+                });
+                $("tr:odd", tab).hover(function () {
+                    $(this).css('background-color', '#0000ff');
+                    $(this).css('color', '#ffffff');
+                }, function () {
+                    $(this).css('background-color', '#CCEECC');
+                    $(this).css('color', '#000000');
+                });
+            }
+            function loadSubTimelineList() {
+                $("#tabs").tabs({ active: 1 });
+                $.ajax({
+                    url: "@Url.Action("GetSubTimeline", "ViewVideo")",
+                    data: "",
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        //loadData(data);
+                        showSubTimelineTable(data);
+                        //Show Delete menu of a sub schedule when right click
+                        $(function () {
+                            $("#ulSubSchedule button").on('contextmenu', function (event) {
+                                eId = (this.id);
+                                //alert(eId);
+                            });
+                        });
+                        $("#ulSubSchedule button").contextPopup({
+                            items: [
+                                { label: "Sửa thông tin lịch phụ đề", action: function () { EditSubTimeline() } },
+                                { label: "Xóa lịch phụ đề này", action: function () { DeleteSubSchedule() } }
+                            ]
+                        });
+                    },
+                    error: function () {
+                        console.log("Failed! Try again!");
+                    }
+                });
+            }
+            function showSubTimelineTable(data) {
+                $("#ulSubSchedule").empty();
+                $.each(data, function (i, val) {
+                    //Append database data here
+                    var lrow = $('<li></li>');
+                    var drow = $('<div id=\"tableDiv-buttonDiv-' + val.TimeLineId + '\"></div>');
+                    var trow = $('<button class=\"buttonShowSchedule\" name=\"' + val.FileId + ' - ' + val.FileName + '\" id=\"buttonDiv-' + val.TimeLineId + '\" style=\"width:90%;padding: 8px 12px 10px 12px;\"></button>');
+                    trow.append('File: ' + val.FileId + ' - ' + val.FileName + '; ');
+                    trow.append('Thời gian phát: ' + val.StartTimeString + '; ');
+
+                    drow.append(trow);
+                    lrow.append(drow);
+                    $("#ulSubSchedule").append(lrow);
+                });
+            }
+            //Load item when click tab button
+            $("#tabBtn2").click(function () {
+                loadSubTimelineList();
+            });
+            $("#tabBtn3").click(function () {
+                loadRecordItemList();
+            });
+
+            //Hide div input form when click cancel button
+            $("#btnHuyLichSub").click(function () {
+                $("#formChooseTime").hide();
+            });
+            $("#btnHuyLichRecord").click(function () {
+                $("#formDatLichRecord").hide();
+            });
+            $("#btnHuyLichSub2").click(function () {
+                $("#formUpdateTimeLine").hide();
+            });
+            $("#btnHuyLichRecord2").click(function () {
+                $("#formUpdateLichRecord").hide();
+            });
+            //Show SubTimeline Table on click
+            $(function () {
+                $("#ulSubSchedule").on('click', '.buttonShowSchedule', function (e) {
+                    var tempName = (this.name);
+                    var tempId = (this.id);
+                    $.ajax({
+                        url: "@Url.Action("GetSubFileItems", "ViewVideo")",
+                        data: { FileIdStr: tempName },
+                        type: "POST",
+                        dataType: "json",
+                        success: function (data) {
+                            $("#tableDiv-" + tempId).append($('<table id=\"subScheduleTable' + tempId + '\" class=\"MyTable\"></table>'));
+                            showSubTimelineTableDetail(data, tempId);
+                            $(function () {
+                                $('#subScheduleTable' + tempId + ' tr').on('contextmenu', function (event) {
+                                    subId = this.id;
+                                    //alert(subId);
+                                });
+                            });
+                            $("#subScheduleTable" + tempId + ' > tr').contextPopup({
+                                items: [
+                                    { label: "Khớp phụ đề theo video", action: function () { MapSub(subId) } },
+                                    { label: "Chạy preview tại phụ đề này", action: function () { MapVideoWithSub() } }
+                                ]
+                            });
+
+                        },
+                        error: function () {
+                            console.log("Failed! Try again!");
+                        }
+                    });
+
+                });
+            });
+
+            var subId = "";
+
+            //Import sub file to Shedule
+            function ImportFile() {
+                $("#formChooseTime").center();
+                $(function () {
+                    $("#datepicker").datepicker({ dateFormat: 'dd-mm-yy' });
+                });
+            }
+            //Add CaptureLowres item
+            $("#btnAddRecord").click(function () {
+                $("#formDatLichRecord").center();
+                $(function () {
+                    $("#datepickerRecordStart").datepicker({ dateFormat: 'dd-mm-yy' });
+                    $("#datepickerRecordEnd").datepicker({ dateFormat: 'dd-mm-yy' });
+                });
+            });
+            //Khu vực xử lý nút khi import file sang lập lịch phụ đề & lịch ghi record
+            $("#btnXacNhanLichSub").click(function () {
+                var subStartTime = $("#datepicker").val() + " " + $("#timeStartPicker").val();
+                $.ajax({
+                    url: "@Url.Action("ImportFile", "ViewVideo")",
+                    data: { fileIdStr: labelId, isStartFromFirstSub: true, fileStartTimeStr: subStartTime },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        //loadData(data);
+                        if (data) {
+                            alert("Nhập file thành công!");
+                            $("#formChooseTime").hide();
+                            loadSubTimelineList();
+                        } else alert("Nhập file không thành công, mời thực hiện lại!");
+                    },
+                    error: function () {
+                        console.log("Failed! Try again!");
+                    }
+                });
+
+            });
+            $("#btnXacNhanLichRecord").click(function () {
+                var tempStartTime = $("#datepickerRecordStart").val() + " " + $("#timeStartPickerRecordStart").val();
+                var tempEndTime = $("#datepickerRecordEnd").val() + " " + $("#timeStartPickerRecordEnd").val();
+                var tempProName = $("#txtTenChuongTrinh").val();
+                $.ajax({
+                    url: "@Url.Action("AddCaptureLowres", "ViewVideo")",
+                    data: { proName: tempProName, startTimeStr: tempStartTime, endTimeStr: tempEndTime },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        //loadData(data);
+                        if (data) {
+                            alert("Thêm lịch thành công!");
+                            $("#formDatLichRecord").hide();
+                            loadRecordItemList();
+                        } else alert("Thêm lịch không thành công, mời thực hiện lại!");
+                    },
+                    error: function () {
+                        console.log("Failed! Try again!");
+                    }
+                });
+
+            });
+            function EditSubTimeline() {
+                $("#formUpdateTimeLine").center();
+                $(function () {
+                    $("#datepicker2").datepicker({ dateFormat: 'dd-mm-yy' });
+                });
+
+            }
+            function EditRecordSchedule() {
+                $("#formUpdateLichRecord").center();
+                $(function () {
+                    $("#datepickerRecordStart2").datepicker({ dateFormat: 'dd-mm-yy' });
+                    $("#datepickerRecordEnd2").datepicker({ dateFormat: 'dd-mm-yy' });
+                });
+            }
+            $("#btnXacNhanLichSub2").click(function () {
+                var subStartTime = $("#datepicker2").val() + " " + $("#timeStartPicker2").val();
+                $.ajax({
+                    url: "@Url.Action("EditSubTimeline", "ViewVideo")",
+                    data: { subTimelineIdStr: eId, fileStartTimeStr: subStartTime },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        //loadData(data);
+                        if (data) {
+                            alert("Sửa lịch thành công!");
+                            $("#formUpdateTimeLine").hide();
+                            loadSubTimelineList();
+                        } else alert("Sửa lịch không thành công, mời thực hiện lại!");
+                    },
+                    error: function () {
+                        console.log("Failed! Try again!");
+                    }
+                });
+
+            });
+            $("#btnXacNhanLichRecord2").click(function () {
+                var tempStartTime = $("#datepickerRecordStart2").val() + " " + $("#timeStartPickerRecordStart2").val();
+                var tempEndTime = $("#datepickerRecordEnd2").val() + " " + $("#timeStartPickerRecordEnd2").val();
+                var tempProName = $("#txtTenChuongTrinh2").val();
+                $.ajax({
+                    url: "@Url.Action("EditRecordSchedule", "ViewVideo")",
+                    data: { recordScheIdStr: subId, proName: tempProName, startTimeStr: tempStartTime, endTimeStr: tempEndTime },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        //loadData(data);
+                        if (data) {
+                            alert("Sửa lịch thành công!");
+                            $("#formUpdateLichRecord").hide();
+                            loadRecordItemList();
+                        } else alert("Sửa lịch không thành công, mời thực hiện lại!");
+                    },
+                    error: function () {
+                        console.log("Failed! Try again!");
+                    }
+                });
+
+            });
+            function showSubTimelineTableDetail(data, tempId) {
+                var tab = $('#subScheduleTable' + tempId);
+                //alert($(tab).id);
+                tab.empty();
+                var thead = $('<thead></thead>');
+                thead.append('<th style=\"width:60%\">Phụ đề</th>');
+                thead.append('<th style=\"width:10%\">Bắt đầu</th>');
+                thead.append('<th style=\"width:10%\">Kết thúc</th>');
+                thead.append('<th style=\"width:10%\">Thời lượng</th>');
+                thead.append('<th style=\"width:5%\">Căn lề</th>');
+                thead.append('<th style=\"width:5%\">Vị trí</th>');
+
+                $(tab).append(thead);
+                $(tab).css("width", "90%");
+                $.each(data, function (i, val) {
+                    //Append database data here
+                    var trow = $('<tr id=\"subItem-' + val.ItemId + '\"></tr>');
+                    trow.append('<td style=\"width:60%\">' + val.Text + '</td>');
+                    trow.append('<td style=\"width:10%\">' + val.StartTimeStr + '</td>');
+                    trow.append('<td style=\"width:10%\">' + val.EndTime + '</td>');
+                    trow.append('<td style=\"width:10%\">' + val.DurationStr + '</td>');
+                    trow.append('<td style=\"width:5%\">' + val.Align + '</td>');
+                    trow.append('<td style=\"width:5%\">' + val.Position + '</td>');
+                    tab.append(trow);
+                });
+                $("tr:odd", tab).css('background-color', '#CCEECC');
+                $("tr:even", tab).hover(function () {
+                    $(this).css('background-color', '#0000ff');
+                    $(this).css('color', '#ffffff');
+                }, function () {
+                    $(this).css('background-color', '#ffffff');
+                    $(this).css('color', '#000000');
+                });
+                $("tr:odd", tab).hover(function () {
+                    $(this).css('background-color', '#0000ff');
+                    $(this).css('color', '#ffffff');
+                }, function () {
+                    $(this).css('background-color', '#CCEECC');
+                    $(this).css('color', '#000000');
+                });
+                $(tab).toggle();
+            }
+            function getPlayingTime() {
+                var videoTime;
+                if ($myPlayer1.currentTime() > 0)
+                    videoTime = $myPlayer1.currentTime();
+                else if ($myPlayer2.currentTime() > 0) videoTime = $myPlayer2.currentTime();
+                return videoTime;
+            }
+            function getPlayingVideoSrc() {
+                var videoSrc;
+                if ($myPlayer1.currentTime() > 0)
+                    videoSrc = $myPlayer1.currentSrc();
+                else if ($myPlayer2.currentTime() > 0) videoSrc = $myPlayer2.currentSrc();
+                return videoSrc;
+            }
+            //Map sub to previewing
+            function MapSub(subItemId) {
+                var tabId = $("#" + subItemId).parent().parent().attr('id');
+                $.ajax({
+                    url: "@Url.Action("updateSubTimelineStartTime", "ViewVideo")",
+                    data: { currentVideoSrc: getPlayingVideoSrc(), subTimelineIdStr: tabId, subTimelineItemIdStr: subItemId, timespanStr: getPlayingTime() },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        //loadData(data);
+                        if (data) {
+                            loadSubTimelineList();
+                        }
+                    },
+                    error: function () {
+                        console.log("Failed! Try again!");
+                    }
+                });
+
+            }
+            function MapVideoWithSub() {
+                //alert(subId);
+                var tabId = $("#" + subId).parent().parent().attr('id');
+                $.ajax({
+                    url: "@Url.Action("MapVideoToSubTime", "ViewVideo")",
+                    data: { subTimelineIdStr: tabId, subTimelineItemIdStr: subId },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        //loadData(data);
+                    },
+                    error: function () {
+                        console.log("Failed! Try again!");
+                    }
+                });
+
+            }
+            //Get delay from DB
+            function getDelayNumber() {
+                $.ajax({
+                    url: "@Url.Action("GetDelayNumber", "ViewVideo")",
+                    data: "",
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        showDelayNumber(data);
+                    },
+                    error: function () {
+                        console.log("Failed! Try again!");
+                    }
+                });
+            }
+
+            //Show Delay on Web
+            function showDelayNumber(data) {
+                $.each(data, function (i, val) {
+                    $("#KiVong").empty();
+                    $("#KiVong").append("Thời gian trễ Kỳ Vọng: " + val.DelayExpectedStr);
+                    $("#ThucTe").empty();
+                    $("#ThucTe").append("Thời gian trễ Thực Tế: " + val.RealisticDelayStr);
+                    _RealisticDelayNumber = val.RealisticDelay;
+                });
+            }
+            //Show subtitle as Schedule
+            function getSubtitleRealtime() {
+                $.ajax({
+                    url: "@Url.Action("getCurrentSubListItem", "ViewVideo")",
+                    data: { currentVideoSrc: getPlayingVideoSrc(), timespanStr: getPlayingTime() },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        _lstCurrentSubItems = data;
+                    },
+                    error: function () {
+                        console.log("Failed! Try again!");
+                    }
+                });
+            }
+            var _currentSubStr;
+            var tempClickTimeStamp = click_timestamp;
+            setInterval(function () {
+                tempClickTimeStamp += 100;
+                if (_lstCurrentSubItems != null) {
+                    showCurrentSubtitle(_lstCurrentSubItems);
+                }
+            }, 100);
+            var subCompare;
+            function showCurrentSubtitle(data) {
+                var tempSub = $("#currentSub");
+                var tempTime = (new Date()).getTime() + 420 * 60 * 1000;
+                $.each(data, function (i, val) {
+                    if ((tempClickTimeStamp - 100) < val.StartDateTime && val.StartDateTime < (tempClickTimeStamp + 100)) {
+                        _currentSubStr = val.Text;
+                    } else _currentSubStr = "";
+
+                    if (_currentSubStr !== "" && _currentSubStr !== subCompare) {
+                        tempSub.empty();
+                        subCompare = _currentSubStr;
+                        tempSub.append(_currentSubStr);
+                        tempSub.show().delay(val.Duration).queue(function (n) {
+                            $(this).hide(); n();
+                        });
+                    }
+                });
+            }
+
+            function AddRecordSecond() {
+                record_timespan = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1);
+
+            };
+            function AddPlaybakSecond() {
+                playback_timespan = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1) - _RealisticDelayNumber;                
+            };
+            $.ajax({
+                url: '@Url.Action("GetStatus","VideoData")',
+            })
+            .done(function (data) {
+                if (data[0] == true) {
+                    window.setInterval(AddRecordSecond, 1000);
+                }
+                else {
+                    GetStatusTimeRecordeAndPlay();
+                }
+                if (data[1] == true) {
+                    window.setInterval(AddPlaybakSecond, 1000);
+                }
+                else {
+                    GetStatusTimeRecordeAndPlay();
+                }
+
+            });
+            function GetStatusTimeRecordeAndPlay() {
+                $.ajax({
+                    url: '@Url.Action("GetStatusTimeRecordeAndPlay", "VideoData")',
+                })
+           .done(function (data) {
+
+           });
+            };
+        });
+    </script>
+}

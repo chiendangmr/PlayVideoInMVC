@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0d9c09a6a9f340a392ebf52aa3c929e0" Name="Diagram1">
+        <EntityTypeShape EntityType="HDDelay5Model.RecordLowre" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HDDelay5Model.CaptureLowre" Width="1.5" PointX="3" PointY="19.25" />
+        <EntityTypeShape EntityType="HDDelay5Model.Channel" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HDDelay5Model.CurrentItem" Width="1.5" PointX="3" PointY="16.125" />
+        <EntityTypeShape EntityType="HDDelay5Model.FontDefine" Width="1.5" PointX="3" PointY="6.375" />
+        <EntityTypeShape EntityType="HDDelay5Model.RecordHighre" Width="1.5" PointX="3" PointY="22.875" />
+        <EntityTypeShape EntityType="HDDelay5Model.SubtitleCategory" Width="1.5" PointX="3" PointY="11.5" />
+        <EntityTypeShape EntityType="HDDelay5Model.SubtitleFile" Width="1.5" PointX="5.25" PointY="11.75" />
+        <EntityTypeShape EntityType="HDDelay5Model.SubtitleFileItem" Width="1.5" PointX="7.5" PointY="10.25" />
+        <EntityTypeShape EntityType="HDDelay5Model.SubtitleStyle" Width="1.5" PointX="5.25" PointY="5.375" />
+        <EntityTypeShape EntityType="HDDelay5Model.SubtitleTimeLine" Width="1.5" PointX="7.5" PointY="13.625" />
+        <AssociationConnector Association="HDDelay5Model.FK_CaptureLowres_Channel" />
+        <AssociationConnector Association="HDDelay5Model.FK_CurrentItem_Channel" />
+        <AssociationConnector Association="HDDelay5Model.FK_FontDefine_Channel" />
+        <AssociationConnector Association="HDDelay5Model.FK_RecordHighres_Channel" />
+        <AssociationConnector Association="HDDelay5Model.FK_RecordLowres_Channel" />
+        <AssociationConnector Association="HDDelay5Model.FK_SubtitleCategory_Channel" />
+        <AssociationConnector Association="HDDelay5Model.FK_SubtitleStyle_FontDefine" />
+        <AssociationConnector Association="HDDelay5Model.FK_SubtitleCategory_SubtitleCategory" />
+        <AssociationConnector Association="HDDelay5Model.FK_SubtitleFile_SubtitleCategory" />
+        <AssociationConnector Association="HDDelay5Model.FK_SubtitleFileItem_SubtitleFile" />
+        <AssociationConnector Association="HDDelay5Model.FK_SubtitleTimeLine_SubtitleFile" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

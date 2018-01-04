@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Get Video";
+}
+
+<h2>Get Video</h2>
+<table>
+    <tr>
+        <td>
+            Search: <input type="text" id="txtSearch" /> <input type="button" value="Search" id="btnSearch" />
+            <input type="button" value="Get All Video" id="btnAllVideo" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div id="UpdatePanel">
+
+            </div>
+        </td>
+    </tr>
+</table>
+@section Scripts{
+    <script type="text/javascript" src="~/Scripts/jquery-3.1.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btnAllVideo").click(function () {
+                $.ajax({
+                    url: "@Url.Action("GetAllVideo","ViewVideo")",
+                    data: "",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        loadData(data);
+                    },
+                    error: function () {
+                        alert("Failed! Try again!");
+                    }
+                });
+            });
+
+            $("#btnSearch").click(function () {
+                $.ajax({
+                    url: "@Url.Action("GetVideoWithParameter", "ViewVideo")",
+                    data: { para: $('#txtSearch').val() },
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        loadData(data);
+                    },
+                    error: function () {
+                        alert("Failed! Try again!");
+                    }
+                });
+            });
+            function loadData(data) {
+                // format & load/show data
+                var tab = $('<table class="MyTable"></table>');
+                var thead = $('<thead></thead>');
+                thead.append('<th>Record ID</th>');
+                thead.append('<th>Channel ID</th>');
+                thead.append('<th>Record Time</th>');
+                thead.append('<th>File Name</th>');
+                thead.append('<th>Duration</th>');
+                thead.append('<th>Deleted</th>');
+
+                tab.append(thead);
+                $.each(data, function (i, val) {
+                    //Append database data here
+                    var trow = $('<tr></tr>');
+                    trow.append('<td>' + val.RecordId + '</td>');
+                    trow.append('<td>' + val.ChannelId + '</td>');
+                    trow.append('<td>' + val.RecordTime + '</td>');
+                    trow.append('<td>' + val.FileName + '</td>');
+                    trow.append('<td>' + val.Duration + '</td>');
+                    trow.append('<td>' + val.Deleted + '</td>');
+                    tab.append(trow);
+                });
+
+                $("tr:odd", tab).css('background-color', '#c4c4c4');
+                $("#UpdatePanel").html(tab);
+
+            };
+        });
+    </script>
+}

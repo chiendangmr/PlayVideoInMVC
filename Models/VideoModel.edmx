@@ -1,0 +1,863 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HDDelay5Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CaptureLowres">
+          <Key>
+            <PropertyRef Name="CaptureId" />
+          </Key>
+          <Property Name="CaptureId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChannelId" Type="int" Nullable="false" />
+          <Property Name="ProgramName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="200" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="StatusMessage" Type="nvarchar" MaxLength="200" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Channel">
+          <Key>
+            <PropertyRef Name="ChannelId" />
+          </Key>
+          <Property Name="ChannelId" Type="int" Nullable="false" />
+          <Property Name="ChannelName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="DelayExpected" Type="int" Nullable="false" />
+          <Property Name="RealisticDelay" Type="int" Nullable="false" />
+          <Property Name="StyleId" Type="int" />
+        </EntityType>
+        <EntityType Name="CurrentItem">
+          <Key>
+            <PropertyRef Name="ChannelId" />
+            <PropertyRef Name="CurrentType" />
+          </Key>
+          <Property Name="ChannelId" Type="int" Nullable="false" />
+          <Property Name="CurrentType" Type="int" Nullable="false" />
+          <Property Name="ItemType" Type="int" />
+          <Property Name="ClipID" Type="bigint" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="LastTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FontDefine">
+          <Key>
+            <PropertyRef Name="FontId" />
+          </Key>
+          <Property Name="FontId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChannelId" Type="int" Nullable="false" />
+          <Property Name="FontName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FontFile" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecordHighres">
+          <Key>
+            <PropertyRef Name="RecordId" />
+          </Key>
+          <Property Name="RecordId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChannelId" Type="int" Nullable="false" />
+          <Property Name="RecordTime" Type="datetime" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Duration" Type="bigint" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecordLowres">
+          <Key>
+            <PropertyRef Name="RecordId" />
+          </Key>
+          <Property Name="RecordId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChannelId" Type="int" Nullable="false" />
+          <Property Name="RecordTime" Type="datetime" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Duration" Type="bigint" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubtitleCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ChannelId" Type="int" Nullable="false" />
+          <Property Name="CategoryParrentId" Type="int" />
+        </EntityType>
+        <EntityType Name="SubtitleFile">
+          <Key>
+            <PropertyRef Name="FileId" />
+          </Key>
+          <Property Name="FileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProgramName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubtitleFileItem">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileId" Type="int" Nullable="false" />
+          <Property Name="StartTime" Type="bigint" Nullable="false" />
+          <Property Name="Duration" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Position" Type="int" Nullable="false" />
+          <Property Name="Align" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubtitleStyle">
+          <Key>
+            <PropertyRef Name="StyleId" />
+          </Key>
+          <Property Name="StyleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StyleName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FontId" Type="int" Nullable="false" />
+          <Property Name="FontSize" Type="int" Nullable="false" />
+          <Property Name="FontColor" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BorderColor" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="BorderWidth" Type="int" Nullable="false" />
+          <Property Name="ShadowColor" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ShadowX" Type="int" Nullable="false" />
+          <Property Name="ShadowY" Type="int" Nullable="false" />
+          <Property Name="TabSize" Type="int" Nullable="false" />
+          <Property Name="LineSpace" Type="int" Nullable="false" />
+          <Property Name="MarginH" Type="int" Nullable="false" />
+          <Property Name="MarginV" Type="int" Nullable="false" />
+          <Property Name="Align" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubtitleTimeLine">
+          <Key>
+            <PropertyRef Name="TimeLineId" />
+          </Key>
+          <Property Name="TimeLineId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileId" Type="int" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CaptureLowres_Channel">
+          <End Role="Channel" Type="Self.Channel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CaptureLowres" Type="Self.CaptureLowres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="ChannelId" />
+            </Principal>
+            <Dependent Role="CaptureLowres">
+              <PropertyRef Name="ChannelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentItem_Channel">
+          <End Role="Channel" Type="Self.Channel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CurrentItem" Type="Self.CurrentItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="ChannelId" />
+            </Principal>
+            <Dependent Role="CurrentItem">
+              <PropertyRef Name="ChannelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FontDefine_Channel">
+          <End Role="Channel" Type="Self.Channel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FontDefine" Type="Self.FontDefine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="ChannelId" />
+            </Principal>
+            <Dependent Role="FontDefine">
+              <PropertyRef Name="ChannelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecordHighres_Channel">
+          <End Role="Channel" Type="Self.Channel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RecordHighres" Type="Self.RecordHighres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="ChannelId" />
+            </Principal>
+            <Dependent Role="RecordHighres">
+              <PropertyRef Name="ChannelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecordLowres_Channel">
+          <End Role="Channel" Type="Self.Channel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RecordLowres" Type="Self.RecordLowres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="ChannelId" />
+            </Principal>
+            <Dependent Role="RecordLowres">
+              <PropertyRef Name="ChannelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubtitleCategory_Channel">
+          <End Role="Channel" Type="Self.Channel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SubtitleCategory" Type="Self.SubtitleCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="ChannelId" />
+            </Principal>
+            <Dependent Role="SubtitleCategory">
+              <PropertyRef Name="ChannelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubtitleCategory_SubtitleCategory">
+          <End Role="SubtitleCategory" Type="Self.SubtitleCategory" Multiplicity="0..1" />
+          <End Role="SubtitleCategory1" Type="Self.SubtitleCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubtitleCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="SubtitleCategory1">
+              <PropertyRef Name="CategoryParrentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubtitleFile_SubtitleCategory">
+          <End Role="SubtitleCategory" Type="Self.SubtitleCategory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SubtitleFile" Type="Self.SubtitleFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubtitleCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="SubtitleFile">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubtitleFileItem_SubtitleFile">
+          <End Role="SubtitleFile" Type="Self.SubtitleFile" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SubtitleFileItem" Type="Self.SubtitleFileItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubtitleFile">
+              <PropertyRef Name="FileId" />
+            </Principal>
+            <Dependent Role="SubtitleFileItem">
+              <PropertyRef Name="FileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubtitleStyle_FontDefine">
+          <End Role="FontDefine" Type="Self.FontDefine" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SubtitleStyle" Type="Self.SubtitleStyle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FontDefine">
+              <PropertyRef Name="FontId" />
+            </Principal>
+            <Dependent Role="SubtitleStyle">
+              <PropertyRef Name="FontId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubtitleTimeLine_SubtitleFile">
+          <End Role="SubtitleFile" Type="Self.SubtitleFile" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="SubtitleTimeLine" Type="Self.SubtitleTimeLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubtitleFile">
+              <PropertyRef Name="FileId" />
+            </Principal>
+            <Dependent Role="SubtitleTimeLine">
+              <PropertyRef Name="FileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HDDelay5ModelStoreContainer">
+          <EntitySet Name="CaptureLowres" EntityType="Self.CaptureLowres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Channel" EntityType="Self.Channel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CurrentItem" EntityType="Self.CurrentItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FontDefine" EntityType="Self.FontDefine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecordHighres" EntityType="Self.RecordHighres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecordLowres" EntityType="Self.RecordLowres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubtitleCategory" EntityType="Self.SubtitleCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubtitleFile" EntityType="Self.SubtitleFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubtitleFileItem" EntityType="Self.SubtitleFileItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubtitleStyle" EntityType="Self.SubtitleStyle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubtitleTimeLine" EntityType="Self.SubtitleTimeLine" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CaptureLowres_Channel" Association="Self.FK_CaptureLowres_Channel">
+            <End Role="Channel" EntitySet="Channel" />
+            <End Role="CaptureLowres" EntitySet="CaptureLowres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentItem_Channel" Association="Self.FK_CurrentItem_Channel">
+            <End Role="Channel" EntitySet="Channel" />
+            <End Role="CurrentItem" EntitySet="CurrentItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FontDefine_Channel" Association="Self.FK_FontDefine_Channel">
+            <End Role="Channel" EntitySet="Channel" />
+            <End Role="FontDefine" EntitySet="FontDefine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecordHighres_Channel" Association="Self.FK_RecordHighres_Channel">
+            <End Role="Channel" EntitySet="Channel" />
+            <End Role="RecordHighres" EntitySet="RecordHighres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecordLowres_Channel" Association="Self.FK_RecordLowres_Channel">
+            <End Role="Channel" EntitySet="Channel" />
+            <End Role="RecordLowres" EntitySet="RecordLowres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubtitleCategory_Channel" Association="Self.FK_SubtitleCategory_Channel">
+            <End Role="Channel" EntitySet="Channel" />
+            <End Role="SubtitleCategory" EntitySet="SubtitleCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubtitleCategory_SubtitleCategory" Association="Self.FK_SubtitleCategory_SubtitleCategory">
+            <End Role="SubtitleCategory" EntitySet="SubtitleCategory" />
+            <End Role="SubtitleCategory1" EntitySet="SubtitleCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubtitleFile_SubtitleCategory" Association="Self.FK_SubtitleFile_SubtitleCategory">
+            <End Role="SubtitleCategory" EntitySet="SubtitleCategory" />
+            <End Role="SubtitleFile" EntitySet="SubtitleFile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubtitleFileItem_SubtitleFile" Association="Self.FK_SubtitleFileItem_SubtitleFile">
+            <End Role="SubtitleFile" EntitySet="SubtitleFile" />
+            <End Role="SubtitleFileItem" EntitySet="SubtitleFileItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubtitleStyle_FontDefine" Association="Self.FK_SubtitleStyle_FontDefine">
+            <End Role="FontDefine" EntitySet="FontDefine" />
+            <End Role="SubtitleStyle" EntitySet="SubtitleStyle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubtitleTimeLine_SubtitleFile" Association="Self.FK_SubtitleTimeLine_SubtitleFile">
+            <End Role="SubtitleFile" EntitySet="SubtitleFile" />
+            <End Role="SubtitleTimeLine" EntitySet="SubtitleTimeLine" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HDDelay5Model" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityType Name="RecordLowre">
+          <Key>
+            <PropertyRef Name="RecordId" />
+          </Key>
+          <Property Name="RecordId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="ChannelId" Type="Int32" Nullable="false" />
+          <Property Name="RecordTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FileName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Duration" Type="Int64" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Channel" Relationship="HDDelay5Model.FK_RecordLowres_Channel" FromRole="RecordLowre" ToRole="Channel" />
+        </EntityType>
+        <EntityContainer Name="HDDelay5Entities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="RecordLowres" EntityType="Self.RecordLowre" />
+          <EntitySet Name="CaptureLowres" EntityType="HDDelay5Model.CaptureLowre" />
+          <EntitySet Name="Channels" EntityType="HDDelay5Model.Channel" />
+          <EntitySet Name="CurrentItems" EntityType="HDDelay5Model.CurrentItem" />
+          <EntitySet Name="FontDefines" EntityType="HDDelay5Model.FontDefine" />
+          <EntitySet Name="RecordHighres" EntityType="HDDelay5Model.RecordHighre" />
+          <EntitySet Name="SubtitleCategories" EntityType="HDDelay5Model.SubtitleCategory" />
+          <EntitySet Name="SubtitleFiles" EntityType="HDDelay5Model.SubtitleFile" />
+          <EntitySet Name="SubtitleFileItems" EntityType="HDDelay5Model.SubtitleFileItem" />
+          <EntitySet Name="SubtitleStyles" EntityType="HDDelay5Model.SubtitleStyle" />
+          <EntitySet Name="SubtitleTimeLines" EntityType="HDDelay5Model.SubtitleTimeLine" />
+          <AssociationSet Name="FK_CaptureLowres_Channel" Association="HDDelay5Model.FK_CaptureLowres_Channel">
+            <End Role="Channel" EntitySet="Channels" />
+            <End Role="CaptureLowre" EntitySet="CaptureLowres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CurrentItem_Channel" Association="HDDelay5Model.FK_CurrentItem_Channel">
+            <End Role="Channel" EntitySet="Channels" />
+            <End Role="CurrentItem" EntitySet="CurrentItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FontDefine_Channel" Association="HDDelay5Model.FK_FontDefine_Channel">
+            <End Role="Channel" EntitySet="Channels" />
+            <End Role="FontDefine" EntitySet="FontDefines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecordHighres_Channel" Association="HDDelay5Model.FK_RecordHighres_Channel">
+            <End Role="Channel" EntitySet="Channels" />
+            <End Role="RecordHighre" EntitySet="RecordHighres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RecordLowres_Channel" Association="HDDelay5Model.FK_RecordLowres_Channel">
+            <End Role="Channel" EntitySet="Channels" />
+            <End Role="RecordLowre" EntitySet="RecordLowres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubtitleCategory_Channel" Association="HDDelay5Model.FK_SubtitleCategory_Channel">
+            <End Role="Channel" EntitySet="Channels" />
+            <End Role="SubtitleCategory" EntitySet="SubtitleCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubtitleStyle_FontDefine" Association="HDDelay5Model.FK_SubtitleStyle_FontDefine">
+            <End Role="FontDefine" EntitySet="FontDefines" />
+            <End Role="SubtitleStyle" EntitySet="SubtitleStyles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubtitleCategory_SubtitleCategory" Association="HDDelay5Model.FK_SubtitleCategory_SubtitleCategory">
+            <End Role="SubtitleCategory" EntitySet="SubtitleCategories" />
+            <End Role="SubtitleCategory1" EntitySet="SubtitleCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubtitleFile_SubtitleCategory" Association="HDDelay5Model.FK_SubtitleFile_SubtitleCategory">
+            <End Role="SubtitleCategory" EntitySet="SubtitleCategories" />
+            <End Role="SubtitleFile" EntitySet="SubtitleFiles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubtitleFileItem_SubtitleFile" Association="HDDelay5Model.FK_SubtitleFileItem_SubtitleFile">
+            <End Role="SubtitleFile" EntitySet="SubtitleFiles" />
+            <End Role="SubtitleFileItem" EntitySet="SubtitleFileItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubtitleTimeLine_SubtitleFile" Association="HDDelay5Model.FK_SubtitleTimeLine_SubtitleFile">
+            <End Role="SubtitleFile" EntitySet="SubtitleFiles" />
+            <End Role="SubtitleTimeLine" EntitySet="SubtitleTimeLines" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CaptureLowre">
+          <Key>
+            <PropertyRef Name="CaptureId" />
+          </Key>
+          <Property Name="CaptureId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChannelId" Type="Int32" Nullable="false" />
+          <Property Name="ProgramName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FileName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="StatusMessage" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Channel" Relationship="HDDelay5Model.FK_CaptureLowres_Channel" FromRole="CaptureLowre" ToRole="Channel" />
+        </EntityType>
+        <EntityType Name="Channel">
+          <Key>
+            <PropertyRef Name="ChannelId" />
+          </Key>
+          <Property Name="ChannelId" Type="Int32" Nullable="false" />
+          <Property Name="ChannelName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DelayExpected" Type="Int32" Nullable="false" />
+          <Property Name="RealisticDelay" Type="Int32" Nullable="false" />
+          <Property Name="StyleId" Type="Int32" />
+          <NavigationProperty Name="CaptureLowres" Relationship="HDDelay5Model.FK_CaptureLowres_Channel" FromRole="Channel" ToRole="CaptureLowre" />
+          <NavigationProperty Name="CurrentItems" Relationship="HDDelay5Model.FK_CurrentItem_Channel" FromRole="Channel" ToRole="CurrentItem" />
+          <NavigationProperty Name="FontDefines" Relationship="HDDelay5Model.FK_FontDefine_Channel" FromRole="Channel" ToRole="FontDefine" />
+          <NavigationProperty Name="RecordHighres" Relationship="HDDelay5Model.FK_RecordHighres_Channel" FromRole="Channel" ToRole="RecordHighre" />
+          <NavigationProperty Name="RecordLowres" Relationship="HDDelay5Model.FK_RecordLowres_Channel" FromRole="Channel" ToRole="RecordLowre" />
+          <NavigationProperty Name="SubtitleCategories" Relationship="HDDelay5Model.FK_SubtitleCategory_Channel" FromRole="Channel" ToRole="SubtitleCategory" />
+        </EntityType>
+        <EntityType Name="CurrentItem">
+          <Key>
+            <PropertyRef Name="ChannelId" />
+            <PropertyRef Name="CurrentType" />
+          </Key>
+          <Property Name="ChannelId" Type="Int32" Nullable="false" />
+          <Property Name="CurrentType" Type="Int32" Nullable="false" />
+          <Property Name="ItemType" Type="Int32" />
+          <Property Name="ClipID" Type="Int64" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Channel" Relationship="HDDelay5Model.FK_CurrentItem_Channel" FromRole="CurrentItem" ToRole="Channel" />
+        </EntityType>
+        <EntityType Name="FontDefine">
+          <Key>
+            <PropertyRef Name="FontId" />
+          </Key>
+          <Property Name="FontId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChannelId" Type="Int32" Nullable="false" />
+          <Property Name="FontName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FontFile" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Channel" Relationship="HDDelay5Model.FK_FontDefine_Channel" FromRole="FontDefine" ToRole="Channel" />
+          <NavigationProperty Name="SubtitleStyles" Relationship="HDDelay5Model.FK_SubtitleStyle_FontDefine" FromRole="FontDefine" ToRole="SubtitleStyle" />
+        </EntityType>
+        <EntityType Name="RecordHighre">
+          <Key>
+            <PropertyRef Name="RecordId" />
+          </Key>
+          <Property Name="RecordId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChannelId" Type="Int32" Nullable="false" />
+          <Property Name="RecordTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Duration" Type="Int64" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Channel" Relationship="HDDelay5Model.FK_RecordHighres_Channel" FromRole="RecordHighre" ToRole="Channel" />
+        </EntityType>
+        <EntityType Name="SubtitleCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ChannelId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryParrentId" Type="Int32" />
+          <NavigationProperty Name="Channel" Relationship="HDDelay5Model.FK_SubtitleCategory_Channel" FromRole="SubtitleCategory" ToRole="Channel" />
+          <NavigationProperty Name="SubtitleCategory1" Relationship="HDDelay5Model.FK_SubtitleCategory_SubtitleCategory" FromRole="SubtitleCategory" ToRole="SubtitleCategory1" />
+          <NavigationProperty Name="SubtitleCategory2" Relationship="HDDelay5Model.FK_SubtitleCategory_SubtitleCategory" FromRole="SubtitleCategory1" ToRole="SubtitleCategory" />
+          <NavigationProperty Name="SubtitleFiles" Relationship="HDDelay5Model.FK_SubtitleFile_SubtitleCategory" FromRole="SubtitleCategory" ToRole="SubtitleFile" />
+        </EntityType>
+        <EntityType Name="SubtitleFile">
+          <Key>
+            <PropertyRef Name="FileId" />
+          </Key>
+          <Property Name="FileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProgramName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SubtitleCategory" Relationship="HDDelay5Model.FK_SubtitleFile_SubtitleCategory" FromRole="SubtitleFile" ToRole="SubtitleCategory" />
+          <NavigationProperty Name="SubtitleFileItems" Relationship="HDDelay5Model.FK_SubtitleFileItem_SubtitleFile" FromRole="SubtitleFile" ToRole="SubtitleFileItem" />
+          <NavigationProperty Name="SubtitleTimeLines" Relationship="HDDelay5Model.FK_SubtitleTimeLine_SubtitleFile" FromRole="SubtitleFile" ToRole="SubtitleTimeLine" />
+        </EntityType>
+        <EntityType Name="SubtitleFileItem">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileId" Type="Int32" Nullable="false" />
+          <Property Name="StartTime" Type="Int64" Nullable="false" />
+          <Property Name="Duration" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="Int32" Nullable="false" />
+          <Property Name="Align" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SubtitleFile" Relationship="HDDelay5Model.FK_SubtitleFileItem_SubtitleFile" FromRole="SubtitleFileItem" ToRole="SubtitleFile" />
+        </EntityType>
+        <EntityType Name="SubtitleStyle">
+          <Key>
+            <PropertyRef Name="StyleId" />
+          </Key>
+          <Property Name="StyleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StyleName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FontId" Type="Int32" Nullable="false" />
+          <Property Name="FontSize" Type="Int32" Nullable="false" />
+          <Property Name="FontColor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BorderColor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BorderWidth" Type="Int32" Nullable="false" />
+          <Property Name="ShadowColor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ShadowX" Type="Int32" Nullable="false" />
+          <Property Name="ShadowY" Type="Int32" Nullable="false" />
+          <Property Name="TabSize" Type="Int32" Nullable="false" />
+          <Property Name="LineSpace" Type="Int32" Nullable="false" />
+          <Property Name="MarginH" Type="Int32" Nullable="false" />
+          <Property Name="MarginV" Type="Int32" Nullable="false" />
+          <Property Name="Align" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FontDefine" Relationship="HDDelay5Model.FK_SubtitleStyle_FontDefine" FromRole="SubtitleStyle" ToRole="FontDefine" />
+        </EntityType>
+        <EntityType Name="SubtitleTimeLine">
+          <Key>
+            <PropertyRef Name="TimeLineId" />
+          </Key>
+          <Property Name="TimeLineId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileId" Type="Int32" Nullable="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="SubtitleFile" Relationship="HDDelay5Model.FK_SubtitleTimeLine_SubtitleFile" FromRole="SubtitleTimeLine" ToRole="SubtitleFile" />
+        </EntityType>
+        <Association Name="FK_CaptureLowres_Channel">
+          <End Type="HDDelay5Model.Channel" Role="Channel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HDDelay5Model.CaptureLowre" Role="CaptureLowre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="ChannelId" />
+            </Principal>
+            <Dependent Role="CaptureLowre">
+              <PropertyRef Name="ChannelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CurrentItem_Channel">
+          <End Type="HDDelay5Model.Channel" Role="Channel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HDDelay5Model.CurrentItem" Role="CurrentItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="ChannelId" />
+            </Principal>
+            <Dependent Role="CurrentItem">
+              <PropertyRef Name="ChannelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FontDefine_Channel">
+          <End Type="HDDelay5Model.Channel" Role="Channel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HDDelay5Model.FontDefine" Role="FontDefine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="ChannelId" />
+            </Principal>
+            <Dependent Role="FontDefine">
+              <PropertyRef Name="ChannelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecordHighres_Channel">
+          <End Type="HDDelay5Model.Channel" Role="Channel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HDDelay5Model.RecordHighre" Role="RecordHighre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="ChannelId" />
+            </Principal>
+            <Dependent Role="RecordHighre">
+              <PropertyRef Name="ChannelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RecordLowres_Channel">
+          <End Type="HDDelay5Model.Channel" Role="Channel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HDDelay5Model.RecordLowre" Role="RecordLowre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="ChannelId" />
+            </Principal>
+            <Dependent Role="RecordLowre">
+              <PropertyRef Name="ChannelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubtitleCategory_Channel">
+          <End Type="HDDelay5Model.Channel" Role="Channel" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HDDelay5Model.SubtitleCategory" Role="SubtitleCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="ChannelId" />
+            </Principal>
+            <Dependent Role="SubtitleCategory">
+              <PropertyRef Name="ChannelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubtitleStyle_FontDefine">
+          <End Type="HDDelay5Model.FontDefine" Role="FontDefine" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HDDelay5Model.SubtitleStyle" Role="SubtitleStyle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FontDefine">
+              <PropertyRef Name="FontId" />
+            </Principal>
+            <Dependent Role="SubtitleStyle">
+              <PropertyRef Name="FontId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubtitleCategory_SubtitleCategory">
+          <End Type="HDDelay5Model.SubtitleCategory" Role="SubtitleCategory" Multiplicity="0..1" />
+          <End Type="HDDelay5Model.SubtitleCategory" Role="SubtitleCategory1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubtitleCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="SubtitleCategory1">
+              <PropertyRef Name="CategoryParrentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubtitleFile_SubtitleCategory">
+          <End Type="HDDelay5Model.SubtitleCategory" Role="SubtitleCategory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HDDelay5Model.SubtitleFile" Role="SubtitleFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubtitleCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="SubtitleFile">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubtitleFileItem_SubtitleFile">
+          <End Type="HDDelay5Model.SubtitleFile" Role="SubtitleFile" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HDDelay5Model.SubtitleFileItem" Role="SubtitleFileItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubtitleFile">
+              <PropertyRef Name="FileId" />
+            </Principal>
+            <Dependent Role="SubtitleFileItem">
+              <PropertyRef Name="FileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubtitleTimeLine_SubtitleFile">
+          <End Type="HDDelay5Model.SubtitleFile" Role="SubtitleFile" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HDDelay5Model.SubtitleTimeLine" Role="SubtitleTimeLine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubtitleFile">
+              <PropertyRef Name="FileId" />
+            </Principal>
+            <Dependent Role="SubtitleTimeLine">
+              <PropertyRef Name="FileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HDDelay5ModelStoreContainer" CdmEntityContainer="HDDelay5Entities">
+          <EntitySetMapping Name="RecordLowres">
+            <EntityTypeMapping TypeName="HDDelay5Model.RecordLowre">
+              <MappingFragment StoreEntitySet="RecordLowres">
+                <ScalarProperty Name="RecordId" ColumnName="RecordId" />
+                <ScalarProperty Name="ChannelId" ColumnName="ChannelId" />
+                <ScalarProperty Name="RecordTime" ColumnName="RecordTime" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CaptureLowres">
+            <EntityTypeMapping TypeName="HDDelay5Model.CaptureLowre">
+              <MappingFragment StoreEntitySet="CaptureLowres">
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="StatusMessage" ColumnName="StatusMessage" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="ProgramName" ColumnName="ProgramName" />
+                <ScalarProperty Name="ChannelId" ColumnName="ChannelId" />
+                <ScalarProperty Name="CaptureId" ColumnName="CaptureId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Channels">
+            <EntityTypeMapping TypeName="HDDelay5Model.Channel">
+              <MappingFragment StoreEntitySet="Channel">
+                <ScalarProperty Name="StyleId" ColumnName="StyleId" />
+                <ScalarProperty Name="RealisticDelay" ColumnName="RealisticDelay" />
+                <ScalarProperty Name="DelayExpected" ColumnName="DelayExpected" />
+                <ScalarProperty Name="ChannelName" ColumnName="ChannelName" />
+                <ScalarProperty Name="ChannelId" ColumnName="ChannelId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CurrentItems">
+            <EntityTypeMapping TypeName="HDDelay5Model.CurrentItem">
+              <MappingFragment StoreEntitySet="CurrentItem">
+                <ScalarProperty Name="LastTime" ColumnName="LastTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="ClipID" ColumnName="ClipID" />
+                <ScalarProperty Name="ItemType" ColumnName="ItemType" />
+                <ScalarProperty Name="CurrentType" ColumnName="CurrentType" />
+                <ScalarProperty Name="ChannelId" ColumnName="ChannelId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FontDefines">
+            <EntityTypeMapping TypeName="HDDelay5Model.FontDefine">
+              <MappingFragment StoreEntitySet="FontDefine">
+                <ScalarProperty Name="FontFile" ColumnName="FontFile" />
+                <ScalarProperty Name="FontName" ColumnName="FontName" />
+                <ScalarProperty Name="ChannelId" ColumnName="ChannelId" />
+                <ScalarProperty Name="FontId" ColumnName="FontId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecordHighres">
+            <EntityTypeMapping TypeName="HDDelay5Model.RecordHighre">
+              <MappingFragment StoreEntitySet="RecordHighres">
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="RecordTime" ColumnName="RecordTime" />
+                <ScalarProperty Name="ChannelId" ColumnName="ChannelId" />
+                <ScalarProperty Name="RecordId" ColumnName="RecordId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubtitleCategories">
+            <EntityTypeMapping TypeName="HDDelay5Model.SubtitleCategory">
+              <MappingFragment StoreEntitySet="SubtitleCategory">
+                <ScalarProperty Name="CategoryParrentId" ColumnName="CategoryParrentId" />
+                <ScalarProperty Name="ChannelId" ColumnName="ChannelId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubtitleFiles">
+            <EntityTypeMapping TypeName="HDDelay5Model.SubtitleFile">
+              <MappingFragment StoreEntitySet="SubtitleFile">
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="ProgramName" ColumnName="ProgramName" />
+                <ScalarProperty Name="FileId" ColumnName="FileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubtitleFileItems">
+            <EntityTypeMapping TypeName="HDDelay5Model.SubtitleFileItem">
+              <MappingFragment StoreEntitySet="SubtitleFileItem">
+                <ScalarProperty Name="Align" ColumnName="Align" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="FileId" ColumnName="FileId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubtitleStyles">
+            <EntityTypeMapping TypeName="HDDelay5Model.SubtitleStyle">
+              <MappingFragment StoreEntitySet="SubtitleStyle">
+                <ScalarProperty Name="Align" ColumnName="Align" />
+                <ScalarProperty Name="MarginV" ColumnName="MarginV" />
+                <ScalarProperty Name="MarginH" ColumnName="MarginH" />
+                <ScalarProperty Name="LineSpace" ColumnName="LineSpace" />
+                <ScalarProperty Name="TabSize" ColumnName="TabSize" />
+                <ScalarProperty Name="ShadowY" ColumnName="ShadowY" />
+                <ScalarProperty Name="ShadowX" ColumnName="ShadowX" />
+                <ScalarProperty Name="ShadowColor" ColumnName="ShadowColor" />
+                <ScalarProperty Name="BorderWidth" ColumnName="BorderWidth" />
+                <ScalarProperty Name="BorderColor" ColumnName="BorderColor" />
+                <ScalarProperty Name="FontColor" ColumnName="FontColor" />
+                <ScalarProperty Name="FontSize" ColumnName="FontSize" />
+                <ScalarProperty Name="FontId" ColumnName="FontId" />
+                <ScalarProperty Name="StyleName" ColumnName="StyleName" />
+                <ScalarProperty Name="StyleId" ColumnName="StyleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubtitleTimeLines">
+            <EntityTypeMapping TypeName="HDDelay5Model.SubtitleTimeLine">
+              <MappingFragment StoreEntitySet="SubtitleTimeLine">
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="FileId" ColumnName="FileId" />
+                <ScalarProperty Name="TimeLineId" ColumnName="TimeLineId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer>
+    <edmx:Connection>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <edmx:DesignerProperty Name="EnablePluralization" Value="true" />
+        <edmx:DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <edmx:DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <edmx:DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams />
+  </edmx:Designer>
+</edmx:Edmx>
