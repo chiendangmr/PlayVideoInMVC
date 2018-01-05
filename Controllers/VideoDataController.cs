@@ -8,6 +8,7 @@ using System.Configuration;
 using PlayVideoInMVC.Models;
 using System.Data.SqlClient;
 using Dapper;
+using HD.Web.Delay.Models.DAO;
 
 namespace PlayVideoInMVC.Controllers
 {

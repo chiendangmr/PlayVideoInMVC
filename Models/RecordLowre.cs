@@ -19,8 +19,6 @@ namespace PlayVideoInMVC.Models
         public System.DateTime RecordTime { get; set; }
         public string FileName { get; set; }
         public Nullable<long> Duration { get; set; }
-        public bool Deleted { get; set; }
-    
-        public virtual Channel Channel { get; set; }
+        public bool Deleted { get; set; }        
     }
 }

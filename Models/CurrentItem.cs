@@ -19,8 +19,6 @@ namespace PlayVideoInMVC.Models
         public Nullable<int> ItemType { get; set; }
         public Nullable<long> ClipID { get; set; }
         public System.DateTime StartTime { get; set; }
-        public System.DateTime LastTime { get; set; }
-    
-        public virtual Channel Channel { get; set; }
+        public System.DateTime LastTime { get; set; }       
     }
 }

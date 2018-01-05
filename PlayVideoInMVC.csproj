@@ -22,6 +22,7 @@
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -149,16 +150,16 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Business\Util.cs" />
+    <Compile Include="DAO\CaptureLowres.cs" />
+    <Compile Include="DAO\Channel.cs" />
     <Compile Include="Controllers\VideoDataController.cs" />
-    <Compile Include="Controllers\ViewVideoController.cs" />
-    <Compile Include="CustomDataResult\VideoDataResult.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Business\VideoDataResult.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CaptureLowre.cs">
-      <DependentUpon>VideoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Channel.cs">
       <DependentUpon>VideoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CurrentItem.cs">
@@ -173,19 +174,7 @@
     <Compile Include="Models\RecordLowre.cs">
       <DependentUpon>VideoModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SubtitleCategory.cs">
-      <DependentUpon>VideoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SubtitleFile.cs">
-      <DependentUpon>VideoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SubtitleFileItem.cs">
-      <DependentUpon>VideoModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\SubtitleStyle.cs">
-      <DependentUpon>VideoModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SubtitleTimeLine.cs">
       <DependentUpon>VideoModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\VideoList.cs" />
@@ -205,6 +194,12 @@
       <DependentUpon>VideoModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DAO\RecordLowres.cs" />
+    <Compile Include="DAO\SubtitleCategory.cs" />
+    <Compile Include="DAO\SubtitleFile.cs" />
+    <Compile Include="DAO\SubtitleFileItem.cs" />
+    <Compile Include="DAO\SubtitleTimeLine.cs" />
+    <Compile Include="DAO\VideoFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -326,8 +321,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\ViewVideo\Index.cshtml" />
-    <Content Include="Views\ViewVideo\GetVideo.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\GetVideo.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

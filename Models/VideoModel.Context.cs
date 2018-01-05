@@ -26,15 +26,10 @@ namespace PlayVideoInMVC.Models
         }
     
         public DbSet<RecordLowre> RecordLowres { get; set; }
-        public DbSet<CaptureLowre> CaptureLowres { get; set; }
-        public DbSet<Channel> Channels { get; set; }
+        public DbSet<CaptureLowre> CaptureLowres { get; set; }        
         public DbSet<CurrentItem> CurrentItems { get; set; }
         public DbSet<FontDefine> FontDefines { get; set; }
-        public DbSet<RecordHighre> RecordHighres { get; set; }
-        public DbSet<SubtitleCategory> SubtitleCategories { get; set; }
-        public DbSet<SubtitleFile> SubtitleFiles { get; set; }
-        public DbSet<SubtitleFileItem> SubtitleFileItems { get; set; }
-        public DbSet<SubtitleStyle> SubtitleStyles { get; set; }
-        public DbSet<SubtitleTimeLine> SubtitleTimeLines { get; set; }
+        public DbSet<RecordHighre> RecordHighres { get; set; }        
+        public DbSet<SubtitleStyle> SubtitleStyles { get; set; }       
     }
 }

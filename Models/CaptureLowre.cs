@@ -22,8 +22,6 @@ namespace PlayVideoInMVC.Models
         public System.DateTime EndTime { get; set; }
         public int Status { get; set; }
         public string StatusMessage { get; set; }
-        public bool Deleted { get; set; }
-    
-        public virtual Channel Channel { get; set; }
+        public bool Deleted { get; set; }        
     }
 }

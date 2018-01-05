@@ -22,9 +22,8 @@ namespace PlayVideoInMVC.Models
         public int FontId { get; set; }
         public int ChannelId { get; set; }
         public string FontName { get; set; }
-        public string FontFile { get; set; }
-    
-        public virtual Channel Channel { get; set; }
+        public string FontFile { get; set; }    
+        
         public virtual ICollection<SubtitleStyle> SubtitleStyles { get; set; }
     }
 }

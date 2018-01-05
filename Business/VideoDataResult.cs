@@ -21,7 +21,7 @@ namespace PlayVideoInMVC.CustomDataResult
         /// 
         public override void ExecuteResult(ControllerContext context)
 		{            
-            var viewObj = new ViewVideoController();
+            var viewObj = new HomeController();
             string strVideoFilePath = "";
             strVideoFilePath = HostingEnvironment.MapPath(Path.Combine(VideoFolder, viewObj._VideoFile));
             context.HttpContext.Response.AddHeader("Content-Disposition", "attachment; filename=Recorded.mp4");

@@ -13,14 +13,15 @@ using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using HD.Web.Delay.Models.DAO;
 
 namespace PlayVideoInMVC.Controllers
 {
-    public class ViewVideoController : Controller
+    public class HomeController : Controller
     {
         //
         // GET: /ViewVideo/        
-        public ViewVideoController()
+        public HomeController()
         {
             logFile = HostingEnvironment.MapPath(Path.Combine(_logFolder, "log.txt"));
             if (!System.IO.File.Exists(logFile))
@@ -211,7 +212,7 @@ namespace PlayVideoInMVC.Controllers
                         var timelineStartTimeNow = DateTime.ParseExact(subTimelineStartTime, "yyyy-MM-dd HH:mm:ss",
                                        System.Globalization.CultureInfo.InvariantCulture);
                         var tempTime = (timelineStartTimeNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
-                        videoFile.currentTime = (timespan - tempTime) / 1000;
+                        videoFile.CurrentTime = (timespan - tempTime) / 1000;
                     }
                     catch (Exception ex)
                     {
@@ -549,7 +550,7 @@ namespace PlayVideoInMVC.Controllers
                     {
                         var currentFileId = getNumber(fileIdStr);
 
-                        var lstSubFileItem = db.Query<SubtitleFileItem>(@"select * from SubtitleFileItem where FileId=@fileId",
+                        var lstSubFileItem = db.Query<HD.Web.Delay.Models.DAO.SubtitleFileItem>(@"select * from SubtitleFileItem where FileId=@fileId",
                                 new
                                 {
                                     fileId = currentFileId
@@ -625,7 +626,7 @@ namespace PlayVideoInMVC.Controllers
         }
 
         #region Subtitle
-        public List<SubtitleFileItem> ReadSubFile(string fileName)
+        public List<HD.Web.Delay.Models.DAO.SubtitleFileItem> ReadSubFile(string fileName)
         {
             try
             {
@@ -646,7 +647,7 @@ namespace PlayVideoInMVC.Controllers
             throw new Exception("File type does not support");
         }
 
-        public List<SubtitleFileItem> ReadCipFile(string fileName)
+        public List<HD.Web.Delay.Models.DAO.SubtitleFileItem> ReadCipFile(string fileName)
         {
             using (StreamReader file = new StreamReader(fileName))
             {
@@ -662,8 +663,8 @@ namespace PlayVideoInMVC.Controllers
                     string startSubLinePattern = @"#(?<index>\d+)\t(?<tcin>[\d:.]+)\t(?<tcout>[\d:.]+)\t[\d:.]+\t#F (?<align>[CLR]{2})(?<position>\d+)\w*";
                     string timeCodePattern = @"(?<hour>\d+):(?<minute>\d+):(?<second>\d+)[:.](?<frame>\d+)";
 
-                    List<SubtitleFileItem> lstItems = new List<SubtitleFileItem>();
-                    SubtitleFileItem currentItem = null;
+                    List<HD.Web.Delay.Models.DAO.SubtitleFileItem> lstItems = new List<HD.Web.Delay.Models.DAO.SubtitleFileItem>();
+                    HD.Web.Delay.Models.DAO.SubtitleFileItem currentItem = null;
                     string currentItemText = "";
                     foreach (var line in data.Split('\n'))
                     {
@@ -691,7 +692,7 @@ namespace PlayVideoInMVC.Controllers
                                     if (tsOut > tsIn)
                                     {
                                         int position = int.Parse(match.Groups["position"].Value);
-                                        currentItem = new SubtitleFileItem()
+                                        currentItem = new HD.Web.Delay.Models.DAO.SubtitleFileItem()
                                         {
                                             StartTime = (long)tsIn.TotalMilliseconds,
                                             Duration = (int)(tsOut - tsIn).TotalMilliseconds,
@@ -721,7 +722,7 @@ namespace PlayVideoInMVC.Controllers
             return null;
         }
 
-        public List<SubtitleFileItem> ReadSrtFile(string fileName)
+        public List<HD.Web.Delay.Models.DAO.SubtitleFileItem> ReadSrtFile(string fileName)
         {
             using (StreamReader file = new StreamReader(fileName))
             {
@@ -752,7 +753,7 @@ namespace PlayVideoInMVC.Controllers
 
                             if (end > start)
                             {
-                                lstItems.Add(new SubtitleFileItem()
+                                lstItems.Add(new HD.Web.Delay.Models.DAO.SubtitleFileItem()
                                 {
                                     StartTime = (long)start.TotalMilliseconds,
                                     Duration = (int)(end - start).TotalMilliseconds,
@@ -959,7 +960,7 @@ namespace PlayVideoInMVC.Controllers
         #region Khu vực xử lý hiển thị folder, file trên web
         public JsonResult GetParentFolder()
         {
-            List<SubtitleCategory> lstFolder = new List<SubtitleCategory>();
+            List<HD.Web.Delay.Models.DAO.SubtitleCategory> lstFolder = new List<HD.Web.Delay.Models.DAO.SubtitleCategory>();
             try
             {
                 using (var db = new SqlConnection(_connectionString))
@@ -1226,110 +1227,5 @@ namespace PlayVideoInMVC.Controllers
         }
     }
 }
-#region Khu vực DAO
-public class SubtitleFileItem
-{
-    public int ItemId { get; set; }
-    public string Text { get; set; }
-    public int Align { get; set; }
-    public int Duration { get; set; }
-    public string DurationStr
-    {
-        get
-        {
-            return (new TimeSpan(0, 0, 0, 0, Duration)).ToString(@"hh\:mm\:ss");
-        }
-    }
-    public int Position { get; set; }
-    public double StartDateTime { get; set; }
-    public long StartTime { get; set; }
-    public string StartTimeStr
-    {
-        get
-        {
-            return (new TimeSpan(0, 0, 0, 0, (int)StartTime)).ToString(@"hh\:mm\:ss");
-        }
-    }
-    public string EndTime
-    {
-        get
-        {
-            return (new TimeSpan(0, 0, 0, 0, (int)(StartTime + Duration))).ToString(@"hh\:mm\:ss");
-        }
 
-    }
-}
-public class SubtitleCategory
-{
-    public string CategoryName { get; set; }
-    public int CategoryId { get; set; }
-    public int ChannelId { get; set; }
-    public int? CategoryParrentId { get; set; }
-}
-public class SubtitleFile
-{
-    public int FileId { get; set; }
-    public string ProgramName { get; set; }
-    public int CategoryId { get; set; }
-}
-public class SubtitleTimeLine
-{
-    public int TimeLineId { get; set; }
-    public int FileId { get; set; }
-    public string FileName { get; set; }
-    public DateTime StartTime { get; set; }
-    public string StartTimeString
-    {
-        get { return StartTime.ToString("dd-MM-yyyy HH:mm:ss"); }
-
-        set { StartTime = DateTime.ParseExact(value, "dd-MM-yyyy HH:mm:ss", null); }
-    }
-}
-public class Channel
-{
-    public string ChannelName { get; set; }
-    public int DelayExpected { get; set; }
-    public string DelayExpectedStr
-    {
-        get
-        {
-            return (new TimeSpan(0, 0, 0, 0, DelayExpected)).ToString(@"hh\:mm\:ss");
-        }
-    }
-    public int RealisticDelay { get; set; }
-    public string RealisticDelayStr
-    {
-        get
-        {
-            return (new TimeSpan(0, 0, 0, 0, RealisticDelay)).ToString(@"hh\:mm\:ss");
-        }
-    }
-    public int StyleId { get; set; }
-}
-public class CaptureLowres
-{
-    public long CaptureId { get; set; }
-    public int ChannelId { get; set; }
-    public string ProgramName { get; set; }
-    public string FileName { get; set; }
-    public DateTime StartTime { get; set; }
-    public string StartTimeStr
-    {
-        get { return StartTime.ToString("dd-MM-yyyy HH:mm:ss"); }
-    }
-    public DateTime EndTime { get; set; }
-    public string EndTimeStr
-    {
-        get { return EndTime.ToString("dd-MM-yyyy HH:mm:ss"); }
-    }
-    public int Status { get; set; }
-    public string StatusMessage { get; set; }
-    public bool Deleted { get; set; }
-}
-public class VideoFile
-{
-    public double currentTime { get; set; }
-    public string FileName { get; set; }
-}
-#endregion
 
