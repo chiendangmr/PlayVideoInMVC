@@ -14,15 +14,16 @@ using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using HD.Web.Delay.Models.DAO;
+using PlayVideoInMVC.Business;
 
 namespace PlayVideoInMVC.Controllers
 {
     public class HomeController : Controller
     {
-        //
-        // GET: /ViewVideo/        
+        private Util _util;
         public HomeController()
         {
+            _util = new Util();
             logFile = HostingEnvironment.MapPath(Path.Combine(_logFolder, "log.txt"));
             if (!System.IO.File.Exists(logFile))
             {
@@ -59,7 +60,7 @@ namespace PlayVideoInMVC.Controllers
                 }
                 catch (Exception ex)
                 {
-                    addLog(ex.ToString());
+                    _util.AddLog(logFile, ex.ToString());
                     return new JsonResult { Data = ex, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
                 }
             }
@@ -81,13 +82,13 @@ namespace PlayVideoInMVC.Controllers
             {
                 try
                 {
-                    var subTimelineIdNum = int.Parse(getNumber(subTimelineIdStr));
+                    var subTimelineIdNum = int.Parse(_util.GetNumber(subTimelineIdStr));
                     var currentStartTime = db.Query<DateTime>(@"select StartTime from SubtitleTimeLine where TimeLineId=@timelineId", new
                     {
                         timelineId = subTimelineIdNum
                     }).FirstOrDefault();
                     //get time of current sub item on DB
-                    var subTimelineItemIdNum = int.Parse(getNumber(subTimelineItemIdStr));
+                    var subTimelineItemIdNum = int.Parse(_util.GetNumber(subTimelineItemIdStr));
                     var currentSubItemStartTime = db.Query<long>(@"select StartTime from SubtitleFileItem where ItemId=@itemId", new
                     {
                         itemId = subTimelineItemIdNum
@@ -104,7 +105,7 @@ namespace PlayVideoInMVC.Controllers
                 catch (Exception ex)
                 {
                     success = false;
-                    addLog("Loi trong MapVideoToSubTime: " + ex.ToString());
+                    _util.AddLog(logFile, "Loi trong MapVideoToSubTime: " + ex.ToString());
                 }
                 return new JsonResult { Data = success, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
@@ -134,13 +135,13 @@ namespace PlayVideoInMVC.Controllers
                     }
                     catch (Exception ex)
                     {
-                        addLog("Loi trong GetNextVideoFromCurrentSrc DB: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong GetNextVideoFromCurrentSrc DB: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
-                addLog("Loi trong GetNextVideoFromCurrentSrc: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong GetNextVideoFromCurrentSrc: " + ex.ToString());
             }
             return new JsonResult { Data = videoName, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -169,13 +170,13 @@ namespace PlayVideoInMVC.Controllers
                     }
                     catch (Exception ex)
                     {
-                        addLog("Loi trong GetNextVideoFromCurrentSrc DB: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong GetNextVideoFromCurrentSrc DB: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
-                addLog("Loi trong GetNextVideoFromCurrentSrc: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong GetNextVideoFromCurrentSrc: " + ex.ToString());
             }
             return new JsonResult { Data = videoName, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -193,7 +194,7 @@ namespace PlayVideoInMVC.Controllers
         }
         public JsonResult SetVideoToPlay(double timespan)
         {
-            var videoTime = FromMS(timespan);
+            var videoTime = _util.FromMS(timespan);
             var videoFile = new VideoFile();
             try
             {
@@ -207,7 +208,7 @@ namespace PlayVideoInMVC.Controllers
                                     recordTime = videoTime
                                 }).Where(a => a.RecordTime.Date == videoTime.Date).OrderBy(a => a.RecordTime).LastOrDefault();
                         videoFile.FileName = tempRecord.FileName;
-                        var timeDic = getPlayingTime(Path.GetFileNameWithoutExtension(videoFile.FileName));
+                        var timeDic = _util.GetPlayingTime(Path.GetFileNameWithoutExtension(videoFile.FileName));
                         string subTimelineStartTime = timeDic["year"] + "-" + timeDic["month"] + "-" + timeDic["day"] + " " + timeDic["hour"] + ":" + timeDic["min"] + ":" + timeDic["sec"];
                         var timelineStartTimeNow = DateTime.ParseExact(subTimelineStartTime, "yyyy-MM-dd HH:mm:ss",
                                        System.Globalization.CultureInfo.InvariantCulture);
@@ -216,27 +217,16 @@ namespace PlayVideoInMVC.Controllers
                     }
                     catch (Exception ex)
                     {
-                        addLog("Loi trong SetVideoToPlay DB: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong SetVideoToPlay DB: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
-                addLog("Loi trong SetVideoToPlay: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong SetVideoToPlay: " + ex.ToString());
             }
             return new JsonResult { Data = videoFile, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
-        public Dictionary<string, string> getPlayingTime(string videoFileName)
-        {
-            var tempDic = new Dictionary<string, string>();
-            tempDic.Add("year", videoFileName.Substring(0, 4));
-            tempDic.Add("month", videoFileName.Substring(4, 2));
-            tempDic.Add("day", videoFileName.Substring(6, 2));
-            tempDic.Add("hour", videoFileName.Substring(9, 2));
-            tempDic.Add("min", videoFileName.Substring(11, 2));
-            tempDic.Add("sec", videoFileName.Substring(13, 2));
-            return tempDic;
-        }
+        }        
 
         #region Category(Folder) and Files Actions
         public JsonResult CreateDir(string dirName)
@@ -260,14 +250,14 @@ namespace PlayVideoInMVC.Controllers
                     catch (Exception ex)
                     {
                         success = false;
-                        addLog("Loi trong CreateDir DB: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong CreateDir DB: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
                 success = false;
-                addLog("Loi trong CreateDir: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong CreateDir: " + ex.ToString());
             }
             return new JsonResult { Data = success, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -281,7 +271,7 @@ namespace PlayVideoInMVC.Controllers
                     try
                     {
                         int currentChannelId = db.Query<int>(@"Select ChannelId from CurrentItem where CurrentType=0").FirstOrDefault();
-                        var parentDirId = int.Parse(getNumber(parentDirIdStr));
+                        var parentDirId = int.Parse(_util.GetNumber(parentDirIdStr));
                         db.Execute(@"Insert Into SubtitleCategory(CategoryName, ChannelId, CategoryParrentId) Values(@categoryName, @channelId, @parentId)",
                                 new
                                 {
@@ -294,14 +284,14 @@ namespace PlayVideoInMVC.Controllers
                     catch (Exception ex)
                     {
                         success = false;
-                        addLog("Loi trong CreateChildDir DB: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong CreateChildDir DB: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
                 success = false;
-                addLog("Loi trong CreateChildDir: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong CreateChildDir: " + ex.ToString());
             }
             return new JsonResult { Data = success, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -316,7 +306,7 @@ namespace PlayVideoInMVC.Controllers
                     try
                     {
                         //Insert file into SubtitleFile table                        
-                        var currentCategoryId = int.Parse(getNumber(currentCategoryIdStr));
+                        var currentCategoryId = int.Parse(_util.GetNumber(currentCategoryIdStr));
                         db.Execute(@"insert Into SubtitleFile(ProgramName, CategoryId) Values(@programName, @categoryId)",
                             new
                             {
@@ -355,7 +345,7 @@ namespace PlayVideoInMVC.Controllers
                     catch (Exception ex)
                     {
                         success = false;
-                        addLog("Loi trong AddFile Db: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong AddFile Db: " + ex.ToString());
                     }
                 }
 
@@ -364,7 +354,7 @@ namespace PlayVideoInMVC.Controllers
             catch (Exception ex)
             {
                 success = false;
-                addLog("Loi khi AddFile: " + ex.ToString());
+                _util.AddLog(logFile, "Loi khi AddFile: " + ex.ToString());
             }
             return new JsonResult { Data = success, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -423,7 +413,7 @@ namespace PlayVideoInMVC.Controllers
                 {
                     try
                     {
-                        int currentFileId = int.Parse(getNumber(fileIdStr));
+                        int currentFileId = int.Parse(_util.GetNumber(fileIdStr));
                         db.Execute(@"DELETE FROM SubtitleFile WHERE FileId=@fileId",
                                 new
                                 {
@@ -434,14 +424,14 @@ namespace PlayVideoInMVC.Controllers
                     catch (Exception ex)
                     {
                         success = false;
-                        addLog("Loi trong DeleteFile DB: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong DeleteFile DB: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
                 success = false;
-                addLog("Loi trong DeleteFile: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong DeleteFile: " + ex.ToString());
             }
             return new JsonResult { Data = success, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -454,7 +444,7 @@ namespace PlayVideoInMVC.Controllers
                 {
                     try
                     {
-                        int currentTimelineId = int.Parse(getNumber(TimelineIdStr));
+                        int currentTimelineId = int.Parse(_util.GetNumber(TimelineIdStr));
                         db.Execute(@"DELETE FROM SubtitleTimeLine WHERE TimeLineId=@timelineId",
                                 new
                                 {
@@ -465,14 +455,14 @@ namespace PlayVideoInMVC.Controllers
                     catch (Exception ex)
                     {
                         success = false;
-                        addLog("Loi trong DeleteSubScheduleItem DB: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong DeleteSubScheduleItem DB: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
                 success = false;
-                addLog("Loi trong DeleteSubScheduleItem: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong DeleteSubScheduleItem: " + ex.ToString());
             }
             return new JsonResult { Data = success, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -485,7 +475,7 @@ namespace PlayVideoInMVC.Controllers
                 {
                     try
                     {
-                        int currentCaptureId = int.Parse(getNumber(CaptureIdStr));
+                        int currentCaptureId = int.Parse(_util.GetNumber(CaptureIdStr));
                         db.Execute(@"DELETE FROM CaptureLowres WHERE CaptureId=@captureId",
                                 new
                                 {
@@ -496,14 +486,14 @@ namespace PlayVideoInMVC.Controllers
                     catch (Exception ex)
                     {
                         success = false;
-                        addLog("Loi trong DeleteCaptureItem DB: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong DeleteCaptureItem DB: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
                 success = false;
-                addLog("Loi trong DeleteCaptureItem: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong DeleteCaptureItem: " + ex.ToString());
             }
             return new JsonResult { Data = success, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -516,7 +506,7 @@ namespace PlayVideoInMVC.Controllers
                 {
                     try
                     {
-                        int currentFileId = int.Parse(getNumber(categoryIdStr));
+                        int currentFileId = int.Parse(_util.GetNumber(categoryIdStr));
                         db.Execute(@"DELETE FROM SubtitleCategory WHERE CategoryId=@fileId",
                                 new
                                 {
@@ -527,14 +517,14 @@ namespace PlayVideoInMVC.Controllers
                     catch (Exception ex)
                     {
                         success = false;
-                        addLog("Loi trong DeleteFolder DB: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong DeleteFolder DB: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
                 success = false;
-                addLog("Loi trong DeleteFolder: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong DeleteFolder: " + ex.ToString());
             }
             return new JsonResult { Data = success, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -548,7 +538,7 @@ namespace PlayVideoInMVC.Controllers
                 {
                     try
                     {
-                        var currentFileId = getNumber(fileIdStr);
+                        var currentFileId = _util.GetNumber(fileIdStr);
 
                         var lstSubFileItem = db.Query<HD.Web.Delay.Models.DAO.SubtitleFileItem>(@"select * from SubtitleFileItem where FileId=@fileId",
                                 new
@@ -569,14 +559,14 @@ namespace PlayVideoInMVC.Controllers
                     catch (Exception ex)
                     {
                         success = false;
-                        addLog("Loi trong ImportFile Db: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong ImportFile Db: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
                 success = false;
-                addLog("Loi trong ImportFile: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong ImportFile: " + ex.ToString());
             }
             return new JsonResult { Data = success, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -591,7 +581,7 @@ namespace PlayVideoInMVC.Controllers
                 {
                     try
                     {
-                        int channelIdNumber = int.Parse(getNumber(_channelId));
+                        int channelIdNumber = int.Parse(_util.GetNumber(_channelId));
                         db.Execute(@"insert into CaptureLowres(ChannelId, ProgramName, StartTime, EndTime, Status) values(@channelId, @programName, @startTime, @endTime, @status)", new
                         {
                             channelId = channelIdNumber,
@@ -605,25 +595,19 @@ namespace PlayVideoInMVC.Controllers
                     catch (Exception ex)
                     {
                         success = false;
-                        addLog("Loi trong AddCaptureLowres Db: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong AddCaptureLowres Db: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
                 success = false;
-                addLog("Loi trong AddCaptureLowres: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong AddCaptureLowres: " + ex.ToString());
             }
             return new JsonResult { Data = success, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        #endregion
-        private string getNumber(string str)
-        {
-            var number = Regex.Match(str, @"\d+").Value;
-
-            return number;
-        }
+        #endregion        
 
         #region Subtitle
         public List<HD.Web.Delay.Models.DAO.SubtitleFileItem> ReadSubFile(string fileName)
@@ -633,150 +617,24 @@ namespace PlayVideoInMVC.Controllers
                 switch (Path.GetExtension(fileName).ToLower())
                 {
                     case ".cip":
-                        return ReadCipFile(fileName);
+                        return _util.ReadCipFile(fileName);
 
                     case ".srt":
-                        return ReadSrtFile(fileName);
+                        return _util.ReadSrtFile(fileName);
                 }
             }
             catch (Exception ex)
             {
-                addLog("Loi trong ReadSubFile: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong ReadSubFile: " + ex.ToString());
             }
 
             throw new Exception("File type does not support");
-        }
-
-        public List<HD.Web.Delay.Models.DAO.SubtitleFileItem> ReadCipFile(string fileName)
-        {
-            using (StreamReader file = new StreamReader(fileName))
-            {
-                System.Windows.Forms.RichTextBox rtb = new System.Windows.Forms.RichTextBox();
-                rtb.Rtf = file.ReadToEnd();
-                string data = rtb.Text;
-
-                if (data != "" && data.IndexOf("FILE_INFO_END") >= 0)
-                {
-                    // Go to first line
-                    data = data.Substring(data.IndexOf("FILE_INFO_END") + "FILE_INFO_END".Length).Trim();
-
-                    string startSubLinePattern = @"#(?<index>\d+)\t(?<tcin>[\d:.]+)\t(?<tcout>[\d:.]+)\t[\d:.]+\t#F (?<align>[CLR]{2})(?<position>\d+)\w*";
-                    string timeCodePattern = @"(?<hour>\d+):(?<minute>\d+):(?<second>\d+)[:.](?<frame>\d+)";
-
-                    List<HD.Web.Delay.Models.DAO.SubtitleFileItem> lstItems = new List<HD.Web.Delay.Models.DAO.SubtitleFileItem>();
-                    HD.Web.Delay.Models.DAO.SubtitleFileItem currentItem = null;
-                    string currentItemText = "";
-                    foreach (var line in data.Split('\n'))
-                    {
-                        var match = Regex.Match(line, startSubLinePattern);
-                        if (match.Success)
-                        {
-                            if (currentItem != null && currentItemText != "")
-                            {
-                                currentItem.Text = currentItemText.Trim();
-                                lstItems.Add(currentItem);
-                            }
-                            currentItemText = "";
-                            currentItem = null;
-
-                            var matchTcIn = Regex.Match(match.Groups["tcin"].Value, timeCodePattern);
-                            if (matchTcIn.Success)
-                            {
-                                var matchTcOut = Regex.Match(match.Groups["tcout"].Value, timeCodePattern);
-                                if (matchTcOut.Success)
-                                {
-                                    TimeSpan tsIn = new TimeSpan(0, int.Parse(matchTcIn.Groups["hour"].Value), int.Parse(matchTcIn.Groups["minute"].Value)
-                                        , int.Parse(matchTcIn.Groups["second"].Value), int.Parse(matchTcIn.Groups["frame"].Value) * 40);
-                                    TimeSpan tsOut = new TimeSpan(0, int.Parse(matchTcOut.Groups["hour"].Value), int.Parse(matchTcOut.Groups["minute"].Value)
-                                        , int.Parse(matchTcOut.Groups["second"].Value), int.Parse(matchTcOut.Groups["frame"].Value) * 40);
-                                    if (tsOut > tsIn)
-                                    {
-                                        int position = int.Parse(match.Groups["position"].Value);
-                                        currentItem = new HD.Web.Delay.Models.DAO.SubtitleFileItem()
-                                        {
-                                            StartTime = (long)tsIn.TotalMilliseconds,
-                                            Duration = (int)(tsOut - tsIn).TotalMilliseconds,
-                                            Position = position == 0 ? position : (58000 - position) * 576 / 56000,
-                                            Align = match.Groups["align"].Value == "LL" ? (int)TextAlign.Left : match.Groups["align"].Value == "RR" ? (int)TextAlign.Right : 0
-                                        };
-                                    }
-                                }
-                            }
-                        }
-                        else if (currentItem != null)
-                        {
-                            if (currentItemText != "") currentItemText += "\r\n";
-                            currentItemText += line.Trim();
-                        }
-                    }
-
-                    if (currentItem != null && currentItemText != "")
-                    {
-                        currentItem.Text = currentItemText.Trim();
-                        lstItems.Add(currentItem);
-                    }
-
-                    return lstItems;
-                }
-            }
-            return null;
-        }
-
-        public List<HD.Web.Delay.Models.DAO.SubtitleFileItem> ReadSrtFile(string fileName)
-        {
-            using (StreamReader file = new StreamReader(fileName))
-            {
-                string data = file.ReadToEnd();
-
-                string htmlTagPattern = @"<.*?>";
-
-                data = Regex.Replace(data, htmlTagPattern, string.Empty);
-                data = data.Replace("\r\n", "\n").Replace("\n", "\r\n");
-
-                Regex unit = new Regex(
-                   @"(?<sequence>\d+)\r\n(?<start>\d{2}\:\d{2}\:\d{2},\d{3}) --\> " +
-                   @"(?<end>\d{2}\:\d{2}\:\d{2},\d{3})\r\n(?<text>[\s\S]*?\r\n\r\n)",
-                   RegexOptions.Compiled | RegexOptions.ECMAScript);
-                var matchSubs = unit.Match(data);
-
-                if (matchSubs.Success)
-                {
-                    List<SubtitleFileItem> lstItems = new List<SubtitleFileItem>();
-                    while (matchSubs.Success)
-                    {
-                        var text = matchSubs.Groups["text"].Value.Trim();
-
-                        if (!string.IsNullOrWhiteSpace(text))
-                        {
-                            var start = TimeSpan.ParseExact(matchSubs.Groups["start"].Value, @"hh\:mm\:ss\,fff", null);
-                            var end = TimeSpan.ParseExact(matchSubs.Groups["end"].Value, @"hh\:mm\:ss\,fff", null);
-
-                            if (end > start)
-                            {
-                                lstItems.Add(new HD.Web.Delay.Models.DAO.SubtitleFileItem()
-                                {
-                                    StartTime = (long)start.TotalMilliseconds,
-                                    Duration = (int)(end - start).TotalMilliseconds,
-                                    Position = 0,
-                                    Text = text,
-                                    Align = 0
-                                });
-                            }
-                        }
-
-                        matchSubs = matchSubs.NextMatch();
-                    }
-
-                    return lstItems;
-                }
-            }
-            return null;
-        }
-        public JsonResult getCurrentSubListItem(string currentVideoSrc, string timespanStr)
+        }        
+        public JsonResult GetCurrentSubListItem(string currentVideoSrc, string timespanStr)
         {
             List<SubtitleFileItem> currentSubListItem = new List<SubtitleFileItem>();
             string currentVideoName = currentVideoSrc.Substring(currentVideoSrc.Length - "20161206_142435.mp4".Length);
-            var timeDic = getPlayingTime(currentVideoName);
+            var timeDic = _util.GetPlayingTime(currentVideoName);
             string currentVideoStartTime = timeDic["year"] + "-" + timeDic["month"] + "-" + timeDic["day"] + " " + timeDic["hour"] + ":" + timeDic["min"] + ":" + timeDic["sec"];
             try
             {
@@ -806,21 +664,21 @@ namespace PlayVideoInMVC.Controllers
                     }
                     catch (Exception ex)
                     {
-                        addLog("Loi trong getCurrentListItem Db: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong getCurrentListItem Db: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
-                addLog("Loi trong getCurrentListItem: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong getCurrentListItem: " + ex.ToString());
             }
             return new JsonResult { Data = currentSubListItem, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
-        public JsonResult updateSubTimelineStartTime(string currentVideoSrc, string subTimelineIdStr, string subTimelineItemIdStr, string timespanStr)
+        public JsonResult UpdateSubTimelineStartTime(string currentVideoSrc, string subTimelineIdStr, string subTimelineItemIdStr, string timespanStr)
         {
             bool success = false;
             string currentVideoName = currentVideoSrc.Substring(currentVideoSrc.Length - "20161206_142435.mp4".Length);
-            var timeDic = getPlayingTime(currentVideoName);
+            var timeDic = _util.GetPlayingTime(currentVideoName);
             string subTimelineStartTime = timeDic["year"] + "-" + timeDic["month"] + "-" + timeDic["day"] + " " + timeDic["hour"] + ":" + timeDic["min"] + ":" + timeDic["sec"];
             try
             {
@@ -832,13 +690,13 @@ namespace PlayVideoInMVC.Controllers
                         var timelineStartTimeNow = DateTime.ParseExact(subTimelineStartTime, "yyyy-MM-dd HH:mm:ss",
                                        System.Globalization.CultureInfo.InvariantCulture);
                         //get time of current sub timeline on DB
-                        var subTimelineIdNum = int.Parse(getNumber(subTimelineIdStr));
+                        var subTimelineIdNum = int.Parse(_util.GetNumber(subTimelineIdStr));
                         var currentStartTime = db.Query<DateTime>(@"select StartTime from SubtitleTimeLine where TimeLineId=@timelineId", new
                         {
                             timelineId = subTimelineIdNum
                         }).FirstOrDefault();
                         //get time of current sub item on DB
-                        var subTimelineItemIdNum = int.Parse(getNumber(subTimelineItemIdStr));
+                        var subTimelineItemIdNum = int.Parse(_util.GetNumber(subTimelineItemIdStr));
                         var currentSubItemStartTime = db.Query<long>(@"select StartTime from SubtitleFileItem where ItemId=@itemId", new
                         {
                             itemId = subTimelineItemIdNum
@@ -854,14 +712,14 @@ namespace PlayVideoInMVC.Controllers
                     catch (Exception ex)
                     {
                         success = false;
-                        addLog("Loi trong updateSubTimelineStartTime DB: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong updateSubTimelineStartTime DB: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
                 success = false;
-                addLog("Loi trong updateSubTimelineStartTime: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong updateSubTimelineStartTime: " + ex.ToString());
             }
             return new JsonResult { Data = success, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -878,7 +736,7 @@ namespace PlayVideoInMVC.Controllers
                         var timelineStartTimeNow = DateTime.ParseExact(fileStartTimeStr, "dd-MM-yyyy HH:mm:ss",
                                        System.Globalization.CultureInfo.InvariantCulture);
                         //get time of current sub timeline on DB
-                        var subTimelineIdNum = int.Parse(getNumber(subTimelineIdStr));
+                        var subTimelineIdNum = int.Parse(_util.GetNumber(subTimelineIdStr));
                         db.Execute(@"Update SubtitleTimeLine set StartTime=@startTime where TimeLineId=@timelineId",
                                 new
                                 {
@@ -890,14 +748,14 @@ namespace PlayVideoInMVC.Controllers
                     catch (Exception ex)
                     {
                         success = false;
-                        addLog("Loi trong EditSubTimeline DB: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong EditSubTimeline DB: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
                 success = false;
-                addLog("Loi trong EditSubTimeline: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong EditSubTimeline: " + ex.ToString());
             }
             return new JsonResult { Data = success, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -912,7 +770,7 @@ namespace PlayVideoInMVC.Controllers
                 {
                     try
                     {
-                        int recordScheIdNum = int.Parse(getNumber(recordScheIdStr));
+                        int recordScheIdNum = int.Parse(_util.GetNumber(recordScheIdStr));
                         db.Execute(@"Update CaptureLowres set ProgramName=@programName, StartTime=@startTime, EndTime=@endTime, Status=@status where CaptureId=@captureId", new
                         {
                             programName = proName,
@@ -926,14 +784,14 @@ namespace PlayVideoInMVC.Controllers
                     catch (Exception ex)
                     {
                         success = false;
-                        addLog("Loi trong EditRecordSchedule Db: " + ex.ToString());
+                        _util.AddLog(logFile, "Loi trong EditRecordSchedule Db: " + ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
                 success = false;
-                addLog("Loi trong EditRecordSchedule: " + ex.ToString());
+                _util.AddLog(logFile, "Loi trong EditRecordSchedule: " + ex.ToString());
             }
             return new JsonResult { Data = success, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -941,7 +799,7 @@ namespace PlayVideoInMVC.Controllers
         {
             long currentTimeStamp = 0;
             string currentVideoName = currentVideoSrc.Substring(currentVideoSrc.Length - "20161206_142435.mp4".Length);
-            var timeDic = getPlayingTime(currentVideoName);
+            var timeDic = _util.GetPlayingTime(currentVideoName);
             string currentVideoStartTime = timeDic["year"] + "-" + timeDic["month"] + "-" + timeDic["day"] + " " + timeDic["hour"] + ":" + timeDic["min"] + ":" + timeDic["sec"];
             try
             {
@@ -951,7 +809,7 @@ namespace PlayVideoInMVC.Controllers
                 var tempTimeNow = currentVideoStartTimeNow.AddSeconds(double.Parse(currentTimeOfVideo));
                 currentTimeStamp = (long)(tempTimeNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
             }
-            catch (Exception ex) { addLog(ex.ToString()); }
+            catch (Exception ex) { _util.AddLog(logFile, ex.ToString()); }
             return new JsonResult { Data = currentTimeStamp, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
@@ -975,13 +833,13 @@ namespace PlayVideoInMVC.Controllers
                     }
                     catch (Exception ex)
                     {
-                        addLog(ex.ToString());
+                        _util.AddLog(logFile, ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
-                addLog("Loi khi getParentFolder: " + ex.ToString());
+                _util.AddLog(logFile, "Loi khi getParentFolder: " + ex.ToString());
             }
             return new JsonResult { Data = lstFolder, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -995,7 +853,7 @@ namespace PlayVideoInMVC.Controllers
                     try
                     {
                         int currentChannelId = db.Query<int>(@"Select ChannelId from CurrentItem where CurrentType=0").FirstOrDefault();
-                        int parentId = int.Parse(getNumber(parentIdStr));
+                        int parentId = int.Parse(_util.GetNumber(parentIdStr));
                         lstFolder = db.Query<SubtitleCategory>(@"select * from SubtitleCategory where ChannelId=@channelId and CategoryParrentId=@categoryParentId", new
                         {
                             channelId = currentChannelId,
@@ -1004,13 +862,13 @@ namespace PlayVideoInMVC.Controllers
                     }
                     catch (Exception ex)
                     {
-                        addLog(ex.ToString());
+                        _util.AddLog(logFile, ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
-                addLog("Loi khi getParentFolder: " + ex.ToString());
+                _util.AddLog(logFile, "Loi khi getParentFolder: " + ex.ToString());
             }
             return new JsonResult { Data = lstFolder, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -1023,7 +881,7 @@ namespace PlayVideoInMVC.Controllers
                 {
                     try
                     {
-                        int parentId = int.Parse(getNumber(parentIdStr));
+                        int parentId = int.Parse(_util.GetNumber(parentIdStr));
                         lstFolder = db.Query<SubtitleFile>(@"select * from SubtitleFile where CategoryId=@categoryId", new
                         {
                             categoryId = parentId
@@ -1031,13 +889,13 @@ namespace PlayVideoInMVC.Controllers
                     }
                     catch (Exception ex)
                     {
-                        addLog(ex.ToString());
+                        _util.AddLog(logFile, ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
-                addLog("Loi khi GetSubFiles: " + ex.ToString());
+                _util.AddLog(logFile, "Loi khi GetSubFiles: " + ex.ToString());
             }
             return new JsonResult { Data = lstFolder, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -1058,13 +916,13 @@ namespace PlayVideoInMVC.Controllers
                     }
                     catch (Exception ex)
                     {
-                        addLog(ex.ToString());
+                        _util.AddLog(logFile, ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
-                addLog("Loi khi GetSubTimeline: " + ex.ToString());
+                _util.AddLog(logFile, "Loi khi GetSubTimeline: " + ex.ToString());
             }
             return new JsonResult { Data = lstSubTimeline, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -1082,10 +940,10 @@ namespace PlayVideoInMVC.Controllers
                             fileId = fileIdNum
                         }).FirstOrDefault();
                     }
-                    catch (Exception ex) { addLog(ex.ToString()); }
+                    catch (Exception ex) { _util.AddLog(logFile, ex.ToString()); }
                 }
             }
-            catch (Exception ex) { addLog(ex.ToString()); }
+            catch (Exception ex) { _util.AddLog(logFile, ex.ToString()); }
             return tempFileName;
         }
         public JsonResult GetSubFileItems(string FileIdStr)
@@ -1095,7 +953,7 @@ namespace PlayVideoInMVC.Controllers
             {
                 using (var db = new SqlConnection(_connectionString))
                 {
-                    int subFileId = int.Parse(getNumber(FileIdStr));
+                    int subFileId = int.Parse(_util.GetNumber(FileIdStr));
                     try
                     {
                         lstFileItems = db.Query<SubtitleFileItem>(@"select * from SubtitleFileItem where FileId=@fileId", new
@@ -1105,13 +963,13 @@ namespace PlayVideoInMVC.Controllers
                     }
                     catch (Exception ex)
                     {
-                        addLog(ex.ToString());
+                        _util.AddLog(logFile, ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
-                addLog("Loi khi GetSubTimeline: " + ex.ToString());
+                _util.AddLog(logFile, "Loi khi GetSubTimeline: " + ex.ToString());
             }
             return new JsonResult { Data = lstFileItems, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -1122,7 +980,7 @@ namespace PlayVideoInMVC.Controllers
             {
                 using (var db = new SqlConnection(_connectionString))
                 {
-                    int subFileId = int.Parse(getNumber(itemIdStr));
+                    int subFileId = int.Parse(_util.GetNumber(itemIdStr));
                     try
                     {
                         itemsText = db.Query<string>(@"select Text from SubtitleFileItem where ItemId=@fileId", new
@@ -1132,13 +990,13 @@ namespace PlayVideoInMVC.Controllers
                     }
                     catch (Exception ex)
                     {
-                        addLog(ex.ToString());
+                        _util.AddLog(logFile, ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
-                addLog("Loi khi GetSubTimeline: " + ex.ToString());
+                _util.AddLog(logFile, "Loi khi GetSubTimeline: " + ex.ToString());
             }
             return new JsonResult { Data = itemsText, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -1147,7 +1005,7 @@ namespace PlayVideoInMVC.Controllers
             List<Channel> lstChannel = new List<Channel>();
             try
             {
-                var channelIdNumber = int.Parse(getNumber(_channelId));
+                var channelIdNumber = int.Parse(_util.GetNumber(_channelId));
                 using (var db = new SqlConnection(_connectionString))
                 {
                     try
@@ -1159,13 +1017,13 @@ namespace PlayVideoInMVC.Controllers
                     }
                     catch (Exception ex)
                     {
-                        addLog(ex.ToString());
+                        _util.AddLog(logFile, ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
-                addLog("Loi khi GetDelayNumber: " + ex.ToString());
+                _util.AddLog(logFile, "Loi khi GetDelayNumber: " + ex.ToString());
             }
             return new JsonResult { Data = lstChannel, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -1176,7 +1034,7 @@ namespace PlayVideoInMVC.Controllers
             {
                 using (var db = new SqlConnection(_connectionString))
                 {
-                    int channelIdNum = int.Parse(getNumber(_channelId));
+                    int channelIdNum = int.Parse(_util.GetNumber(_channelId));
                     try
                     {
                         lstCapItems = db.Query<CaptureLowres>(@"select * from CaptureLowres where ChannelId=@channelId and Deleted=0", new
@@ -1186,45 +1044,18 @@ namespace PlayVideoInMVC.Controllers
                     }
                     catch (Exception ex)
                     {
-                        addLog(ex.ToString());
+                        _util.AddLog(logFile, ex.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
-                addLog("Loi khi GetCapture: " + ex.ToString());
+                _util.AddLog(logFile, "Loi khi GetCapture: " + ex.ToString());
             }
             return new JsonResult { Data = lstCapItems, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        #endregion
-
-        private string getTimeNow()
-        {
-            return DateTime.Now.ToString("yyyy:MM:dd HH:mm:ss");
-        }
-        private void addLog(string content)
-        {
-            try
-            {
-                using (System.IO.StreamWriter file =
-                new System.IO.StreamWriter(logFile, true))
-                {
-                    file.WriteLine(" -\n - " + getTimeNow() + ":" + content + "\n");
-                }
-            }
-            catch
-            {
-
-            }
-        }
-        public DateTime FromMS(double miliTime)
-        {
-            DateTime startTime = new DateTime(1970, 1, 1);
-
-            TimeSpan time = TimeSpan.FromMilliseconds(miliTime);
-            return startTime.Add(time);
-        }
+        #endregion        
     }
 }
 
