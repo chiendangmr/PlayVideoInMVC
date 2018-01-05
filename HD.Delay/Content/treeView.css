@@ -83,7 +83,7 @@
     .css-treeview {
         -webkit-animation: webkit-adjacent-element-selector-bugfix infinite 1s;
     }
-}
+
 @-webkit-keyframes webkit-adjacent-element-selector-bugfix {
         from {
             padding: 0;
@@ -93,4 +93,4 @@
             padding: 0;
         }
     }
-
+}

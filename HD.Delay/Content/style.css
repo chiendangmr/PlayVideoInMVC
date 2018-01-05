@@ -1,0 +1,219 @@
+﻿.root {
+    display: inline-block;
+    width: 100%;
+    height: 70%;
+    position:relative;
+}
+
+#video {
+    display: inline;   
+    width: 30%;
+    height:auto;
+    /*float: left;*/
+    z-index: 2;
+    position: relative;
+}
+
+#video_1 {
+    width: 100%;
+    height: auto;
+    position: absolute;   
+    z-index: 1;
+}
+
+#video_2 {
+    width: 100%;
+    height: auto;
+    position: absolute;   
+    z-index: 1;
+}
+
+#currentSub {
+    top: 520px;
+    left: 200px;
+    width: 500px;
+    height: 100px;
+    text-align: center;
+    background-color: transparent;
+    color: #fff;
+    z-index: 3;
+    position: absolute;
+    font-size: 26px;
+    text-wrap: normal;
+    /*display:inline;*/
+}
+
+#tabs {
+    /*margin-left: 100px;*/
+    display: inline;
+    position: relative;
+    width: 52%;
+    height: 600px;
+    float:right;
+    z-index: 2;
+    /*height:auto;*/
+    overflow-y:auto;
+}
+.btnGeneral{
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+#delay {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+#KiVong {
+    border-radius: 5px;
+    background-color: #2c0ab9;
+    transition: background-color 0.5s ease;
+    display: inline;
+    font-size: 28px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    color: #fff;
+}
+
+#ThucTe {
+    border-radius: 5px;
+    background-color: #cd3920;
+    transition: background-color 0.5s ease;
+    display: inline;
+    font-size: 28px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    color: #fff;
+}
+#PreviewCaret {
+    border-radius: 5px;
+    background-color: #23eb1a;
+    transition: background-color 0.5s ease;
+    display: inline;
+    font-size: 28px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    color: #fff;
+}
+#MouseClickCaret {
+    border-radius: 5px;
+    background-color: #efd610;
+    transition: background-color 0.5s ease;
+    display: inline;
+    font-size: 28px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    color: #fff;
+}
+#zoomBar {
+    display: inline-block;    
+}
+#zoomIn {
+    border-radius: 5px;        
+    display: inline;
+    font-size: 14px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;    
+    margin-right:120px;
+}
+#zoomOut {
+    border-radius: 5px;        
+    display: inline;
+    font-size: 14px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;    
+    margin-left: 110px;
+}
+#zoom-slider123 {          
+    width:300px !important;
+}
+.play {
+    display: inline-block;
+    color: #ddd;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 14px;
+    cursor: pointer;
+    position: relative;
+    background-color: #3498db;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-box-shadow: inset 0 0 0 1px #ddd, inset 0 0 0 3px #fff,inset 0 0 0 4px #ddd;
+    box-shadow: inset 0 0 0 1px #ddd, inset 0 0 0 3px #fff,inset 0 0 0 4px #ddd;
+    -webkit-transition: all .2s ease;
+    transition: all .2s ease;
+    left: 250px;
+}
+
+.play:hover{
+    -webkit-box-shadow: inset 0 0 0 0 #CD391F, inset 0 0 0 0 #fff,inset 0 0 0 0px #cd3920;
+    -moz-box-shadow: inset 0 0 0 0 #CD391F, inset 0 0 0 0 #fff,inset 0 0 0 0px #cd3920;
+    box-shadow: inset 0 0 0 0 #CD391F, inset 0 0 0 0 #fff,inset 0 0 0 0px #cd3920;
+    color: #fff;
+    background-color: #CD391F;
+}
+
+th {
+    border-radius: 5px;
+    background-color: #33AAFF;
+    transition: background-color 0.5s ease;    
+    font-size: 15px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+/*Khu vực menu chuột phải*/
+.custom-menu {
+    display: none;
+    z-index: 1000;
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #CCC;
+    white-space: nowrap;
+    font-family: sans-serif;
+    background: #FFF;
+    color: #333;
+    border-radius: 5px;
+    padding: 0;
+}
+
+/* Each of the items in the list */
+.custom-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+    list-style-type: none;
+    transition: all .3s ease;
+}
+
+.custom-menu li:hover {
+    background-color: #DEF;
+}
+#FileUpload1{
+    display:none;
+}
+#formChooseTime{
+    display:none;    
+}
+#formDatLichRecord{
+    display:none;
+}
+#formUpdateLichRecord{
+    display:none;
+}
+#formUpdateTimeLine{
+    display:none;
+}
+.subFile{
+    background-color:azure;
+    color:#2c0ab9;
+}
