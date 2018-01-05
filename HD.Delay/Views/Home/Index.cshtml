@@ -248,7 +248,7 @@
             }
             function SetVideoToPlay(time) {
                 $.ajax({
-                    url: "@Url.Action("SetVideoToPlay", "ViewVideo")",
+                    url: "@Url.Action("SetVideoToPlay", "Home")",
                     data: { timespan: time },
                     type: "POST",
                     dataType: "json",
@@ -273,7 +273,7 @@
             //Play next video of player1
             function SetNextVideo(currentVideoSrc) {
                 $.ajax({
-                    url: "@Url.Action("GetNextVideoFromCurrentSrc", "ViewVideo")",
+                    url: "@Url.Action("GetNextVideoFromCurrentSrc", "Home")",
                     data: { currentSrc: currentVideoSrc },
                     type: "POST",
                     dataType: "json",
@@ -292,7 +292,7 @@
             //Play next video of player2
             function SetNextVideo2(currentVideoSrc) {
                 $.ajax({
-                    url: "@Url.Action("GetNextVideoFromCurrentSrc", "ViewVideo")",
+                    url: "@Url.Action("GetNextVideoFromCurrentSrc", "Home")",
                     data: { currentSrc: currentVideoSrc },
                     type: "POST",
                     dataType: "json",
@@ -311,7 +311,7 @@
             //Play back video
             function SetBackVideo(currentVideoSrc) {
                 $.ajax({
-                    url: "@Url.Action("GetBackVideoFromCurrentSrc", "ViewVideo")",
+                    url: "@Url.Action("GetBackVideoFromCurrentSrc", "Home")",
                     data: { currentSrc: currentVideoSrc },
                     type: "POST",
                     dataType: "json",
@@ -331,7 +331,7 @@
             //Play next video
             function SetNextVideoPlay(currentVideoSrc) {
                 $.ajax({
-                    url: "@Url.Action("GetNextVideoFromCurrentSrc", "ViewVideo")",
+                    url: "@Url.Action("GetNextVideoFromCurrentSrc", "Home")",
                     data: { currentSrc: currentVideoSrc },
                     type: "POST",
                     dataType: "json",
@@ -485,7 +485,7 @@
             $("#btnAddFolder").click(function () {
                 var tempName = prompt("Điền tên thư mục", "Điền tên thư mục tại đây...");
                 $.ajax({
-                    url: "@Url.Action("CreateDir","ViewVideo")",
+                    url: "@Url.Action("CreateDir","Home")",
                     data: { dirName: tempName },
                     type: "POST",
                     dataType: "json",
@@ -502,7 +502,7 @@
             //Load folder cha
             function loadFolder() {
                 $.ajax({
-                    url: "@Url.Action("GetParentFolder", "ViewVideo")",
+                    url: "@Url.Action("GetParentFolder", "Home")",
                     data: "",
                     type: "GET",
                     dataType: "json",
@@ -562,7 +562,7 @@
                 var tempName = prompt("Điền tên thư mục con", "Điền tên thư mục tại đây...");
                 if (tempName != null) {
                     $.ajax({
-                        url: "@Url.Action("CreateChildDir", "ViewVideo")",
+                        url: "@Url.Action("CreateChildDir", "Home")",
                         data: { dirName: tempName, parentDirIdStr: labelId },
                         type: "POST",
                         dataType: "json",
@@ -581,7 +581,7 @@
             //Load folder con
             function loadChildFolder(tempId) {
                 $.ajax({
-                    url: "@Url.Action("GetChildFolder", "ViewVideo")",
+                    url: "@Url.Action("GetChildFolder", "Home")",
                     data: { parentIdStr: tempId },
                     type: "GET",
                     dataType: "json",
@@ -608,7 +608,7 @@
             //Load subFile của folder con
             function loadChildFolderSubFile(tempId) {
                 $.ajax({
-                    url: "@Url.Action("GetSubFiles", "ViewVideo")",
+                    url: "@Url.Action("GetSubFiles", "Home")",
                     data: { parentIdStr: tempId },
                     type: "GET",
                     dataType: "json",
@@ -648,7 +648,7 @@
             //load subfile của folder cha
             function loadSubFile(tempId) {
                 $.ajax({
-                    url: "@Url.Action("GetSubFiles", "ViewVideo")",
+                    url: "@Url.Action("GetSubFiles", "Home")",
                     data: { parentIdStr: tempId },
                     type: "POST",
                     dataType: "json",
@@ -725,7 +725,7 @@
                     fileData.append('username', 'Chien Dang');
 
                     $.ajax({
-                        url: "@Url.Action("UploadFiles", "ViewVideo")",
+                        url: "@Url.Action("UploadFiles", "Home")",
                         type: "POST",
                         contentType: false, // Not to set any content header
                         processData: false, // Not to process data
@@ -746,7 +746,7 @@
             //Add Subfile to DB after click Import
             function AddFileToDb(data1, data2, data3) {
                 $.ajax({
-                    url: "@Url.Action("AddFile", "ViewVideo")",
+                    url: "@Url.Action("AddFile", "Home")",
                     data: { filePath: data1, currentCategoryIdStr: data2, isSetTimeCodeTo0: data3 },
                     type: "POST",
                     dataType: "json",
@@ -767,7 +767,7 @@
 
                 if (isSure) {
                     $.ajax({
-                        url: "@Url.Action("DeleteFolder", "ViewVideo")",
+                        url: "@Url.Action("DeleteFolder", "Home")",
                         data: { categoryIdStr: labelId },
                         type: "POST",
                         dataType: "json",
@@ -792,7 +792,7 @@
 
                 if (isSure) {
                     $.ajax({
-                        url: "@Url.Action("DeleteFile", "ViewVideo")",
+                        url: "@Url.Action("DeleteFile", "Home")",
                         data: { fileIdStr: labelId },
                         type: "POST",
                         dataType: "json",
@@ -815,7 +815,7 @@
 
                 if (isSure) {
                     $.ajax({
-                        url: "@Url.Action("DeleteSubScheduleItem", "ViewVideo")",
+                        url: "@Url.Action("DeleteSubScheduleItem", "Home")",
                         data: { TimelineIdStr: eId },
                         type: "POST",
                         dataType: "json",
@@ -838,7 +838,7 @@
 
                 if (isSure) {
                     $.ajax({
-                        url: "@Url.Action("DeleteCaptureItem", "ViewVideo")",
+                        url: "@Url.Action("DeleteCaptureItem", "Home")",
                         data: { CaptureIdStr: subId },
                         type: "POST",
                         dataType: "json",
@@ -879,7 +879,7 @@
 
             function loadRecordItemList() {
                 $.ajax({
-                    url: "@Url.Action("GetCaptureLowresItems", "ViewVideo")",
+                    url: "@Url.Action("GetCaptureLowresItems", "Home")",
                     data: "",
                     type: "POST",
                     dataType: "json",
@@ -945,7 +945,7 @@
             function loadSubTimelineList() {
                 $("#tabs").tabs({ active: 1 });
                 $.ajax({
-                    url: "@Url.Action("GetSubTimeline", "ViewVideo")",
+                    url: "@Url.Action("GetSubTimeline", "Home")",
                     data: "",
                     type: "POST",
                     dataType: "json",
@@ -1013,7 +1013,7 @@
                     var tempName = (this.name);
                     var tempId = (this.id);
                     $.ajax({
-                        url: "@Url.Action("GetSubFileItems", "ViewVideo")",
+                        url: "@Url.Action("GetSubFileItems", "Home")",
                         data: { FileIdStr: tempName },
                         type: "POST",
                         dataType: "json",
@@ -1063,7 +1063,7 @@
             $("#btnXacNhanLichSub").click(function () {
                 var subStartTime = $("#datepicker").val() + " " + $("#timeStartPicker").val();
                 $.ajax({
-                    url: "@Url.Action("ImportFile", "ViewVideo")",
+                    url: "@Url.Action("ImportFile", "Home")",
                     data: { fileIdStr: labelId, isStartFromFirstSub: true, fileStartTimeStr: subStartTime },
                     type: "POST",
                     dataType: "json",
@@ -1086,7 +1086,7 @@
                 var tempEndTime = $("#datepickerRecordEnd").val() + " " + $("#timeStartPickerRecordEnd").val();
                 var tempProName = $("#txtTenChuongTrinh").val();
                 $.ajax({
-                    url: "@Url.Action("AddCaptureLowres", "ViewVideo")",
+                    url: "@Url.Action("AddCaptureLowres", "Home")",
                     data: { proName: tempProName, startTimeStr: tempStartTime, endTimeStr: tempEndTime },
                     type: "POST",
                     dataType: "json",
@@ -1121,7 +1121,7 @@
             $("#btnXacNhanLichSub2").click(function () {
                 var subStartTime = $("#datepicker2").val() + " " + $("#timeStartPicker2").val();
                 $.ajax({
-                    url: "@Url.Action("EditSubTimeline", "ViewVideo")",
+                    url: "@Url.Action("EditSubTimeline", "Home")",
                     data: { subTimelineIdStr: eId, fileStartTimeStr: subStartTime },
                     type: "POST",
                     dataType: "json",
@@ -1144,7 +1144,7 @@
                 var tempEndTime = $("#datepickerRecordEnd2").val() + " " + $("#timeStartPickerRecordEnd2").val();
                 var tempProName = $("#txtTenChuongTrinh2").val();
                 $.ajax({
-                    url: "@Url.Action("EditRecordSchedule", "ViewVideo")",
+                    url: "@Url.Action("EditRecordSchedule", "Home")",
                     data: { recordScheIdStr: subId, proName: tempProName, startTimeStr: tempStartTime, endTimeStr: tempEndTime },
                     type: "POST",
                     dataType: "json",
@@ -1222,7 +1222,7 @@
             function MapSub(subItemId) {
                 var tabId = $("#" + subItemId).parent().parent().attr('id');
                 $.ajax({
-                    url: "@Url.Action("updateSubTimelineStartTime", "ViewVideo")",
+                    url: "@Url.Action("updateSubTimelineStartTime", "Home")",
                     data: { currentVideoSrc: getPlayingVideoSrc(), subTimelineIdStr: tabId, subTimelineItemIdStr: subItemId, timespanStr: getPlayingTime() },
                     type: "POST",
                     dataType: "json",
@@ -1242,7 +1242,7 @@
                 //alert(subId);
                 var tabId = $("#" + subId).parent().parent().attr('id');
                 $.ajax({
-                    url: "@Url.Action("MapVideoToSubTime", "ViewVideo")",
+                    url: "@Url.Action("MapVideoToSubTime", "Home")",
                     data: { subTimelineIdStr: tabId, subTimelineItemIdStr: subId },
                     type: "POST",
                     dataType: "json",
@@ -1258,7 +1258,7 @@
             //Get delay from DB
             function getDelayNumber() {
                 $.ajax({
-                    url: "@Url.Action("GetDelayNumber", "ViewVideo")",
+                    url: "@Url.Action("GetDelayNumber", "Home")",
                     data: "",
                     type: "POST",
                     dataType: "json",
@@ -1284,7 +1284,7 @@
             //Show subtitle as Schedule
             function getSubtitleRealtime() {
                 $.ajax({
-                    url: "@Url.Action("getCurrentSubListItem", "ViewVideo")",
+                    url: "@Url.Action("getCurrentSubListItem", "Home")",
                     data: { currentVideoSrc: getPlayingVideoSrc(), timespanStr: getPlayingTime() },
                     type: "POST",
                     dataType: "json",
