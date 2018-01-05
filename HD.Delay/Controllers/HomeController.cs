@@ -37,13 +37,13 @@ namespace HD.Delay.Controllers
             }
 
             logFile = HostingEnvironment.MapPath(Path.Combine(_logFolder, DateTime.Now.ToString("yyyyMMdd") + ".txt"));
-                        
+
             if (!System.IO.File.Exists(logFile))
             {
                 System.IO.File.Create(logFile).Dispose();
             }
         }
-        
+
         public ActionResult Index()
         {
             return View();
@@ -51,15 +51,19 @@ namespace HD.Delay.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Bản quyền thuộc về Công ty TNHH HD Việt Nam";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Công ty TNHH HD Việt  Nam";
 
+            return View();
+        }
+        public ActionResult TimeSlider()
+        {
             return View();
         }
         public ActionResult GetVideo()

@@ -34,7 +34,7 @@ if (typeof jQuery === 'undefined') {
         this.time_cell_selected = null;
         this.running_time_cell = null;
         this.time_caret = null;         
-        this.steps_by_minutes = [1/12, 1/6, 0.5, 1, 2, 5, 10, 15, 20, 30, 60, 120, 180];
+        this.steps_by_minutes = [1/60, 1/30, 1/12, 1/6, 0.5, 1, 2, 5, 10, 15, 20, 30, 60];
         this.gt_height = 0;
 
         this.init(element, options);
@@ -46,9 +46,9 @@ if (typeof jQuery === 'undefined') {
     TimeSlider.DEFAULTS = {
         start_timestamp: (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1),   // left border
         current_timestamp: (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1), // current timestamp
-        hours_per_ruler: 2,                    // length of graduation ruler in hours (min 1, max 12)
+        hours_per_ruler: 0.1,                    // length of graduation ruler in hours (min 0.1, max 12)
         graduation_step: 1,                    // minimum pixels between graduations
-        distance_between_gtitle: 40,            // minimum pixels between titles of graduations
+        distance_between_gtitle: 60,            // minimum pixels between titles of graduations
         update_timestamp_interval: 1000,        // interval for updating current time
         update_interval: 1000,                  // interval for updating elements
         show_ms: false,                         // whether to show the milliseconds?
@@ -152,11 +152,11 @@ if (typeof jQuery === 'undefined') {
     };
 
     TimeSlider.prototype.validate_options = function (options) {
-        if (options['hours_per_ruler'] < 1) {
-            options['hours_per_ruler'] = 1;
+        if (options['hours_per_ruler'] < 0.1) {
+            options['hours_per_ruler'] = 0.1;
         }
-        else if (options['hours_per_ruler'] > 24) {
-            options['hours_per_ruler'] = 24;
+        else if (options['hours_per_ruler'] > 12) {
+            options['hours_per_ruler'] = 12;
         }
 
         if (options['update_timestamp_interval'] < 1) {

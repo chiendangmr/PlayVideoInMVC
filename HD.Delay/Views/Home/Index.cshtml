@@ -19,58 +19,89 @@
     <script type="text/javascript" src="~/Scripts/jquery.contextmenu.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery.maskedinput.js"></script>
 </head>
-<body>    
+<body>
     @*<h3><a href="@Url.Action("Index", "VideoData")">Download Video</a></h3>*@
-    <div class="root">
-        <div id="video">
-            <video id="video_1" width="900" height="600" class="video-js vjs-default-skin vjs-big-play-centered"
-                   preload="auto" poster="~/Images/joy.jpg" data-setup='{}'>
-                <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-            </video>
-            <video id="video_2" width="900" height="600" class="video-js vjs-default-skin vjs-big-play-centered"
-                   preload="auto" poster="~/Images/joy.jpg" data-setup='{}'>
-                <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-            </video>
+    <div class="container-vertical-flex">
+        <div class="flex flex-2">
+            <div class="container-flex">
+                <div class="flex flex-1">
+                    <div class="panel panel-default">
+                        <div class="panel-body container-vertical-flex">
+                            <div class="flex flex-1">
+                                <video id="video_1" class="video-js vjs-default-skin vjs-big-play-centered"
+                                       preload="auto" poster="~/Content/images/hdvietnam.png" data-setup='{}'>
+                                    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+                                </video>
+                                <video id="video_2" class="video-js vjs-default-skin vjs-big-play-centered"
+                                       preload="auto" poster="~/Content/images/hdvietnam.png" data-setup='{}'>
+                                    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+                                </video>
 
-            <div id="currentSub"></div>
-        </div>
-
-        <div id="tabs">
-            <ul>
-                <li id="tabBtn1"><a href="#tabs-1">File phụ đề</a></li>
-                <li id="tabBtn2"><a href="#tabs-2">Lịch phụ đề</a></li>
-                <li id="tabBtn3"><a href="#tabs-3">Lịch ghi Lowres</a></li>
-            </ul>
-            <div id="tabs-1" class="content">
-                <button class="btnGeneral" id="btnAddFolder">Thêm thư mục...</button>
-                <div class="css-treeview">
-                    <ul id="folderUl" class="folders"></ul>
+                                <div id="currentSub" hidden></div>
+                            </div>
+                            <div class="flex flex-0 text-center">
+                                <div class="btn-group" style="padding:10px;">
+                                    <button type="button" id="btnPlay" class="btn btn-primary player-btn icon-play">Play</button>
+                                    <button type="button" id="btnPause" class="btn btn-primary player-btn icon-pause">Pause</button>
+                                    <button type="button" id="btnStop" class="btn btn-primary player-btn icon-stop">Stop</button>
+                                    <button type="button" id="btnBack" class="btn btn-primary player-btn icon-to-start">Back</button>
+                                    <button type="button" id="btnNext" class="btn btn-primary player-btn icon-to-end">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <input type="file" id="FileUpload1" />
+                <div class="flex flex-1">
+                    <div class="panel panel-default">
+                        <div class="panel-body container-vertical-flex" style="padding:0">
+                            <div class="flex flex-1" id="tabs">
+                                <ul>
+                                    <li id="tabBtn1"><a href="#tabs-1">File phụ đề</a></li>
+                                    <li id="tabBtn2"><a href="#tabs-2">Lịch phụ đề</a></li>
+                                    <li id="tabBtn3"><a href="#tabs-3">Lịch ghi Lowres</a></li>
+                                </ul>
+                                <div id="tabs-1" class="content">
+                                    <button class="btnGeneral" id="btnAddFolder">Thêm thư mục...</button>
+                                    <div class="css-treeview">
+                                        <ul id="folderUl" class="folders"></ul>
+                                    </div>
+                                    <input type="file" id="FileUpload1" />
+                                </div>
+                                <div id="tabs-2">
+                                    <ul id="ulSubSchedule"></ul>
+                                </div>
+                                <div id="tabs-3">
+                                    <button class="btnGeneral" id="btnAddRecord">Thêm lịch...</button>
+                                    <table class="MyTable" id="recordScheduleTable"></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="tabs-2">
-                <ul id="ulSubSchedule"></ul>
-            </div>
-            <div id="tabs-3">
-                <button class="btnGeneral" id="btnAddRecord">Thêm lịch...</button>
-                <table class="MyTable" id="recordScheduleTable"></table>
+        </div>
+        <div class="flex flex-1" style="margin-top:0;">
+            <div class="container-vertical-flex">
+                <div class="flex flex-0">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Thông tin và Timeline:</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div id="KiVong" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #2c0ab9;"><label>Trễ kỳ vọng:</label></div>
+                                <div id="ThucTe" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #cd3920;"><label>Trễ thực tế:</label></div>
+                                <div id="PreviewCaret" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #23eb1a;"><label>Playback:</label></div>
+                                <div id="MouseClickCaret" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #efd610;"><label>Con trỏ chuột:</label></div>
+                            </div>
+                            <div class="row" style="margin:0;" id="partialDiv">
+                                @Html.Partial("TimeSlider")
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <script>$('#tabs').tabs();</script>
-    <div class="buttonDiv">
-        <div class="play" id="btnBack">back</div>
-        <div class="play" id="btnPlay">play</div>
-        <div class="play" id="btnPause">pause</div>
-        <div class="play" id="btnStop">stop</div>
-        <div class="play" id="btnNext">next</div>
-    </div>
-    <div id="delay">
-        <div id="KiVong">Trễ kỳ vọng:</div>
-        <div id="ThucTe">Trễ thực tế:</div>
-        <div id="PreviewCaret">Playback:</div>
-        <div id="MouseClickCaret">Trỏ chuột:</div>
-    </div>
     <div id="formChooseTime">
         <p>Chọn chế độ phát:</p>
         <select id="selectFormChooseTime" name="garden" multiple="multiple">
@@ -144,17 +175,7 @@
             <button id="btnHuyLichRecord2">Hủy</button>
         </div>
     </div>
-    @*Time Slider*@
-    <div style="margin: 10px 10px;">
-        <h3>Zoom:</h3>
-        <div id="zoomBar">
-            <div id="zoomIn">IN</div>
-            <div id="zoomOut">OUT</div>
-        </div>
-        <div id="zoom-slider123"></div>
-    </div>
-    <div id="slider123" class="time-slider"></div>
-    <p id="messages"></p>
+
 </body>
 @section Scripts{
     <script>
@@ -237,7 +258,7 @@
                         PlayVideo(data);
                     },
                     error: function () {
-                        alert("Failed! Try again!");
+                        console.log("Failed! Try again!");
                     }
                 });
             }
@@ -330,18 +351,18 @@
             }
             (function () {
                 $('#zoom-slider123').slider({
-                    min: 0.2,
-                    max: 24,
-                    value: 3,
-                    step: 0.2,
+                    min: 0.1,
+                    max: 2,
+                    value: 0.1,
+                    step: 0.05,
                     slide: function (event, ui) {
                         $('#slider123').TimeSlider({ hours_per_ruler: ui.value });
                     }
                 });
 
                 $('#slider123').TimeSlider({
-                    start_timestamp: current_time - 1800 * 1000,
-                    //	ruler_enable_move: false,
+                    current_timestamp: current_time,
+                    start_timestamp: current_time - 30 * 1000
                 });
 
             })();
@@ -1338,5 +1359,35 @@
            });
             };
         });
+    </script>
+    
+    <script>
+        //Tự động refresh khi thanh current_time chạy quá màn hình
+        var windowWidth = window.innerWidth;
+        setInterval(function () {
+            if ($("#cbAutoMap").is(':checked')) {
+                if ($('#record-bar').position().left > (windowWidth - 150)) {   
+                    var current_time_to_refresh = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1);
+                    $("#partialDiv").load("/Home/TimeSlider");  
+                    setTimeout(function () {
+                        $('#zoom-slider123').slider({
+                            min: 0.1,
+                            max: 2,
+                            value: 0.1,
+                            step: 0.05,
+                            slide: function (event, ui) {
+                                $('#slider123').TimeSlider({ hours_per_ruler: ui.value });
+                            }
+                        });
+
+                        $('#slider123').TimeSlider({
+                            current_timestamp: current_time_to_refresh,
+                            start_timestamp: current_time_to_refresh - 30 * 1000
+                        });
+
+                    }, 500);                    
+                }
+            }
+        }, 10000);
     </script>
 }
