@@ -234,6 +234,7 @@
     <Content Include="fonts\vjs.ttf" />
     <Content Include="fonts\vjs.eot" />
     <Content Include="Content\video-js.less" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />

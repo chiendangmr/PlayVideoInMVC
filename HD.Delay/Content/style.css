@@ -1,6 +1,57 @@
-﻿.container-vertical-flex > .flex:not(:first-child) {
+﻿/*#btnPlay {
+    width: 70px;
+    background-image: url(images/icon-play.png);
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-position: left center;
+}
+#btnPause {
+    width: 70px;
+    background-image: url(images/icon-pause.png);
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-position: left center;
+}
+#btnNext {
+    width: 70px;
+    background-image: url(images/icon-next.png);
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-position: right center;
+}
+#btnBack {
+    width: 70px;
+    background-image: url(images/icon-back.png);
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-position: left center;
+}
+#btnStop {
+    width: 70px;
+    background-image: url(images/icon-stop.png);
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-position: left center;
+}*/
+.container-flex > .flex:not(:first-child) {
+    margin-left: 10px;
+}
+
+#tabs {
+    border: none;
+}
+#zoom-slider123 {
+    background-color:#aaa;
+}.panel {
+    margin-bottom: 0 !important;    
+}
+.panel-heading {
+    background-color: #e9e9e9 !important;
+}
+.container-vertical-flex > .flex:not(:first-child) {
     margin-top: 0 !important;
 }
+
 div.balSlider {
     width: 100%;
 }
@@ -15,7 +66,7 @@ div.balSlider {
 
 .delayInfo {
     font-size: 18px;
-    font-weight:bold;
+    font-weight: bold;
 }
 
 #video_1 {
@@ -32,22 +83,17 @@ div.balSlider {
     z-index: 1;
 }
 
-#currentSub {
-    top: 520px;
-    left: 200px;
-    width: 500px;
-    height: 100px;
+#currentSub {    
+    height: 40px;
     text-align: center;
-    background-color: transparent;
+    background-color: #000;
     color: #fff;
-    z-index: 3;
-    position: absolute;
-    font-size: 26px;
-    text-wrap: normal;
-    /*display:inline;*/
+    z-index: 3;    
+    font-size: 26px;      
+    margin: 0;
 }
 
-.btnGeneral{
+.btnGeneral {
     border-radius: 5px;
     font-size: 16px;
     margin-bottom: 20px;
@@ -98,18 +144,18 @@ div.balSlider {
     left: 250px;
 }
 
-.play:hover{
-    -webkit-box-shadow: inset 0 0 0 0 #CD391F, inset 0 0 0 0 #fff,inset 0 0 0 0px #cd3920;
-    -moz-box-shadow: inset 0 0 0 0 #CD391F, inset 0 0 0 0 #fff,inset 0 0 0 0px #cd3920;
-    box-shadow: inset 0 0 0 0 #CD391F, inset 0 0 0 0 #fff,inset 0 0 0 0px #cd3920;
-    color: #fff;
-    background-color: #CD391F;
-}
+    .play:hover {
+        -webkit-box-shadow: inset 0 0 0 0 #CD391F, inset 0 0 0 0 #fff,inset 0 0 0 0px #cd3920;
+        -moz-box-shadow: inset 0 0 0 0 #CD391F, inset 0 0 0 0 #fff,inset 0 0 0 0px #cd3920;
+        box-shadow: inset 0 0 0 0 #CD391F, inset 0 0 0 0 #fff,inset 0 0 0 0px #cd3920;
+        color: #fff;
+        background-color: #CD391F;
+    }
 
 th {
     border-radius: 5px;
     background-color: #33AAFF;
-    transition: background-color 0.5s ease;    
+    transition: background-color 0.5s ease;
     font-size: 15px;
     padding: 5px;
     border: 1px solid #ccc;
@@ -130,33 +176,39 @@ th {
     padding: 0;
 }
 
-/* Each of the items in the list */
-.custom-menu li {
-    padding: 8px 12px;
-    cursor: pointer;
-    list-style-type: none;
-    transition: all .3s ease;
+    /* Each of the items in the list */
+    .custom-menu li {
+        padding: 8px 12px;
+        cursor: pointer;
+        list-style-type: none;
+        transition: all .3s ease;
+    }
+
+        .custom-menu li:hover {
+            background-color: #DEF;
+        }
+
+#FileUpload1 {
+    display: none;
 }
 
-.custom-menu li:hover {
-    background-color: #DEF;
+#formChooseTime {
+    display: none;
 }
-#FileUpload1{
-    display:none;
+
+#formDatLichRecord {
+    display: none;
 }
-#formChooseTime{
-    display:none;    
+
+#formUpdateLichRecord {
+    display: none;
 }
-#formDatLichRecord{
-    display:none;
+
+#formUpdateTimeLine {
+    display: none;
 }
-#formUpdateLichRecord{
-    display:none;
-}
-#formUpdateTimeLine{
-    display:none;
-}
-.subFile{
-    background-color:azure;
-    color:#2c0ab9;
+
+.subFile {
+    background-color: azure;
+    color: #2c0ab9;
 }

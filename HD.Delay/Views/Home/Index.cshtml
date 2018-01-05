@@ -35,17 +35,16 @@
                                 <video id="video_2" class="video-js vjs-default-skin vjs-big-play-centered"
                                        preload="auto" poster="~/Content/images/hdvietnam.png" data-setup='{}'>
                                     <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-                                </video>
-
-                                <div id="currentSub" hidden></div>
+                                </video>                                
                             </div>
                             <div class="flex flex-0 text-center">
+                                <div id="currentSub" class="row"></div>
                                 <div class="btn-group" style="padding:10px;">
-                                    <button type="button" id="btnPlay" class="btn btn-primary player-btn icon-play">Play</button>
-                                    <button type="button" id="btnPause" class="btn btn-primary player-btn icon-pause">Pause</button>
-                                    <button type="button" id="btnStop" class="btn btn-primary player-btn icon-stop">Stop</button>
-                                    <button type="button" id="btnBack" class="btn btn-primary player-btn icon-to-start">Back</button>
-                                    <button type="button" id="btnNext" class="btn btn-primary player-btn icon-to-end">Next</button>
+                                    <button type="button" id="btnPlay" class="btn btn-primary player-btn">Play</button>
+                                    <button type="button" id="btnPause" class="btn btn-primary player-btn">Pause</button>
+                                    <button type="button" id="btnStop" class="btn btn-primary player-btn">Stop</button>
+                                    <button type="button" id="btnBack" class="btn btn-primary player-btn">Back</button>
+                                    <button type="button" id="btnNext" class="btn btn-primary player-btn">Next</button>
                                 </div>
                             </div>
                         </div>
@@ -89,8 +88,8 @@
                             <div class="row">
                                 <div id="KiVong" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #2c0ab9;"><label>Trễ kỳ vọng:</label></div>
                                 <div id="ThucTe" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #cd3920;"><label>Trễ thực tế:</label></div>
-                                <div id="PreviewCaret" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #23eb1a;"><label>Playback:</label></div>
-                                <div id="MouseClickCaret" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #efd610;"><label>Con trỏ chuột:</label></div>
+                                <div id="PreviewCaret" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #468847;"><label>Playback:</label></div>
+                                <div id="MouseClickCaret" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #dd910e;"><label>Con trỏ chuột:</label></div>
                             </div>
                             <div class="row" style="margin:0;" id="partialDiv">
                                 @Html.Partial("TimeSlider")
@@ -1360,15 +1359,15 @@
             };
         });
     </script>
-    
+
     <script>
         //Tự động refresh khi thanh current_time chạy quá màn hình
         var windowWidth = window.innerWidth;
         setInterval(function () {
             if ($("#cbAutoMap").is(':checked')) {
-                if ($('#record-bar').position().left > (windowWidth - 150)) {   
+                if ($('#record-bar').position().left > (windowWidth - 150)) {
                     var current_time_to_refresh = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1);
-                    $("#partialDiv").load("/Home/TimeSlider");  
+                    $("#partialDiv").load("/Home/TimeSlider");
                     setTimeout(function () {
                         $('#zoom-slider123').slider({
                             min: 0.1,
@@ -1385,7 +1384,7 @@
                             start_timestamp: current_time_to_refresh - 30 * 1000
                         });
 
-                    }, 500);                    
+                    }, 500);
                 }
             }
         }, 10000);
