@@ -247,6 +247,7 @@
 
             }
             function SetVideoToPlay(time) {
+                //console.log(time);
                 $.ajax({
                     url: "@Url.Action("SetVideoToPlay", "Home")",
                     data: { timespan: time },
@@ -381,7 +382,7 @@
                     IsClick = true;
                 }
                 if (IsClick) {
-                    SetVideoToPlay(TimeOfVideo);
+                    SetVideoToPlay(TimeOfVideo.toFixed(0));
                 }
             });
             SetVideoToPlay(click_timestamp);
