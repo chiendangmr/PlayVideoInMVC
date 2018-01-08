@@ -33,7 +33,10 @@ if (typeof jQuery === 'undefined') {
         this.prev_cursor_x = 0;
         this.time_cell_selected = null;
         this.running_time_cell = null;
-        this.time_caret = null;         
+        this.time_caret = null;  
+        this.record_time_caret = null; 
+        this.playback_time_caret = null; 
+        this.subtitle_time_caret = null;
         this.steps_by_minutes = [1/60, 1/30, 1/12, 1/6, 0.5, 1, 2, 5, 10, 15, 20, 30, 60];
         this.gt_height = 0;
 
@@ -272,9 +275,12 @@ if (typeof jQuery === 'undefined') {
         this.time_caret = this.$ruler.find('.preview-time-caret');
         
         //Add part        
-        this.$ruler.append('<div id="record-bar" class="record-line" tooltip="Record"></div>');
-        this.$ruler.append('<div id="playback-bar" class="playback-line"></div>');
+        this.$ruler.append('<div id="record-bar" class="record-line" title="Record"></div>');
+        this.record_time_caret = this.$ruler.find(".record-line");
+        this.$ruler.append('<div id="playback-bar" class="playback-line" title="Playback"></div>');
+        this.playback_time_caret = this.$ruler.find(".playback-line");
         this.$ruler.append('<div id="subtitle-bar" class="subtitle-timeline"></div>');
+        this.subtitle_time_caret = this.$ruler.find(".subtitle-timeline");
         this.set_time_caret_position();
         //$("#subtitle-bar").css('left', (Subtitle_Start - this.options.start_timestamp) * this.px_per_ms);
         //$("#subtitle-bar").css('width', (Subtitle_Duration * this.px_per_ms));
@@ -763,10 +769,10 @@ if (typeof jQuery === 'undefined') {
     TimeSlider.prototype.set_time_caret_position = function () {
         this.time_caret.css('left', (this.options.current_timestamp - this.options.start_timestamp) * this.px_per_ms);
         //Add part
-        $("#subtitle-bar").css('left', (Subtitle_Start - this.options.start_timestamp) * this.px_per_ms);
-        $("#subtitle-bar").css('width', (Subtitle_Duration * this.px_per_ms));
-        $("#record-bar").css('left', (record_timespan - this.options.start_timestamp) * this.px_per_ms);
-        $("#playback-bar").css('left', (playback_timespan - this.options.start_timestamp) * this.px_per_ms);
+        this.subtitle_time_caret.css('left', (Subtitle_Start - this.options.start_timestamp) * this.px_per_ms);
+        this.subtitle_time_caret.css('width', (Subtitle_Duration * this.px_per_ms));
+        this.record_time_caret.css('left', (record_timespan - this.options.start_timestamp) * this.px_per_ms);
+        this.playback_time_caret.css('left', (playback_timespan - this.options.start_timestamp) * this.px_per_ms);
     };    
 
     TimeSlider.prototype.set_time_cells_position = function () {
