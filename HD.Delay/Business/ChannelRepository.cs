@@ -20,7 +20,7 @@ namespace HD.Delay.Business
                 db.Open();
                 var sqlCommandText = @"Select DelayExpected, RealisticDelay From Channel Where ChannelId = " + channelId;
                 using (var sqlCommand = new SqlCommand(sqlCommandText, db))
-                {
+                {                    
                     AddSQLDependency(sqlCommand);
 
                     if (db.State == ConnectionState.Closed)

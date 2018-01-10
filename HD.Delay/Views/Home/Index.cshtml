@@ -1433,8 +1433,8 @@
                     dataType: 'json',
                     success: function (val) {
                         console.log(val);
-                        model.empty().append("Thời gian trễ Kỳ Vọng: " + val.DelayExpectedStr);
-                        thucTe.empty().append("Thời gian trễ Thực tế: " + val.RealisticDelayStr);
+                        model.empty().append("Thời gian trễ Kỳ Vọng: " + val[0].DelayExpectedStr);
+                        thucTe.empty().append("Thời gian trễ Thực tế: " + val[0].RealisticDelayStr);
                     },
                     error: function () {
 
