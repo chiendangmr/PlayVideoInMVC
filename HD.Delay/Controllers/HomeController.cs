@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using HD.Delay.Business;
 using HD.Delay.Models;
+using HD.Delay.Services;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -1037,21 +1038,8 @@ namespace HD.Delay.Controllers
             List<Channel> lstChannel = new List<Channel>();
             try
             {
-                var channelIdNumber = int.Parse(_util.GetNumber(_channelId));
-                using (var db = new SqlConnection(_connectionString))
-                {
-                    try
-                    {
-                        lstChannel = db.Query<Channel>(@"Select DelayExpected, RealisticDelay From Channel Where ChannelId = @channelId", new
-                        {
-                            channelId = channelIdNumber
-                        }).ToList();
-                    }
-                    catch (Exception ex)
-                    {
-                        _util.AddLog(logFile, ex.ToString());
-                    }
-                }
+                IChannelService channelService = new ChannelService();
+                lstChannel = channelService.GetDelayNumber(int.Parse(_util.GetNumber(_channelId)), _connectionString);
             }
             catch (Exception ex)
             {

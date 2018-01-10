@@ -35,7 +35,7 @@
                                 <video id="video_2" class="video-js vjs-default-skin vjs-big-play-centered"
                                        preload="auto" poster="~/Content/images/hdvietnam.png" data-setup='{}'>
                                     <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-                                </video>                                
+                                </video>
                             </div>
                             <div class="flex flex-0 text-center">
                                 <div id="currentSub" class="row"></div>
@@ -88,7 +88,7 @@
                             <div class="row">
                                 <div id="KiVong" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #2c0ab9;"><label>Trễ kỳ vọng:</label></div>
                                 <div id="ThucTe" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #cd3920;"><label>Trễ thực tế:</label></div>
-                                <div id="PreviewCaret" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #468847;"><label>Playback:</label></div>
+                                <div id="PlaybackInfo" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #468847;"><label>Playback:</label></div>
                                 <div id="MouseClickCaret" class="col-sm-3 col-md-3 col-lg-3 delayInfo" style="color: #dd910e;"><label>Con trỏ chuột:</label></div>
                             </div>
                             <div class="row" style="margin:0;" id="partialDiv">
@@ -177,6 +177,8 @@
 
 </body>
 @section Scripts{
+    <script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
+    <script src="/signalr/hubs"></script>
     <script>
         var current_time = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1);
         //add part
@@ -234,8 +236,8 @@
             window.setInterval(function () {
                 $("#MouseClickCaret").empty();
                 $("#MouseClickCaret").append("Trỏ chuột: " + toDateTime(click_timestamp));
-                $("#PreviewCaret").empty();
-                $("#PreviewCaret").append("Playback: " + toDateTime(playback_timespan));
+                $("#PlaybackInfo").empty();
+                $("#PlaybackInfo").append("Playback: " + toDateTime(playback_timespan));
             }, 1000); // 1s update
             function GetVideoCurrentTimeStamp() {
                 var tempDateStr = getPlayingVideoSrc().substring(getPlayingVideoSrc().length - 19);
@@ -385,6 +387,13 @@
                     SetVideoToPlay(TimeOfVideo.toFixed(0));
                 }
             });
+            $(".ruler").dblclick(function () {
+                PreviousOffsetX = event.offsetX;
+                var pixel = event.offsetX;
+                click_timestamp = begin_timestamp + pixel / ms_per_pixel;
+                TimeOfVideo = click_timestamp;
+                SetVideoToPlay(TimeOfVideo.toFixed(0));
+            });
             SetVideoToPlay(click_timestamp);
             var $myPlayer1 = videojs("video_1");
             var $myPlayer2 = videojs("video_2");
@@ -407,7 +416,7 @@
             }, 500);
             loadFolder();
             setInterval(function () {
-                getDelayNumber();
+                //getDelayNumber();
                 loadRecordItemList();
             }, 7000);
             setInterval(function () {
@@ -1354,40 +1363,88 @@
                 $.ajax({
                     url: '@Url.Action("GetStatusTimeRecordeAndPlay", "VideoData")',
                 })
-           .done(function (data) {
+               .done(function (data) {
 
-           });
+               });
             };
-        });
-    </script>
+            //Tự động refresh khi thanh current_time chạy quá màn hình
+            var windowWidth = window.innerWidth;
+            setInterval(function () {
+                if ($("#cbAutoMap").is(':checked')) {
+                    if ($('#record-bar').position().left > (windowWidth - 150)) {
+                        var current_time_to_refresh = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1);
+                        $("#partialDiv").load("/Home/TimeSlider");
+                        setTimeout(function () {
+                            $('#zoom-slider123').slider({
+                                min: 0.1,
+                                max: 2,
+                                value: 0.1,
+                                step: 0.05,
+                                slide: function (event, ui) {
+                                    $('#slider123').TimeSlider({ hours_per_ruler: ui.value });
+                                }
+                            });
 
-    <script>
-        //Tự động refresh khi thanh current_time chạy quá màn hình
-        var windowWidth = window.innerWidth;
-        setInterval(function () {
-            if ($("#cbAutoMap").is(':checked')) {
-                if ($('#record-bar').position().left > (windowWidth - 150)) {
-                    var current_time_to_refresh = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1);
-                    $("#partialDiv").load("/Home/TimeSlider");
-                    setTimeout(function () {
-                        $('#zoom-slider123').slider({
-                            min: 0.1,
-                            max: 2,
-                            value: 0.1,
-                            step: 0.05,
-                            slide: function (event, ui) {
-                                $('#slider123').TimeSlider({ hours_per_ruler: ui.value });
-                            }
+                            $('#slider123').TimeSlider({
+                                current_timestamp: current_time_to_refresh,
+                                start_timestamp: current_time_to_refresh - 30 * 1000
+                            });
+
+                        }, 500);
+
+                        $(".ruler").dblclick(function () {
+                            var pixel = event.offsetX;
+                            console.log(pixel);
+                            click_timestamp = begin_timestamp + pixel / ms_per_pixel;
+                            TimeOfVideo = click_timestamp;
+                            SetVideoToPlay(TimeOfVideo.toFixed(0));
                         });
-
-                        $('#slider123').TimeSlider({
-                            current_timestamp: current_time_to_refresh,
-                            start_timestamp: current_time_to_refresh - 30 * 1000
-                        });
-
-                    }, 500);
+                    }
                 }
+            }, 10000);
+
+            //Xử lý realtime bằng signalR
+            $(function () {
+                // Create a proxy to signalr hub on web server. It reference the hub.
+                var notifications = $.connection.getInfoHub;
+
+                // Notify to client with the recent updates from hub that broadcast messages.
+                notifications.client.updateChannelInformation = function (serverResponse) {
+                    alert('changes triggered by ' + serverResponse + ' operation');
+                    getChannelInformation()
+
+                };
+
+                // Connect to signalr hub
+                $.connection.hub.start().done(function () {
+                    getChannelInformation();
+                }).fail(function (error) {
+                    alert(error);
+                });
+            });
+
+
+            function getChannelInformation() {
+                var model = $('#KiVong');
+                var thucTe = $('#ThucTe');
+                $.ajax({
+                    url: '/home/GetDelayNumber',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (val) {
+                        console.log(val);
+                        model.empty().append("Thời gian trễ Kỳ Vọng: " + val.DelayExpectedStr);
+                        thucTe.empty().append("Thời gian trễ Thực tế: " + val.RealisticDelayStr);
+                    },
+                    error: function () {
+
+                    }
+                });
             }
-        }, 10000);
+        });
+
+    </script>
+    <script type="text/javascript">
+        
     </script>
 }

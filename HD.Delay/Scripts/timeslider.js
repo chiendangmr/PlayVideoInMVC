@@ -197,12 +197,7 @@ if (typeof jQuery === 'undefined') {
                 this.px_per_ms = this.$ruler.width() / (this.options.hours_per_ruler * 3600 * 1000);
                 this.remove_graduations();
                 this.add_graduations();
-                this.set_time_caret_position();
-                //Add part
-                //$("#subtitle-bar").css('left', (Subtitle_Start - this.options.start_timestamp) * this.px_per_ms);
-                //$("#subtitle-bar").css('width', (Subtitle_Duration * this.px_per_ms));
-                //$("#record-bar").css('left', (record_timespan - this.options.start_timestamp) * this.px_per_ms);
-                //$("#playback-bar").css('left', (playback_timespan - this.options.start_timestamp) * this.px_per_ms);                
+                this.set_time_caret_position();                               
                 this.set_time_cells_position();
             }
         }
@@ -281,11 +276,7 @@ if (typeof jQuery === 'undefined') {
         this.playback_time_caret = this.$ruler.find(".playback-line");
         this.$ruler.append('<div id="subtitle-bar" class="subtitle-timeline"></div>');
         this.subtitle_time_caret = this.$ruler.find(".subtitle-timeline");
-        this.set_time_caret_position();
-        //$("#subtitle-bar").css('left', (Subtitle_Start - this.options.start_timestamp) * this.px_per_ms);
-        //$("#subtitle-bar").css('width', (Subtitle_Duration * this.px_per_ms));
-        //$("#record-bar").css('left', (record_timespan - this.options.start_timestamp) * this.px_per_ms);
-        //$("#playback-bar").css('left', (playback_timespan - this.options.start_timestamp) * this.px_per_ms);        
+        this.set_time_caret_position();                
     };      
 
     TimeSlider.prototype.add_graduations = function () {
@@ -750,11 +741,7 @@ if (typeof jQuery === 'undefined') {
             
             //Add part
             ms_per_pixel = _this.px_per_ms;
-            begin_timestamp = _this.options.start_timestamp;
-            //$("#subtitle-bar").css('left', (Subtitle_Start - _this.options.start_timestamp) * _this.px_per_ms);
-            //$("#subtitle-bar").css('width', (Subtitle_Duration * _this.px_per_ms));
-            //$("#record-bar").css('left', (record_timespan - _this.options.start_timestamp) * _this.px_per_ms);
-            //$("#playback-bar").css('left', (playback_timespan - _this.options.start_timestamp) * _this.px_per_ms);            
+            begin_timestamp = _this.options.start_timestamp;                      
 
             if (_this.running_time_cell) {
                 _this.set_time_duration(_this.running_time_cell);
@@ -805,12 +792,7 @@ if (typeof jQuery === 'undefined') {
         var _this = this;
         this.options.start_timestamp = this.options.start_timestamp - Math.round(diff_x / this.px_per_ms);
 
-        this.set_time_caret_position();
-        //Add part
-        //$("#subtitle-bar").css('left', (Subtitle_Start - this.options.start_timestamp) * this.px_per_ms);
-        //$("#subtitle-bar").css('width', (Subtitle_Duration * this.px_per_ms));
-        //$("#record-bar").css('left', (record_timespan - this.options.start_timestamp) * this.px_per_ms);
-        //$("#playback-bar").css('left', (playback_timespan - this.options.start_timestamp) * this.px_per_ms);        
+        this.set_time_caret_position();                
 
         var px_per_minute = this.$ruler.width() / (this.options.hours_per_ruler * 60);
         var px_per_step = this.options.graduation_step;
