@@ -17,10 +17,11 @@ namespace HD.Delay.Hubs
     public class NotificationHub : Hub
 
     {
+        int expectedDelay = 0;
+        string expectedDelayStr = "";
 
-        string expectedDelay = "";
-
-        string realDelay = "";       
+        string realDelayStr = "";
+        int realDelay = 0;
 
 
 
@@ -62,11 +63,11 @@ namespace HD.Delay.Hubs
 
                     {
 
-                        var temp1 = int.Parse(dt.Rows[0]["DelayExpected"].ToString());
-                        expectedDelay = (new TimeSpan(0, 0, 0, 0, temp1)).ToString(@"hh\:mm\:ss");
+                        expectedDelay = int.Parse(dt.Rows[0]["DelayExpected"].ToString());
+                        expectedDelayStr = (new TimeSpan(0, 0, 0, 0, expectedDelay)).ToString(@"hh\:mm\:ss");
 
-                        var temp2 = int.Parse(dt.Rows[0]["RealisticDelay"].ToString());
-                        realDelay = (new TimeSpan(0, 0, 0, 0, temp2)).ToString(@"hh\:mm\:ss");
+                        realDelay = int.Parse(dt.Rows[0]["RealisticDelay"].ToString());
+                        realDelayStr = (new TimeSpan(0, 0, 0, 0, realDelay)).ToString(@"hh\:mm\:ss");
                     }
 
                 }
@@ -75,7 +76,7 @@ namespace HD.Delay.Hubs
 
             IHubContext context = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
 
-            return (string)context.Clients.All.RecieveNotification(expectedDelay, realDelay).Result;
+            return (string)context.Clients.All.RecieveNotification(expectedDelay, expectedDelayStr, realDelay, realDelayStr).Result;
 
         }
 

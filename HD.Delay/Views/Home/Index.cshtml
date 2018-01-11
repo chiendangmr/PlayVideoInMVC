@@ -1264,33 +1264,7 @@
                     }
                 });
 
-            }
-            //Get delay from DB
-            function getDelayNumber() {
-                $.ajax({
-                    url: "@Url.Action("GetDelayNumber", "Home")",
-                    data: "",
-                    type: "POST",
-                    dataType: "json",
-                    success: function (data) {
-                        showDelayNumber(data);
-                    },
-                    error: function () {
-                        console.log("Failed! Try again!");
-                    }
-                });
-            }
-
-            //Show Delay on Web
-            function showDelayNumber(data) {
-                $.each(data, function (i, val) {
-                    $("#KiVong").empty();
-                    $("#KiVong").append("Thời gian trễ Kỳ Vọng: " + val.DelayExpectedStr);
-                    $("#ThucTe").empty();
-                    $("#ThucTe").append("Thời gian trễ Thực Tế: " + val.RealisticDelayStr);
-                    _RealisticDelayNumber = val.RealisticDelay;
-                });
-            }
+            }            
             //Show subtitle as Schedule
             function getSubtitleRealtime() {
                 $.ajax({
@@ -1407,12 +1381,13 @@
             $(function () {
                 // Create a proxy to signalr hub on web server. It reference the hub.                
                 var notifications = $.connection.notificationHub;
-                notifications.client.recieveNotification = function (expectedDelay, realDelay) {
+                notifications.client.recieveNotification = function (expectedDelay, expectedDelayStr, realDelay, realDelayStr) {
 
                     // Add the message to the page.
 
-                    $('#KiVong').empty().append("Thời gian trễ Kỳ Vọng: " + expectedDelay);
-                    $('#ThucTe').empty().append("Thời gian trễ Thực Tế: " + realDelay);
+                    $('#KiVong').empty().append("Thời gian trễ Kỳ Vọng: " + expectedDelayStr);
+                    $('#ThucTe').empty().append("Thời gian trễ Thực Tế: " + realDelayStr);
+                    _RealisticDelayNumber = realDelay;
 
                 };
 
