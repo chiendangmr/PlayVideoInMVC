@@ -369,24 +369,24 @@
 
             })();
             var PreviousOffsetX = 0;
-            $(".ruler").on("mousedown", function (event) {
-                //debugger;
-                PreviousOffsetX = event.offsetX;
-            });
+            //$(".ruler").on("mousedown", function (event) {
+            //    //debugger;
+            //    PreviousOffsetX = event.offsetX;
+            //});
 
-            $(".ruler").on("mouseup", function (event) {
-                //debugger;
-                var pixel = event.offsetX;
-                click_timestamp = begin_timestamp + pixel / ms_per_pixel;
-                TimeOfVideo = click_timestamp;
-                var IsClick = false;
-                if (PreviousOffsetX == event.offsetX) {
-                    IsClick = true;
-                }
-                if (IsClick) {
-                    SetVideoToPlay(TimeOfVideo.toFixed(0));
-                }
-            });
+            //$(".ruler").on("mouseup", function (event) {
+            //    //debugger;
+            //    var pixel = event.offsetX;
+            //    click_timestamp = begin_timestamp + pixel / ms_per_pixel;
+            //    TimeOfVideo = click_timestamp;
+            //    var IsClick = false;
+            //    if (PreviousOffsetX == event.offsetX) {
+            //        IsClick = true;
+            //    }
+            //    if (IsClick) {
+            //        SetVideoToPlay(TimeOfVideo.toFixed(0));
+            //    }
+            //});
             $(".ruler").dblclick(function () {
                 PreviousOffsetX = event.offsetX;
                 var pixel = event.offsetX;
@@ -854,8 +854,7 @@
                             if (data) {
                                 alert("Xoá thành công!");
                             }
-                            loadFolder();
-                            //loadRecordItemList();
+                            loadFolder();                            
                         },
                         error: function () {
                             alert("Failed! Try again!");
@@ -996,10 +995,7 @@
             //Load item when click tab button
             $("#tabBtn2").click(function () {
                 loadSubTimelineList();
-            });
-            $("#tabBtn3").click(function () {
-                //loadRecordItemList();
-            });
+            });            
 
             //Hide div input form when click cancel button
             $("#btnHuyLichSub").click(function () {
@@ -1101,8 +1097,7 @@
                         //loadData(data);
                         if (data) {
                             alert("Thêm lịch thành công!");
-                            $("#formDatLichRecord").hide();
-                            //loadRecordItemList();
+                            $("#formDatLichRecord").hide();                            
                         } else alert("Thêm lịch không thành công, mời thực hiện lại!");
                     },
                     error: function () {
@@ -1159,8 +1154,7 @@
                         //loadData(data);
                         if (data) {
                             alert("Sửa lịch thành công!");
-                            $("#formUpdateLichRecord").hide();
-                            //loadRecordItemList();
+                            $("#formUpdateLichRecord").hide();                            
                         } else alert("Sửa lịch không thành công, mời thực hiện lại!");
                     },
                     error: function () {
@@ -1344,8 +1338,7 @@
                 if ($("#cbAutoMap").is(':checked')) {
                     if ($('#record-bar').position().left > (windowWidth - 150)) {
                         var current_time_to_refresh = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1);
-                        $("#partialDiv").load("/Home/TimeSlider");
-                        setTimeout(function () {
+                        $("#partialDiv").load("/Home/TimeSlider", function () {
                             $('#zoom-slider123').slider({
                                 min: 0.1,
                                 max: 2,
@@ -1360,23 +1353,18 @@
                                 current_timestamp: current_time_to_refresh,
                                 start_timestamp: current_time_to_refresh - 30 * 1000
                             });
-
-                        }, 500);
-
-                        $(".ruler").dblclick(function () {
-                            var pixel = event.offsetX;
-                            console.log(pixel);
-                            click_timestamp = begin_timestamp + pixel / ms_per_pixel;
-                            TimeOfVideo = click_timestamp;
-                            SetVideoToPlay(TimeOfVideo.toFixed(0));
-                        });
+                            $(".ruler").dblclick(function () {
+                                var pixel = event.offsetX;                                
+                                click_timestamp = begin_timestamp + pixel / ms_per_pixel;
+                                TimeOfVideo = click_timestamp;
+                                console.log(TimeOfVideo);
+                                SetVideoToPlay(TimeOfVideo.toFixed(0));
+                            });
+                        });                        
                     }
                 }
             }, 10000);
-            //setInterval(function () {
-            //    //getDelayNumber();
-            //    loadRecordItemList();
-            //}, 7000);
+            
             //Xử lý realtime bằng signalR
             $(function () {
                 // Create a proxy to signalr hub on web server. It reference the hub.                

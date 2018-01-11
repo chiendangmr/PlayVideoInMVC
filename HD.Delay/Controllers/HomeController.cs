@@ -234,10 +234,10 @@ namespace HD.Delay.Controllers
                 {
                     try
                     {
-                        var tempRecord = db.Query<RecordLowres>(@"select * from RecordLowres WHERE RecordTime<=@recordTime",
+                        var tempRecord = db.Query<RecordLowres>(@"select * from RecordLowres WHERE RecordTime<=@recordTime and Deleted=0 and Duration>0",
                                 new
                                 {
-                                    recordTime = videoTime
+                                    recordTime = videoTime                                    
                                 }).Where(a => a.RecordTime.Date == videoTime.Date).OrderBy(a => a.RecordTime).LastOrDefault();
                         videoFile.FileName = tempRecord.FileName;
                         var timeDic = _util.GetPlayingTime(Path.GetFileNameWithoutExtension(videoFile.FileName));
