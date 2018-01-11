@@ -1,38 +1,7 @@
-﻿/*#btnPlay {
-    width: 70px;
-    background-image: url(images/icon-play.png);
-    background-repeat: no-repeat;
-    background-size: 16px 16px;
-    background-position: left center;
+﻿.container-vertical-flex {    
+    justify-content: unset !important;
 }
-#btnPause {
-    width: 70px;
-    background-image: url(images/icon-pause.png);
-    background-repeat: no-repeat;
-    background-size: 16px 16px;
-    background-position: left center;
-}
-#btnNext {
-    width: 70px;
-    background-image: url(images/icon-next.png);
-    background-repeat: no-repeat;
-    background-size: 16px 16px;
-    background-position: right center;
-}
-#btnBack {
-    width: 70px;
-    background-image: url(images/icon-back.png);
-    background-repeat: no-repeat;
-    background-size: 16px 16px;
-    background-position: left center;
-}
-#btnStop {
-    width: 70px;
-    background-image: url(images/icon-stop.png);
-    background-repeat: no-repeat;
-    background-size: 16px 16px;
-    background-position: left center;
-}*/
+
 .container-flex > .flex:not(:first-child) {
     margin-left: 10px;
 }
@@ -83,13 +52,14 @@ div.balSlider {
     z-index: 1;
 }
 
-#currentSub {    
-    height: 40px;
+#currentSub {
+    height: 60px;
     text-align: center;
     background-color: #000;
+    position: relative;
     color: #fff;
-    z-index: 3;    
-    font-size: 26px;      
+    z-index: 3;
+    font-size: 20px;
     margin: 0;
 }
 

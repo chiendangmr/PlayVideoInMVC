@@ -27,7 +27,7 @@
                 <div class="flex flex-1">
                     <div class="panel panel-default">
                         <div class="panel-body container-vertical-flex">
-                            <div class="flex flex-1">
+                            <div class="flex flex-5">
                                 <video id="video_1" class="video-js vjs-default-skin vjs-big-play-centered"
                                        preload="auto" poster="~/Content/images/hdvietnam.png" data-setup='{}'>
                                     <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
@@ -38,7 +38,9 @@
                                 </video>
                             </div>
                             <div class="flex flex-0 text-center">
-                                <div id="currentSub" class="row"></div>
+                                <div id="currentSub" class="row"></div>                                
+                            </div>
+                            <div class="flex flex-1 text-center">                                
                                 <div class="btn-group" style="padding:10px;">
                                     <button type="button" id="btnPlay" class="btn btn-primary player-btn">Play</button>
                                     <button type="button" id="btnPause" class="btn btn-primary player-btn">Pause</button>
@@ -264,16 +266,21 @@
                     }
                 });
             }
+            var isLoaded = 0;
+
             var startTimeOfVideo = start_time_timespan;
             function PlayVideo(data) {
                 $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data.FileName });
                 startTimeOfVideo = data.CurrentTime;
-                $myPlayer1.currentTime(data.CurrentTime);
+                $myPlayer1.currentTime(data.CurrentTime.toFixed(0));
                 $myPlayer2.hide();
                 $myPlayer1.show();
                 $myPlayer1.play();
-                SetNextVideo($myPlayer1.currentSrc());                
-                console.log(data);
+                //if (data.FileName.length > 20) {
+                //    SetNextVideo($myPlayer1.currentSrc());
+                //}
+                isLoaded = 1;
+                console.log(data.CurrentTime.toFixed(0) + " Set Player 1 play");
             }
             //Play next video of player1
             function SetNextVideo(currentVideoSrc) {
@@ -311,7 +318,8 @@
             }
             function LoadNextVideo2(data) {
                 $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data });
-                $myPlayer1.load();
+                //$myPlayer1.load();
+                $myPlayer1.play();
             }
             //Play back video
             function SetBackVideo(currentVideoSrc) {
@@ -371,7 +379,7 @@
 
             })();
             var PreviousOffsetX = 0;
-            
+
             $(".ruler").dblclick(function () {
                 PreviousOffsetX = event.offsetX;
                 var pixel = event.offsetX;
@@ -384,19 +392,25 @@
             var $myPlayer2 = videojs("video_2");
             $myPlayer2.hide();
             $myPlayer1.on('ended', function () {
-                $myPlayer2.play();
-                $myPlayer2.show();
-                $myPlayer1.hide();
-                SetNextVideo2($myPlayer2.currentSrc());
+                if (isLoaded) {
+                    //$myPlayer2.play();
+                    //$myPlayer2.show();
+                    //$myPlayer1.hide();
+                    SetNextVideo2($myPlayer1.currentSrc());
+                    console.log("player 1 ended - Nhảy sang player 2");
+                }
             });
             $myPlayer2.on('ended', function () {
-                $myPlayer1.play();
-                $myPlayer1.show();
-                $myPlayer2.hide();
-                SetNextVideo($myPlayer1.currentSrc());
-            });            
+                if (isLoaded) {
+                    $myPlayer1.play();
+                    $myPlayer1.show();
+                    $myPlayer2.hide();
+                    SetNextVideo($myPlayer1.currentSrc());
+                    console.log("player 2 ended - Nhảy sang player 1");
+                }
+            });
             loadFolder();
-            
+
             setInterval(function () {
                 if ($myPlayer1.currentTime() > 0 || $myPlayer2.currentTime() > 0) {
                     getSubtitleRealtime();
@@ -835,7 +849,7 @@
                             if (data) {
                                 alert("Xoá thành công!");
                             }
-                            loadFolder();                            
+                            loadFolder();
                         },
                         error: function () {
                             alert("Failed! Try again!");
@@ -976,7 +990,7 @@
             //Load item when click tab button
             $("#tabBtn2").click(function () {
                 loadSubTimelineList();
-            });            
+            });
 
             //Hide div input form when click cancel button
             $("#btnHuyLichSub").click(function () {
@@ -1078,7 +1092,7 @@
                         //loadData(data);
                         if (data) {
                             alert("Thêm lịch thành công!");
-                            $("#formDatLichRecord").hide();                            
+                            $("#formDatLichRecord").hide();
                         } else alert("Thêm lịch không thành công, mời thực hiện lại!");
                     },
                     error: function () {
@@ -1135,7 +1149,7 @@
                         //loadData(data);
                         if (data) {
                             alert("Sửa lịch thành công!");
-                            $("#formUpdateLichRecord").hide();                            
+                            $("#formUpdateLichRecord").hide();
                         } else alert("Sửa lịch không thành công, mời thực hiện lại!");
                     },
                     error: function () {
@@ -1236,7 +1250,7 @@
                     }
                 });
 
-            }            
+            }
             //Show subtitle as Schedule
             function getSubtitleRealtime() {
                 $.ajax({
@@ -1274,7 +1288,7 @@
                         subCompare = _currentSubStr;
                         tempSub.append(_currentSubStr);
                         tempSub.show().delay(val.Duration).queue(function (n) {
-                            $(this).hide(); n();
+                            /*$(this).hide()*/; n();
                         });
                     }
                 });
@@ -1335,21 +1349,21 @@
                                 start_timestamp: current_time_to_refresh - 30 * 1000
                             });
                             $(".ruler").dblclick(function () {
-                                var pixel = event.offsetX;                                
+                                var pixel = event.offsetX;
                                 click_timestamp = begin_timestamp + pixel / ms_per_pixel;
                                 TimeOfVideo = click_timestamp;
                                 console.log(TimeOfVideo);
                                 SetVideoToPlay(TimeOfVideo.toFixed(0));
                                 console.log(TimeOfVideo.toFixed(0));
                             });
-                        });                        
+                        });
                     }
                 }
             }, 10000);
-            
+
             //Xử lý realtime bằng signalR
             $(function () {
-                // Create a proxy to signalr hub on web server. It reference the hub.                
+                // Create a proxy to signalr hub on web server. It reference the hub.
                 var notifications = $.connection.notificationHub;
                 notifications.client.receiveNotification = function (expectedDelay, expectedDelayStr, realDelay, realDelayStr) {
 
@@ -1378,8 +1392,8 @@
 
                     alert(e);
 
-                });                
+                });
             });
         });
-    </script>    
+    </script>
 }
