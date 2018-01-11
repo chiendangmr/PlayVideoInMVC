@@ -225,7 +225,7 @@
                 hours = hours < 10 ? '0' + hours : hours;
                 minutes = minutes < 10 ? '0' + minutes : minutes;
                 secs = secs < 10 ? '0' + secs : secs;
-                var strTime = hours + ':' + minutes + ':'+ secs;
+                var strTime = hours + ':' + minutes + ':' + secs;
                 return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + "  " + strTime;
             }
             function toDateTime(secs) {
@@ -260,7 +260,7 @@
                         PlayVideo(data);
                     },
                     error: function () {
-                        console.log("Failed! Try again!");
+                        console.log("Failed SetVideoToPlay! Try again!");
                     }
                 });
             }
@@ -284,7 +284,7 @@
                         LoadNextVideo(data);
                     },
                     error: function () {
-                        alert("Failed! Try again!");
+                        console.log("Failed SetNextVideo! Try again!");
                     }
                 });
             }
@@ -303,7 +303,7 @@
                         LoadNextVideo2(data);
                     },
                     error: function () {
-                        alert("Failed! Try again!");
+                        console.log("Failed SetNextVideo2! Try again!");
                     }
                 });
             }
@@ -322,7 +322,7 @@
                         PlayBackVideo(data);
                     },
                     error: function () {
-                        alert("Failed! Try again!");
+                        console.log("Failed to setBackVideo! Try again!");
                     }
                 });
             }
@@ -342,7 +342,7 @@
                         PlayNextVideo(data);
                     },
                     error: function () {
-                        alert("Failed! Try again!");
+                        console.log("Failed to SetNextVideoPlay! Try again!");
                     }
                 });
             }
@@ -870,9 +870,9 @@
                 this.css("display", "inline-block");
                 this.css("position", "absolute");
                 this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) +
-                                                            $(window).scrollTop()) - 100 + "px");
+                    $(window).scrollTop()) - 100 + "px");
                 this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
-                                                            $(window).scrollLeft()) + "px");
+                    $(window).scrollLeft()) + "px");
                 this.css("z-index", 100);
                 this.css("background-color", "#ABCDEF");
                 this.css("width", 230 + "px");
@@ -1344,28 +1344,28 @@
             $.ajax({
                 url: '@Url.Action("GetStatus","VideoData")',
             })
-            .done(function (data) {
-                if (data[0] == true) {
-                    window.setInterval(AddRecordSecond, 1000);
-                }
-                else {
-                    GetStatusTimeRecordeAndPlay();
-                }
-                if (data[1] == true) {
-                    window.setInterval(AddPlaybakSecond, 1000);
-                }
-                else {
-                    GetStatusTimeRecordeAndPlay();
-                }
+                .done(function (data) {
+                    if (data[0] == true) {
+                        window.setInterval(AddRecordSecond, 1000);
+                    }
+                    else {
+                        GetStatusTimeRecordeAndPlay();
+                    }
+                    if (data[1] == true) {
+                        window.setInterval(AddPlaybakSecond, 1000);
+                    }
+                    else {
+                        GetStatusTimeRecordeAndPlay();
+                    }
 
-            });
+                });
             function GetStatusTimeRecordeAndPlay() {
                 $.ajax({
                     url: '@Url.Action("GetStatusTimeRecordeAndPlay", "VideoData")',
                 })
-               .done(function (data) {
+                    .done(function (data) {
 
-               });
+                    });
             };
             //Tự động refresh khi thanh current_time chạy quá màn hình
             var windowWidth = window.innerWidth;
@@ -1405,46 +1405,29 @@
 
             //Xử lý realtime bằng signalR
             $(function () {
-                // Create a proxy to signalr hub on web server. It reference the hub.
-                var notifications = $.connection.getInfoHub;
+                // Create a proxy to signalr hub on web server. It reference the hub.                
+                var notifications = $.connection.notificationHub;
+                notifications.client.recieveNotification = function (expectedDelay, realDelay) {
 
-                // Notify to client with the recent updates from hub that broadcast messages.
-                notifications.client.updateChannelInformation = function (serverResponse) {
-                    alert('changes triggered by ' + serverResponse + ' operation');
-                    getChannelInformation()
+                    // Add the message to the page.
+
+                    $('#KiVong').empty().append("Thời gian trễ Kỳ Vọng: " + expectedDelay);
+                    $('#ThucTe').empty().append("Thời gian trễ Thực Tế: " + realDelay);
 
                 };
 
-                // Connect to signalr hub
+                // Start the connection.
+
                 $.connection.hub.start().done(function () {
-                    getChannelInformation();
-                }).fail(function (error) {
-                    alert(error);
-                });
+
+                    notifications.server.sendNotifications();
+
+                }).fail(function (e) {
+
+                    alert(e);
+
+                });                
             });
-
-
-            function getChannelInformation() {
-                var model = $('#KiVong');
-                var thucTe = $('#ThucTe');
-                $.ajax({
-                    url: '/home/GetDelayNumber',
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (val) {
-                        console.log(val);
-                        model.empty().append("Thời gian trễ Kỳ Vọng: " + val[0].DelayExpectedStr);
-                        thucTe.empty().append("Thời gian trễ Thực tế: " + val[0].RealisticDelayStr);
-                    },
-                    error: function () {
-
-                    }
-                });
-            }
         });
-
-    </script>
-    <script type="text/javascript">
-        
-    </script>
+    </script>    
 }

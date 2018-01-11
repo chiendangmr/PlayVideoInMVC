@@ -1,0 +1,301 @@
+ -
+ - 2018:01:11 11:31:06:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:08:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:10:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:12:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:14:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:16:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:18:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:20:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:22:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:24:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:26:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:28:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:30:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:32:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:34:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:36:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:38:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:31:40:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:37:59:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:01:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:03:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:05:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:07:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:09:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:11:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:13:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:15:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:17:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:19:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:21:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:23:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:25:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:27:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:29:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:31:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:33:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:35:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:37:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:39:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:41:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:43:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:45:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:47:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:49:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:51:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:53:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:55:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:57:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:38:59:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:39:01:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:39:03:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:39:05:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:39:07:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:39:09:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:39:11:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:39:13:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:39:15:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:39:17:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:39:19:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 687
+
+ -
+ - 2018:01:11 11:43:07:Loi trong GetNextVideoFromCurrentSrc DB: System.InvalidOperationException: Timeout expired.  The timeout period elapsed prior to obtaining a connection from the pool.  This may have occurred because all pooled connections were in use and max pool size was reached.
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Dapper.SqlMapper.<QueryImpl>d__125`1.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType)
+   at HD.Delay.Controllers.HomeController.GetNextVideoFromCurrentSrc(String currentSrc) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 152
+
+ -
+ - 2018:01:11 11:43:13:System.InvalidOperationException: Timeout expired.  The timeout period elapsed prior to obtaining a connection from the pool.  This may have occurred because all pooled connections were in use and max pool size was reached.
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Dapper.SqlMapper.<QueryImpl>d__125`1.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType)
+   at HD.Delay.Controllers.HomeController.GetSubTimeline() in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 944
+
+ -
+ - 2018:01:11 11:43:13:Loi trong GetNextVideoFromCurrentSrc DB: System.InvalidOperationException: Timeout expired.  The timeout period elapsed prior to obtaining a connection from the pool.  This may have occurred because all pooled connections were in use and max pool size was reached.
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Dapper.SqlMapper.<QueryImpl>d__125`1.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType)
+   at HD.Delay.Controllers.HomeController.GetNextVideoFromCurrentSrc(String currentSrc) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 152
+
+ -
+ - 2018:01:11 11:43:13:System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: TCP Provider, error: 0 - The wait operation timed out.) ---> System.ComponentModel.Win32Exception (0x80004005): The wait operation timed out
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Dapper.SqlMapper.<QueryImpl>d__125`1.MoveNext()
+   at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType)
+   at HD.Delay.Controllers.HomeController.GetSubTimeline() in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 944
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:258,State:0,Class:20
+
