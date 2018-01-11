@@ -1,7 +1,6 @@
 ﻿using Dapper;
 using HD.Delay.Business;
 using HD.Delay.Models;
-using HD.Delay.Services;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -1032,21 +1031,7 @@ namespace HD.Delay.Controllers
                 _util.AddLog(logFile, "Loi khi GetSubTimeline: " + ex.ToString());
             }
             return new JsonResult { Data = itemsText, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
-        public JsonResult GetDelayNumber()
-        {
-            List<Channel> lstChannel = new List<Channel>();
-            try
-            {
-                IChannelService channelService = new ChannelService();
-                lstChannel = channelService.GetDelayNumber(int.Parse(_util.GetNumber(_channelId)), _connectionString);
-            }
-            catch (Exception ex)
-            {
-                _util.AddLog(logFile, "Loi khi GetDelayNumber: " + ex.ToString());
-            }
-            return new JsonResult { Data = lstChannel, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
+        }        
         public JsonResult GetCaptureLowresItems()
         {
             List<CaptureLowres> lstCapItems = new List<CaptureLowres>();

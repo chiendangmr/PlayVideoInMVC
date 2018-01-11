@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using HD.Delay.Models;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 
@@ -15,27 +16,25 @@ namespace HD.Delay.Hubs
     [HubName("notificationHub")]
 
     public class NotificationHub : Hub
-
     {
+        public string _connectionString = ConfigurationManager.AppSettings["connString"];
+        public string _Channel = ConfigurationManager.AppSettings["ChannelId"];
+
         int expectedDelay = 0;
         string expectedDelayStr = "";
 
         string realDelayStr = "";
-        int realDelay = 0;
-
-
+        int realDelay = 0;        
 
         [HubMethodName("sendNotifications")]
-
         public string SendNotifications()
-
         {
 
-            using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
 
             {
 
-                string query = "SELECT DelayExpected, RealisticDelay FROM [dbo].[Channel] WHERE ChannelId=" + "1";
+                string query = "SELECT DelayExpected, RealisticDelay FROM [dbo].[Channel] WHERE ChannelId=" + _Channel;
 
                 connection.Open();
 
@@ -49,7 +48,7 @@ namespace HD.Delay.Hubs
 
                     SqlDependency dependency = new SqlDependency(command);
 
-                    dependency.OnChange += new OnChangeEventHandler(dependency_OnChange);
+                    dependency.OnChange += new OnChangeEventHandler(Dependency_OnChange);
 
                     if (connection.State == ConnectionState.Closed)
 
@@ -76,25 +75,19 @@ namespace HD.Delay.Hubs
 
             IHubContext context = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
 
-            return (string)context.Clients.All.RecieveNotification(expectedDelay, expectedDelayStr, realDelay, realDelayStr).Result;
+            return (string)context.Clients.All.ReceiveNotification(expectedDelay, expectedDelayStr, realDelay, realDelayStr).Result;
 
-        }
-
-        private void dependency_OnChange(object sender, SqlNotificationEventArgs e)
-
+        }        
+        private void Dependency_OnChange(object sender, SqlNotificationEventArgs e)
         {
-
             if (e.Type == SqlNotificationType.Change)
 
             {
-
                 NotificationHub nHub = new NotificationHub();
-
                 nHub.SendNotifications();
-
             }
 
-        }
+        }   
 
     }
 

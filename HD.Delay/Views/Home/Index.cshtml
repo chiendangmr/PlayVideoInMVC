@@ -415,10 +415,7 @@
                 }
             }, 500);
             loadFolder();
-            setInterval(function () {
-                //getDelayNumber();
-                loadRecordItemList();
-            }, 7000);
+            
             setInterval(function () {
                 if ($myPlayer1.currentTime() > 0 || $myPlayer2.currentTime() > 0) {
                     getSubtitleRealtime();
@@ -858,7 +855,7 @@
                                 alert("Xoá thành công!");
                             }
                             loadFolder();
-                            loadRecordItemList();
+                            //loadRecordItemList();
                         },
                         error: function () {
                             alert("Failed! Try again!");
@@ -1001,7 +998,7 @@
                 loadSubTimelineList();
             });
             $("#tabBtn3").click(function () {
-                loadRecordItemList();
+                //loadRecordItemList();
             });
 
             //Hide div input form when click cancel button
@@ -1105,7 +1102,7 @@
                         if (data) {
                             alert("Thêm lịch thành công!");
                             $("#formDatLichRecord").hide();
-                            loadRecordItemList();
+                            //loadRecordItemList();
                         } else alert("Thêm lịch không thành công, mời thực hiện lại!");
                     },
                     error: function () {
@@ -1163,7 +1160,7 @@
                         if (data) {
                             alert("Sửa lịch thành công!");
                             $("#formUpdateLichRecord").hide();
-                            loadRecordItemList();
+                            //loadRecordItemList();
                         } else alert("Sửa lịch không thành công, mời thực hiện lại!");
                     },
                     error: function () {
@@ -1376,12 +1373,15 @@
                     }
                 }
             }, 10000);
-
+            //setInterval(function () {
+            //    //getDelayNumber();
+            //    loadRecordItemList();
+            //}, 7000);
             //Xử lý realtime bằng signalR
             $(function () {
                 // Create a proxy to signalr hub on web server. It reference the hub.                
                 var notifications = $.connection.notificationHub;
-                notifications.client.recieveNotification = function (expectedDelay, expectedDelayStr, realDelay, realDelayStr) {
+                notifications.client.receiveNotification = function (expectedDelay, expectedDelayStr, realDelay, realDelayStr) {
 
                     // Add the message to the page.
 
@@ -1390,12 +1390,19 @@
                     _RealisticDelayNumber = realDelay;
 
                 };
+                var capItems = $.connection.capLowresHub;
+                capItems.client.receiveCapItems = function (lstCapItems) {
 
+                    // Add the message to the page.
+                    loadRecordItemList();
+
+                };
                 // Start the connection.
 
                 $.connection.hub.start().done(function () {
 
                     notifications.server.sendNotifications();
+                    capItems.server.sendCaptureLowresItems();
 
                 }).fail(function (e) {
 
