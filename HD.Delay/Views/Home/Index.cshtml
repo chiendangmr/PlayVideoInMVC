@@ -183,7 +183,7 @@
         var current_time = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1);
         //add part
         var click_timestamp = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1) - 1.5 * 60 * 1000;
-        var begin_timesamp;
+        var begin_timestamp = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1);
         var ms_per_pixel;
         var record_timespan = current_time;
         var playback_timespan = current_time - 120000;
@@ -267,11 +267,13 @@
             var startTimeOfVideo = start_time_timespan;
             function PlayVideo(data) {
                 $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data.FileName });
+                startTimeOfVideo = data.CurrentTime;
+                $myPlayer1.currentTime(data.CurrentTime);
                 $myPlayer2.hide();
                 $myPlayer1.show();
                 $myPlayer1.play();
-                SetNextVideo($myPlayer1.currentSrc());
-                startTimeOfVideo = data.currentTime;
+                SetNextVideo($myPlayer1.currentSrc());                
+                console.log(data);
             }
             //Play next video of player1
             function SetNextVideo(currentVideoSrc) {
@@ -369,24 +371,7 @@
 
             })();
             var PreviousOffsetX = 0;
-            //$(".ruler").on("mousedown", function (event) {
-            //    //debugger;
-            //    PreviousOffsetX = event.offsetX;
-            //});
-
-            //$(".ruler").on("mouseup", function (event) {
-            //    //debugger;
-            //    var pixel = event.offsetX;
-            //    click_timestamp = begin_timestamp + pixel / ms_per_pixel;
-            //    TimeOfVideo = click_timestamp;
-            //    var IsClick = false;
-            //    if (PreviousOffsetX == event.offsetX) {
-            //        IsClick = true;
-            //    }
-            //    if (IsClick) {
-            //        SetVideoToPlay(TimeOfVideo.toFixed(0));
-            //    }
-            //});
+            
             $(".ruler").dblclick(function () {
                 PreviousOffsetX = event.offsetX;
                 var pixel = event.offsetX;
@@ -398,22 +383,18 @@
             var $myPlayer1 = videojs("video_1");
             var $myPlayer2 = videojs("video_2");
             $myPlayer2.hide();
-
-            setInterval(function () {
-                if ($myPlayer1.ended()) {
-                    $myPlayer2.show();
-                    $myPlayer2.play();
-                    SetNextVideo2($myPlayer2.currentSrc());
-                    $myPlayer1.hide();
-
-                }
-                if ($myPlayer2.ended()) {
-                    $myPlayer1.show();
-                    $myPlayer1.play();
-                    SetNextVideo($myPlayer1.currentSrc());
-                    $myPlayer2.hide();
-                }
-            }, 500);
+            $myPlayer1.on('ended', function () {
+                $myPlayer2.play();
+                $myPlayer2.show();
+                $myPlayer1.hide();
+                SetNextVideo2($myPlayer2.currentSrc());
+            });
+            $myPlayer2.on('ended', function () {
+                $myPlayer1.play();
+                $myPlayer1.show();
+                $myPlayer2.hide();
+                SetNextVideo($myPlayer1.currentSrc());
+            });            
             loadFolder();
             
             setInterval(function () {
@@ -1359,6 +1340,7 @@
                                 TimeOfVideo = click_timestamp;
                                 console.log(TimeOfVideo);
                                 SetVideoToPlay(TimeOfVideo.toFixed(0));
+                                console.log(TimeOfVideo.toFixed(0));
                             });
                         });                        
                     }
