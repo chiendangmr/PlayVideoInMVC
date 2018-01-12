@@ -132,30 +132,62 @@ namespace PlayVideoInMVC.Controllers
 
         public ActionResult GetSubtitleTime()
         {
-            var data = new String[2];
+            var data = new SubtitleFileItemInfo();
             using (var db = new SqlConnection(_connectionString))
             {
-                var result1 = db.Query<SubtitleTimeLine>(@"Select * From SubtitleTimeLine").Where(a => a.StartTime.Date == DateTime.Now.Date);
+                var result1 = db.Query<SubtitleTimeLine>(@"Select * From SubtitleTimeLine where StartTime>=@startDayTime and StartTime<=@endDayTime", new
+                {
+                    startDayTime = DateTime.Now.AddDays(-1),
+                    endDayTime = DateTime.Now.AddDays(1)
+                }).Where(a=>a.StartTime.Day == DateTime.Now.Day).OrderBy(a => a.StartTime);
+
+                foreach(var temp in result1)
+                {
+                    var result = db.Query<SubtitleFileItem>(@"Select * From SubtitleFileItem where FileId = @File", new
+                    {
+                        File = temp.FileId
+                    }).OrderBy(a => a.StartTime).ToList();
+                    if(DateTime.Now >= temp.StartTime.AddMilliseconds(result[0].StartTime) && DateTime.Now<=temp.StartTime.AddMilliseconds(result[result.Count - 1].StartTime))
+                    {
+                        data.SubFileStartTime = ToMiliSecond(temp.StartTime).ToString();
+                        data.SubFileDuration = (result[result.Count - 1].StartTime + result[result.Count - 1].Duration).ToString();                        
+                        foreach (var temp2 in result)
+                        {
+                            var tempTimeNowConst = temp.StartTime;
+                            temp2.StartDateTime = (tempTimeNowConst.AddMilliseconds(temp2.StartTime) - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                        }
+                        data.LstSubFileItems = result;
+                        return Json(data, 0);
+                    }
+                }
+                var subTimeLine = result1.Where(a => a.StartTime >= DateTime.Now).ToList().FirstOrDefault();
+                if (subTimeLine == null)
+                {
+                    return Json(null, 0);
+                }
                 int FileId = 0;
                 string StartSubtitleTime = "";
-                foreach (SubtitleTimeLine st in result1)
-                {
-                    if (st.StartTime.Day == DateTime.Today.Day)
-                    {
-                        FileId = st.FileId;
-                        StartSubtitleTime = ToMiliSecond(st.StartTime).ToString();
-                        // break;
-                    }
-                };
+
+                FileId = subTimeLine.FileId;
+                StartSubtitleTime = ToMiliSecond(subTimeLine.StartTime).ToString();
+                // break;
+
                 var result2 = db.Query<SubtitleFileItem>(@"Select * From SubtitleFileItem where FileId = @File", new
                 {
                     File = FileId
-                }).ToList();
+                }).OrderBy(a => a.StartTime).ToList();
+                foreach (var temp in result2)
+                {
+                    var tempTimeNowConst = subTimeLine.StartTime;
+                    temp.StartDateTime = (tempTimeNowConst.AddMilliseconds(temp.StartTime) - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                }
+
                 string SubtitleDuration;
                 SubtitleDuration = result2.Count > 0 ? result2[result2.Count - 1].StartTime.ToString() : " ";
 
-                data[0] = StartSubtitleTime;
-                data[1] = SubtitleDuration;
+                data.SubFileStartTime = StartSubtitleTime;
+                data.SubFileDuration = SubtitleDuration;
+                data.LstSubFileItems = result2;
             }
 
             return Json(data, 0);

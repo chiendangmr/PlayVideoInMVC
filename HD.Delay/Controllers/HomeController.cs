@@ -661,51 +661,7 @@ namespace HD.Delay.Controllers
             }
 
             throw new Exception("File type does not support");
-        }
-        public JsonResult GetCurrentSubListItem(string currentVideoSrc, string timespanStr)
-        {
-            List<SubtitleFileItem> currentSubListItem = new List<SubtitleFileItem>();
-            string currentVideoName = currentVideoSrc.Substring(currentVideoSrc.Length - "20161206_142435.mp4".Length);
-            var timeDic = _util.GetPlayingTime(currentVideoName);
-            string currentVideoStartTime = timeDic["year"] + "-" + timeDic["month"] + "-" + timeDic["day"] + " " + timeDic["hour"] + ":" + timeDic["min"] + ":" + timeDic["sec"];
-            try
-            {
-                using (var db = new SqlConnection(_connectionString))
-                {
-                    try
-                    {
-                        var currentVideoStartTimeNow = DateTime.ParseExact(currentVideoStartTime, "yyyy-MM-dd HH:mm:ss",
-                                       System.Globalization.CultureInfo.InvariantCulture);
-                        //var timeConst = timelineStartTimeNow;
-                        var tempTimeNow = currentVideoStartTimeNow.AddSeconds(double.Parse(timespanStr));
-                        var tempSubTimeline = db.Query<SubtitleTimeLine>(@"select * from SubtitleTimeLine where StartTime<=@timeNow and StartTime>=@startTimeOfDay", new
-                        {
-                            timeNow = tempTimeNow,
-                            startTimeOfDay = tempTimeNow.Date
-                        }).OrderBy(a => a.StartTime).LastOrDefault();
-                        var tempTimeConmpare = tempTimeNow - tempSubTimeline.StartTime;
-                        currentSubListItem = db.Query<SubtitleFileItem>(@"select * from SubtitleFileItem where FileId=@fileId", new
-                        {
-                            fileId = tempSubTimeline.FileId,
-                        }).OrderBy(a => a.StartTime).ToList();
-                        foreach (var temp in currentSubListItem)
-                        {
-                            var tempTimeNowConst = tempSubTimeline.StartTime;
-                            temp.StartDateTime = (tempTimeNowConst.AddMilliseconds(temp.StartTime) - new DateTime(1970, 1, 1)).TotalMilliseconds;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        _util.AddLog(logFile, "Loi trong getCurrentListItem Db: " + ex.ToString());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _util.AddLog(logFile, "Loi trong getCurrentListItem: " + ex.ToString());
-            }
-            return new JsonResult { Data = currentSubListItem, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
+        }        
         public JsonResult UpdateSubTimelineStartTime(string currentVideoSrc, string subTimelineIdStr, string subTimelineItemIdStr, string timespanStr)
         {
             bool success = false;

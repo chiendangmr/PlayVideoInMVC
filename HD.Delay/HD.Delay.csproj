@@ -179,6 +179,7 @@
     <Compile Include="Models\RecordLowres.cs" />
     <Compile Include="Models\SubtitleCategory.cs" />
     <Compile Include="Models\SubtitleFile.cs" />
+    <Compile Include="Models\SubtitleFileItemInfo.cs" />
     <Compile Include="Models\SubtitleFileItem.cs" />
     <Compile Include="Models\SubtitleTimeLine.cs" />
     <Compile Include="Models\VideoFile.cs" />

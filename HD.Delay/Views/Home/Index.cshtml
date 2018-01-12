@@ -31,12 +31,12 @@
                                 <video id="video_1" class="video-js vjs-default-skin vjs-big-play-centered"
                                        preload="auto" poster="~/Content/images/hdvietnam.png" data-setup='{}'>
                                     <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-                                </video>                                
+                                </video>
                             </div>
                             <div class="flex flex-0 text-center">
-                                <div id="currentSub" class="row"></div>                                
+                                <div id="currentSub" class="row"></div>
                             </div>
-                            <div class="flex flex-1 text-center">                                
+                            <div class="flex flex-1 text-center">
                                 <div class="btn-group" style="padding:10px;">
                                     <button type="button" id="btnPlay" class="btn btn-primary player-btn">Play</button>
                                     <button type="button" id="btnPause" class="btn btn-primary player-btn">Pause</button>
@@ -198,14 +198,19 @@
         var _tempSub;
         var _lstCurrentSubItems = null;
         var _RealisticDelayNumber = 180000;
+        var _SubtitleStartSave = 0;        
         $(document).ready(function () {
             window.setInterval(function () {
                 $.ajax({
                     url: '@Url.Action("GetSubtitleTime", "VideoData")',
                     type: 'GET'
                 }).done(function (data) {
-                    Subtitle_Start = parseInt(data[0]);
-                    Subtitle_Duration = parseInt(data[1]);
+                    //console.log(data);
+                    if (data !== null) {
+                        Subtitle_Start = parseInt(data.SubFileStartTime);
+                        Subtitle_Duration = parseInt(data.SubFileDuration);
+                        _lstCurrentSubItems = data.LstSubFileItems;
+                    }
                 });;
             }, 5000);
             function set_click_timestamp() {
@@ -251,7 +256,7 @@
                     data: { timespan: time },
                     type: "POST",
                     dataType: "json",
-                    success: function (data) {                        
+                    success: function (data) {
                         PlayVideo(data);
                     },
                     error: function () {
@@ -265,8 +270,8 @@
             function PlayVideo(data) {
                 $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data.FileName });
                 startTimeOfVideo = data.CurrentTime;
-                $myPlayer1.currentTime(data.CurrentTime.toFixed(0));                
-                $myPlayer1.play();                
+                $myPlayer1.currentTime(data.CurrentTime.toFixed(0));
+                $myPlayer1.play();
                 console.log(data.CurrentTime.toFixed(0) + " Set Player 1 play");
             }
             //Play next video of player1
@@ -283,10 +288,10 @@
                         console.log("Failed SetNextVideo! Try again!");
                     }
                 });
-            }            
-            
+            }
+
             function LoadNextVideo(data) {
-                $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data });                
+                $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data });
                 $myPlayer1.play();
             }
             //Play back video
@@ -356,19 +361,13 @@
                 SetVideoToPlay(TimeOfVideo.toFixed(0));
             });
             SetVideoToPlay(click_timestamp);
-            var $myPlayer1 = videojs("video_1");            
-            $myPlayer1.on('ended', function () {                                  
+            var $myPlayer1 = videojs("video_1");
+            $myPlayer1.on('ended', function () {
                     SetNextVideo($myPlayer1.currentSrc());
-                    console.log("player ended - Nhảy sang next");                
+                    console.log("player ended - Nhảy sang next");
             });
-            
-            loadFolder();
 
-            setInterval(function () {
-                if ($myPlayer1.currentTime() > 0) {
-                    getSubtitleRealtime();
-                }
-            }, 2000);
+            loadFolder();            
             setInterval(function () {
                 if ($myPlayer1.currentTime() > 0) {
                     GetVideoCurrentTimeStamp();
@@ -399,26 +398,26 @@
             $('#btnPlay').click(function () {
                 if ($myPlayer1.currentTime() >= 0) {
                     $myPlayer1.play();
-                } 
+                }
                 isAutoPlay = true;
             });
             $('#btnPause').click(function () {
                 if ($myPlayer1.currentTime() >= 0) {
                     $myPlayer1.pause();
-                } 
+                }
                 isAutoPlay = false;
             });
             $('#btnStop').click(function () {
                 if ($myPlayer1.currentTime() >= 0) {
                     $myPlayer1.pause();
                     $myPlayer1.currentTime(0);
-                } 
+                }
                 isAutoPlay = false;
             });
             $('#btnNext').click(function () {
                 if ($myPlayer1.currentTime() >= 0) {
                     SetNextVideoPlay($myPlayer1.currentSrc());
-                } 
+                }
                 isAutoPlay = true;
             });
 
@@ -1191,26 +1190,13 @@
                 });
 
             }
-            //Show subtitle as Schedule
-            function getSubtitleRealtime() {
-                $.ajax({
-                    url: "@Url.Action("GetCurrentSubListItem", "Home")",
-                    data: { currentVideoSrc: getPlayingVideoSrc(), timespanStr: getPlayingTime() },
-                    type: "POST",
-                    dataType: "json",
-                    success: function (data) {
-                        _lstCurrentSubItems = data;
-                    },
-                    error: function () {
-                        console.log("Failed! Try again!");
-                    }
-                });
-            }
+            //Show subtitle as Schedule            
             var _currentSubStr;
             var tempClickTimeStamp = click_timestamp;
             setInterval(function () {
                 tempClickTimeStamp += 100;
                 if (_lstCurrentSubItems != null) {
+                    //console.log(_lstCurrentSubItems);
                     showCurrentSubtitle(_lstCurrentSubItems);
                 }
             }, 100);
@@ -1218,9 +1204,11 @@
             function showCurrentSubtitle(data) {
                 var tempSub = $("#currentSub");
                 var tempTime = (new Date()).getTime() + 420 * 60 * 1000;
-                $.each(data, function (i, val) {
+                $.each(data, function (i, val) { 
+                    //console.log(val);
+                    //debugger;
                     if ((tempClickTimeStamp - 100) < val.StartDateTime && val.StartDateTime < (tempClickTimeStamp + 100)) {
-                        _currentSubStr = val.Text;
+                        _currentSubStr = val.Text;                        
                     } else _currentSubStr = "";
 
                     if (_currentSubStr !== "" && _currentSubStr !== subCompare) {
