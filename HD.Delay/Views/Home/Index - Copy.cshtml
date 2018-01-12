@@ -31,7 +31,11 @@
                                 <video id="video_1" class="video-js vjs-default-skin vjs-big-play-centered"
                                        preload="auto" poster="~/Content/images/hdvietnam.png" data-setup='{}'>
                                     <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-                                </video>                                
+                                </video>
+                                <video id="video_2" class="video-js vjs-default-skin vjs-big-play-centered"
+                                       preload="auto" poster="~/Content/images/hdvietnam.png" data-setup='{}'>
+                                    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+                                </video>
                             </div>
                             <div class="flex flex-0 text-center">
                                 <div id="currentSub" class="row"></div>                                
@@ -241,6 +245,8 @@
                 var tempDateStr = getPlayingVideoSrc().substring(getPlayingVideoSrc().length - 19);
                 var tempDate = new Date(tempDateStr.substring(0, 4) + "-" + tempDateStr.substring(4, 6) + "-" + tempDateStr.substring(6, 8) + " " + tempDateStr.substring(9, 11) + ":" + tempDateStr.substring(11, 13) + ":" + tempDateStr.substring(13, 15));
                 click_timestamp = tempDate.getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1) + getPlayingTime() * 1000;
+                //alert(click_timestamp);
+                //debugger
                 tempClickTimeStamp = click_timestamp;
 
             }
@@ -251,7 +257,8 @@
                     data: { timespan: time },
                     type: "POST",
                     dataType: "json",
-                    success: function (data) {                        
+                    success: function (data) {
+                        //alert(time);
                         PlayVideo(data);
                     },
                     error: function () {
@@ -265,8 +272,14 @@
             function PlayVideo(data) {
                 $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data.FileName });
                 startTimeOfVideo = data.CurrentTime;
-                $myPlayer1.currentTime(data.CurrentTime.toFixed(0));                
-                $myPlayer1.play();                
+                $myPlayer1.currentTime(data.CurrentTime.toFixed(0));
+                $myPlayer2.hide();
+                $myPlayer1.show();
+                $myPlayer1.play();
+                //if (data.FileName.length > 20) {
+                //    SetNextVideo($myPlayer1.currentSrc());
+                //}
+                isLoaded = 1;
                 console.log(data.CurrentTime.toFixed(0) + " Set Player 1 play");
             }
             //Play next video of player1
@@ -283,10 +296,29 @@
                         console.log("Failed SetNextVideo! Try again!");
                     }
                 });
-            }            
-            
+            }
             function LoadNextVideo(data) {
-                $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data });                
+                $myPlayer2.src({ type: 'video/mp4', src: '../VideoFiles/' + data });
+                $myPlayer2.load();
+            }
+            //Play next video of player2
+            function SetNextVideo2(currentVideoSrc) {
+                $.ajax({
+                    url: "@Url.Action("GetNextVideoFromCurrentSrc", "Home")",
+                    data: { currentSrc: currentVideoSrc },
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        LoadNextVideo2(data);
+                    },
+                    error: function () {
+                        console.log("Failed SetNextVideo2! Try again!");
+                    }
+                });
+            }
+            function LoadNextVideo2(data) {
+                $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data });
+                //$myPlayer1.load();
                 $myPlayer1.play();
             }
             //Play back video
@@ -307,7 +339,7 @@
             function PlayBackVideo(data) {
                 $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data });
                 $myPlayer1.play();
-                //SetNextVideo($myPlayer1.currentSrc());
+                SetNextVideo($myPlayer1.currentSrc());
             }
             //Play next video
             function SetNextVideoPlay(currentVideoSrc) {
@@ -327,7 +359,7 @@
             function PlayNextVideo(data) {
                 $myPlayer1.src({ type: 'video/mp4', src: '../VideoFiles/' + data });
                 $myPlayer1.play();
-                //SetNextVideo($myPlayer1.currentSrc());
+                SetNextVideo($myPlayer1.currentSrc());
             }
             (function () {
                 $('#zoom-slider123').slider({
@@ -356,21 +388,36 @@
                 SetVideoToPlay(TimeOfVideo.toFixed(0));
             });
             SetVideoToPlay(click_timestamp);
-            var $myPlayer1 = videojs("video_1");            
-            $myPlayer1.on('ended', function () {                                  
-                    SetNextVideo($myPlayer1.currentSrc());
-                    console.log("player ended - Nhảy sang next");                
+            var $myPlayer1 = videojs("video_1");
+            var $myPlayer2 = videojs("video_2");
+            $myPlayer2.hide();
+            $myPlayer1.on('ended', function () {
+                if (isLoaded) {
+                    //$myPlayer2.play();
+                    //$myPlayer2.show();
+                    //$myPlayer1.hide();
+                    SetNextVideo2($myPlayer1.currentSrc());
+                    console.log("player 1 ended - Nhảy sang player 2");
+                }
             });
-            
+            $myPlayer2.on('ended', function () {
+                if (isLoaded) {
+                    $myPlayer1.play();
+                    $myPlayer1.show();
+                    $myPlayer2.hide();
+                    SetNextVideo($myPlayer1.currentSrc());
+                    console.log("player 2 ended - Nhảy sang player 1");
+                }
+            });
             loadFolder();
 
             setInterval(function () {
-                if ($myPlayer1.currentTime() > 0) {
+                if ($myPlayer1.currentTime() > 0 || $myPlayer2.currentTime() > 0) {
                     getSubtitleRealtime();
                 }
             }, 2000);
             setInterval(function () {
-                if ($myPlayer1.currentTime() > 0) {
+                if ($myPlayer1.currentTime() > 0 || $myPlayer2.currentTime() > 0) {
                     GetVideoCurrentTimeStamp();
                 }
             }, 1000);
@@ -393,32 +440,45 @@
             $('#btnBack').click(function () {
                 if ($myPlayer1.currentTime() >= 0) {
                     SetBackVideo($myPlayer1.currentSrc());
-                }
+                } else if ($myPlayer2.currentTime() >= 0) SetBackVideo($myPlayer2.currentSrc());
+                $myPlayer1.show();
+                $myPlayer2.hide();
+
                 isAutoPlay = true;
             });
             $('#btnPlay').click(function () {
                 if ($myPlayer1.currentTime() >= 0) {
                     $myPlayer1.play();
-                } 
+                } else if ($myPlayer2.currentTime() >= 0) {
+                    $myPlayer2.play();
+                }
                 isAutoPlay = true;
             });
             $('#btnPause').click(function () {
                 if ($myPlayer1.currentTime() >= 0) {
                     $myPlayer1.pause();
-                } 
+                } else if ($myPlayer2.currentTime() >= 0) {
+                    $myPlayer2.pause();
+                }
                 isAutoPlay = false;
             });
             $('#btnStop').click(function () {
                 if ($myPlayer1.currentTime() >= 0) {
                     $myPlayer1.pause();
                     $myPlayer1.currentTime(0);
-                } 
+                } else if ($myPlayer2.currentTime() >= 0) {
+                    $myPlayer2.pause();
+                    $myPlayer2.currentTime(0);
+                }
                 isAutoPlay = false;
             });
             $('#btnNext').click(function () {
                 if ($myPlayer1.currentTime() >= 0) {
                     SetNextVideoPlay($myPlayer1.currentSrc());
-                } 
+                } else if ($myPlayer2.currentTime() >= 0) SetNextVideoPlay($myPlayer2.currentSrc());
+                $myPlayer1.show();
+                $myPlayer2.hide();
+
                 isAutoPlay = true;
             });
 
@@ -1228,7 +1288,7 @@
                         subCompare = _currentSubStr;
                         tempSub.append(_currentSubStr);
                         tempSub.show().delay(val.Duration).queue(function (n) {
-                            $(this).text(""); n();
+                            $(this).hide(); n();
                         });
                     }
                 });
