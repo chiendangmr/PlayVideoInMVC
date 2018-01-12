@@ -705,3 +705,35 @@ Error Number:258,State:0,Class:20
 ClientConnectionId:00000000-0000-0000-0000-000000000000
 Error Number:258,State:0,Class:20
 
+ -
+ - 2018:01:12 11:07:44:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 686
+
+ -
+ - 2018:01:12 11:07:46:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 686
+
+ -
+ - 2018:01:12 11:07:48:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 686
+
+ -
+ - 2018:01:12 11:07:50:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 686
+
+ -
+ - 2018:01:12 11:07:52:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 686
+
+ -
+ - 2018:01:12 11:07:54:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 686
+
+ -
+ - 2018:01:12 11:07:56:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 686
+
+ -
+ - 2018:01:12 11:08:00:Loi trong getCurrentListItem Db: System.NullReferenceException: Object reference not set to an instance of an object.
+   at HD.Delay.Controllers.HomeController.GetCurrentSubListItem(String currentVideoSrc, String timespanStr) in D:\2017\BBTCab\HDDelay\HD.Delay\Controllers\HomeController.cs:line 686
+

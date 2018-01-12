@@ -1194,7 +1194,7 @@
             //Show subtitle as Schedule
             function getSubtitleRealtime() {
                 $.ajax({
-                    url: "@Url.Action("getCurrentSubListItem", "Home")",
+                    url: "@Url.Action("GetCurrentSubListItem", "Home")",
                     data: { currentVideoSrc: getPlayingVideoSrc(), timespanStr: getPlayingTime() },
                     type: "POST",
                     dataType: "json",
