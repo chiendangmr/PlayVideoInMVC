@@ -662,6 +662,7 @@ namespace HD.Delay.Controllers
 
             throw new Exception("File type does not support");
         }        
+        [HttpPost]
         public JsonResult UpdateSubTimelineStartTime(string currentVideoSrc, string subTimelineIdStr, string subTimelineItemIdStr, string timespanStr)
         {
             bool success = false;

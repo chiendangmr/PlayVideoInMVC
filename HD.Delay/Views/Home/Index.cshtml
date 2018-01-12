@@ -1142,22 +1142,20 @@
             function getPlayingTime() {
                 var videoTime;
                 if ($myPlayer1.currentTime() > 0)
-                    videoTime = $myPlayer1.currentTime();
-                else if ($myPlayer2.currentTime() > 0) videoTime = $myPlayer2.currentTime();
+                    videoTime = $myPlayer1.currentTime();                
                 return videoTime;
             }
             function getPlayingVideoSrc() {
                 var videoSrc;
                 if ($myPlayer1.currentTime() > 0)
-                    videoSrc = $myPlayer1.currentSrc();
-                else if ($myPlayer2.currentTime() > 0) videoSrc = $myPlayer2.currentSrc();
+                    videoSrc = $myPlayer1.currentSrc();                
                 return videoSrc;
             }
             //Map sub to previewing
             function MapSub(subItemId) {
                 var tabId = $("#" + subItemId).parent().parent().attr('id');
                 $.ajax({
-                    url: "@Url.Action("updateSubTimelineStartTime", "Home")",
+                    url: "@Url.Action("UpdateSubTimelineStartTime", "Home")",
                     data: { currentVideoSrc: getPlayingVideoSrc(), subTimelineIdStr: tabId, subTimelineItemIdStr: subItemId, timespanStr: getPlayingTime() },
                     type: "POST",
                     dataType: "json",
