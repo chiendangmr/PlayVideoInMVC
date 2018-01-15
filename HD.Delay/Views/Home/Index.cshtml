@@ -211,7 +211,7 @@
                         Subtitle_Duration = parseInt(data.SubFileDuration);
                         _lstCurrentSubItems = data.LstSubFileItems;
                     }
-                });;
+                    });;
             }, 5000);
             function set_click_timestamp() {
                 current_time_video = start_time_timespan; //+ getPlayingTime() * 1000;
@@ -354,6 +354,7 @@
             var PreviousOffsetX = 0;
 
             $(".ruler").dblclick(function () {
+                console.log(toDateTime(begin_timestamp));
                 PreviousOffsetX = event.offsetX;
                 var pixel = event.offsetX;
                 click_timestamp = begin_timestamp + pixel / ms_per_pixel;
@@ -1252,40 +1253,7 @@
                     .done(function (data) {
 
                     });
-            };
-            //Tự động refresh khi thanh current_time chạy quá màn hình
-            var windowWidth = window.innerWidth;
-            setInterval(function () {
-                if ($("#cbAutoMap").is(':checked')) {
-                    if ($('#record-bar').position().left > (windowWidth - 150)) {
-                        var current_time_to_refresh = (new Date()).getTime() + ((new Date()).getTimezoneOffset() * 60 * 1000 * -1);
-                        $("#partialDiv").load("/Home/TimeSlider", function () {
-                            $('#zoom-slider123').slider({
-                                min: 0.1,
-                                max: 2,
-                                value: 0.1,
-                                step: 0.05,
-                                slide: function (event, ui) {
-                                    $('#slider123').TimeSlider({ hours_per_ruler: ui.value });
-                                }
-                            });
-
-                            $('#slider123').TimeSlider({
-                                current_timestamp: current_time_to_refresh,
-                                start_timestamp: current_time_to_refresh - 30 * 1000
-                            });
-                            $(".ruler").dblclick(function () {
-                                var pixel = event.offsetX;
-                                click_timestamp = begin_timestamp + pixel / ms_per_pixel;
-                                TimeOfVideo = click_timestamp;
-                                console.log(TimeOfVideo);
-                                SetVideoToPlay(TimeOfVideo.toFixed(0));
-                                console.log(TimeOfVideo.toFixed(0));
-                            });
-                        });
-                    }
-                }
-            }, 10000);
+            };            
 
             //Xử lý realtime bằng signalR
             $(function () {

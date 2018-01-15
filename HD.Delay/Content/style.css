@@ -1,6 +1,6 @@
-﻿.container-vertical-flex {    
+﻿/*.container-vertical-flex {    
     justify-content: unset !important;
-}
+}*/
 
 .container-flex > .flex:not(:first-child) {
     margin-left: 10px;

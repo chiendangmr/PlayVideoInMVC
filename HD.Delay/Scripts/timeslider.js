@@ -723,11 +723,18 @@ if (typeof jQuery === 'undefined') {
     };
 
     TimeSlider.prototype.set_current_timestamp = function () {
+        var windowWidth = window.innerWidth;
         var _this = this;
         return function () {
             // TODO: fix this
             //_this.options.current_timestamp = _this.frozen_current_timestamp + (new Date() - _this.init_timestamp);
+            //_this.set_ruler_position(- _this.options.update_timestamp_interval * _this.px_per_ms);
             _this.options.current_timestamp = click_timestamp;
+            if ($("#cbAutoMap").is(':checked')) {
+                if ($('.preview-time-caret').position().left > (windowWidth - 100)) {
+                    _this.set_ruler_position(- (_this.options.hours_per_ruler * 60 - 0.5) * 60 * 1000 * _this.px_per_ms);
+                }
+            }
             if (_this.options.current_timestamp - _this.options.start_timestamp >= (3600 * 1000 * _this.options.hours_per_ruler)) {
                 // TODO: update time slider to next day if timeslider was not moved
             }
